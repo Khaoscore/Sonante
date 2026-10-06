@@ -1,0 +1,95 @@
+/* Capa de la estela (canvas a pantalla completa) */
+.canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+}
+
+/* Ondas de clic */
+.ripples {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--c-coral);
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 0.9;
+  animation: ripple 560ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+@keyframes ripple {
+  to {
+    transform: translate(-50%, -50%) scale(4.2);
+    opacity: 0;
+  }
+}
+
+/* Cursor: el contenedor se mueve con transform; el punto interior anima tamaño/forma */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease;
+  will-change: transform;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--c-coral);
+  border: 2px solid var(--c-coral);
+  box-shadow: 0 0 16px rgba(255, 113, 102, 0.5);
+  transform: translate(-50%, -50%) scale(1);
+  transition:
+    transform 160ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    width 200ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    height 200ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-radius 200ms ease,
+    background-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+/* Clic: el punto late hacia dentro mientras la onda se expande */
+.press {
+  transform: translate(-50%, -50%) scale(0.7);
+}
+
+/* Sobre enlaces y botones: se abre como un anillo mayor */
+.link {
+  width: 46px;
+  height: 46px;
+  background: rgba(255, 113, 102, 0.16);
+  box-shadow: none;
+}
+.link.press {
+  transform: translate(-50%, -50%) scale(0.85);
+}
+
+/* Sobre campos de texto: barra vertical fina para ver dónde se escribe */
+.text {
+  width: 4px;
+  height: 26px;
+  border-radius: 2px;
+  border-color: transparent;
+  box-shadow: none;
+}

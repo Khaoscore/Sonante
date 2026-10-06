@@ -1,0 +1,243 @@
+@import "./tokens.css";
+
+/* =========================================================
+   Fuentes con licencia (opcionales). Coloca los archivos en
+   /public/fonts con estos nombres y se usarán automáticamente.
+   ========================================================= */
+@font-face {
+  font-family: "FreightBig Pro";
+  src: url("/fonts/FreightBigPro-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "FreightBig Pro";
+  src: url("/fonts/FreightBigPro-Black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "TT Commons Pro";
+  src: url("/fonts/TTCommonsPro-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "TT Commons Pro";
+  src: url("/fonts/TTCommonsPro-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--c-casi-negro);
+  color: var(--c-blanco);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: normal;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+ul,
+ol {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--c-verde);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--c-amarillo);
+  color: var(--c-casi-negro);
+}
+
+/* ---------- Tipografía de la librería ---------- */
+.t-h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+}
+.t-hero {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: var(--fs-hero);
+  line-height: var(--lh-hero);
+}
+.t-h2 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+}
+.t-h3 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+}
+.t-h4 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--fs-h4);
+  line-height: var(--lh-h4);
+}
+.t-medium {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--fs-medium);
+  line-height: normal;
+}
+.t-button {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--fs-button);
+  line-height: normal;
+}
+.t-body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: normal;
+}
+.t-body-bold {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--fs-body);
+  line-height: normal;
+}
+.t-body-bold-sm {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--fs-body-sm);
+  line-height: normal;
+}
+.t-note {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--fs-note);
+  line-height: normal;
+}
+
+/* ---------- Layout ---------- */
+.container {
+  width: 100%;
+  max-width: calc(var(--container) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 1000;
+  padding: 12px 20px;
+  background: var(--c-amarillo);
+  color: var(--c-casi-negro);
+  font-weight: 700;
+  border-radius: var(--r-pill);
+  transition: top var(--t-fast) var(--ease);
+}
+.skip-link:focus {
+  top: 16px;
+}
+
+/* ---------- Cursor personalizado ----------
+   La clase la añade el componente CursorTrail solo con puntero fino
+   y sin preferencia de movimiento reducido. */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+
+/* ---------- Movimiento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

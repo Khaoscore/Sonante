@@ -1,0 +1,57 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import HomeHero from "@/components/home/HomeHero";
+import HeroCarousel from "@/components/home/HeroCarousel";
+import IntroSequence from "@/components/home/IntroSequence";
+import Servicios from "@/components/home/Servicios";
+import Distintos from "@/components/home/Distintos";
+import DistintosWall from "@/components/home/DistintosWall";
+import CasosPreview from "@/components/home/CasosPreview";
+import ContactSection from "@/components/shared/ContactSection";
+import { home } from "@/data/home";
+import { distintosItems } from "@/data/distintos";
+
+const lang = "en";
+const { meta } = home[lang];
+---
+
+<BaseLayout title={meta.title} description={meta.description} lang={lang}>
+  <div class="home-top">
+    <HomeHero lang={lang}>
+      <HeroCarousel client:load />
+    </HomeHero>
+    <IntroSequence client:load lang={lang} />
+    <Servicios client:visible lang={lang} />
+  </div>
+  <Distintos lang={lang}>
+    <DistintosWall client:visible items={distintosItems} />
+  </Distintos>
+  <CasosPreview client:visible={{ rootMargin: "300px" }} lang={lang} />
+  <ContactSection client:visible variant="home" lang={lang} />
+</BaseLayout>
+
+<style is:global>
+  .home-top {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .home-top::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: calc(50% - 0.83%);
+    width: 125.14%;
+    max-width: 1802px;
+    aspect-ratio: 1802 / 2383;
+    transform: translateX(-50%);
+    background: url("/assets/img/hero-s-gradient-05.png") center / contain no-repeat;
+    z-index: -1;
+    pointer-events: none;
+  }
+  @media (max-width: 900px) {
+    .home-top::before {
+      width: 170%;
+    }
+  }
+</style>

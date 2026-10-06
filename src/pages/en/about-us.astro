@@ -1,0 +1,14 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/shared/PageHero";
+import TeamRows from "@/components/nosotros/TeamRows";
+import { aboutContent } from "@/data/team";
+
+const lang = "en";
+const { meta, hero } = aboutContent[lang];
+---
+
+<BaseLayout title={meta.title} description={meta.description} lang={lang}>
+  <PageHero color="naranja" kicker={hero.kicker} text={hero.text} />
+  <TeamRows lang={lang} />
+</BaseLayout>

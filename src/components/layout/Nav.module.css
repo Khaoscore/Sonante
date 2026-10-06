@@ -1,0 +1,294 @@
+/* Menú fijo. Al bajar (.scrolled) sube un poco y se compacta en una barra ovalada. */
+.header {
+  /* Barra compacta: separación entre logo, píldora e idioma, relleno y tamaño del logo */
+  --nav-space-compact: 40px;
+  --nav-pad-compact: 4px;
+  --logo-compact: 49px;
+  position: fixed;
+  top: var(--nav-top);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding-block: 10px;
+  /* La franja transparente del header no debe bloquear clics sobre el contenido */
+  pointer-events: none;
+  transition: top var(--t-med) var(--ease);
+}
+.scrolled {
+  top: 2px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 100%;
+  margin-inline: auto;
+  padding: 0;
+  border-radius: var(--r-pill);
+  background-color: transparent;
+  pointer-events: auto;
+  transition:
+    max-width var(--t-med) var(--ease),
+    padding var(--t-med) var(--ease),
+    background-color var(--t-med) var(--ease),
+    box-shadow var(--t-med) var(--ease);
+}
+.scrolled .nav {
+  padding: var(--nav-pad-compact);
+  background-color: var(--c-verde-oscuro);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 12px 32px rgba(0, 33, 29, 0.35);
+}
+
+/* Logo circular (57px): "S" bicolor con las proporciones del avatar oficial
+   (la S ocupa ~74% del alto), para que respire dentro del círculo */
+.logo {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 57px;
+  height: 57px;
+  border-radius: 50%;
+  background: var(--c-verde-oscuro);
+  color: var(--c-blanco);
+  transition:
+    transform var(--t-fast) var(--ease),
+    background-color var(--t-fast) var(--ease),
+    width var(--t-med) var(--ease),
+    height var(--t-med) var(--ease);
+}
+.logo:hover {
+  transform: scale(1.04);
+  background: #004a43;
+}
+.symbol {
+  width: 32px;
+  height: 42px;
+  transition:
+    width var(--t-med) var(--ease),
+    height var(--t-med) var(--ease);
+}
+.scrolled .logo {
+  width: var(--logo-compact);
+  height: var(--logo-compact);
+}
+.scrolled .symbol {
+  width: 27px;
+  height: 36px;
+}
+
+/* En escritorio la barra compacta se ajusta a su contenido; --nav-inner-w (ancho de la
+   píldora + idioma) lo mide Nav.tsx */
+@media (min-width: 901px) {
+  .scrolled .nav {
+    max-width: calc(var(--nav-inner-w) + var(--logo-compact) + 2 * var(--nav-space-compact) + 2 * var(--nav-pad-compact));
+  }
+}
+
+/* Píldora contenedora de botones */
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--r-pill);
+  background: var(--c-verde-oscuro);
+}
+
+.item {
+  /* Colores del hover animado: círculo verde oscuro y etiqueta verde (como el estado activo) */
+  --hover-bg: var(--c-verde-oscuro);
+  --hover-text: var(--c-verde);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: var(--r-pill);
+  background: var(--c-blanco);
+  color: var(--c-verde-oscuro);
+  font-weight: 700;
+  font-size: var(--fs-button);
+  line-height: normal;
+  white-space: nowrap;
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+
+.cta {
+  --hover-text: var(--c-blanco);
+  background: var(--c-verde);
+}
+
+/* Hover CSS de respaldo: panel móvil, pantallas táctiles, reduced-motion o antes de cargar GSAP */
+.pill:not(.fx) .item:not(.active):hover {
+  background: var(--c-bitter-lime-50);
+}
+.pill:not(.fx) .cta:not(.active):hover {
+  background: #14c93a;
+}
+
+/* Hover animado (Nav.tsx): el círculo crece desde abajo y la etiqueta se reemplaza */
+.circle {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 1;
+  display: none;
+  border-radius: 50%;
+  background: var(--hover-bg);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.labelStack {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+}
+
+.label {
+  display: inline-block;
+}
+
+.labelHover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  color: var(--hover-text);
+  will-change: transform, opacity;
+}
+
+.fx .circle,
+.fx .labelHover {
+  display: block;
+}
+/* GSAP anima el fondo; una transición CSS lo retrasaría */
+.fx .item {
+  transition: none;
+}
+
+/* Estado activo del diseño: fondo verde oscuro y texto verde */
+.active,
+.active:hover {
+  background: var(--c-verde-oscuro);
+  color: var(--c-verde);
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Selector de idioma ("Outlined button") */
+.lang {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 49px;
+  padding: 12px 16px;
+  border-radius: 32px;
+  background: var(--c-verde-oscuro);
+  color: var(--c-verde);
+  font-weight: 700;
+  font-size: var(--fs-button);
+  transition: background-color var(--t-fast) var(--ease);
+}
+.lang:hover {
+  background: #004a43;
+}
+.lang svg {
+  width: 14px;
+  height: 14px;
+}
+
+.langMobile {
+  display: none;
+}
+
+.burger {
+  display: none;
+  width: 57px;
+  height: 57px;
+  border-radius: 50%;
+  background: var(--c-verde-oscuro);
+  color: var(--c-blanco);
+  place-items: center;
+  transition:
+    width var(--t-med) var(--ease),
+    height var(--t-med) var(--ease);
+}
+.scrolled .burger {
+  width: var(--logo-compact);
+  height: var(--logo-compact);
+}
+
+.backdrop {
+  display: none;
+  pointer-events: auto;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+  .item {
+    padding: 12px 18px;
+    font-size: 1.0625rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .pill {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: var(--gutter);
+    right: var(--gutter);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 24px;
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition: opacity var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+    z-index: 101;
+  }
+  .pillOpen {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .item {
+    width: 100%;
+    padding: 14px 20px;
+  }
+  .langMobile {
+    display: block;
+  }
+  .langMobile .lang {
+    width: 100%;
+    background: #004a43;
+  }
+  .langDesktop {
+    display: none;
+  }
+  .burger {
+    display: grid;
+  }
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    /* Bajo la barra (logo y botón de cerrar nítidos) pero sobre el contenido de la página */
+    z-index: -1;
+    background: rgba(0, 33, 29, 0.6);
+    backdrop-filter: blur(4px);
+  }
+}

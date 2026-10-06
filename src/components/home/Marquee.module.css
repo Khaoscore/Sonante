@@ -1,0 +1,36 @@
+.marquee {
+  position: relative;
+  margin-top: clamp(96px, 15.9vw, 229px);
+  padding-left: var(--gutter);
+  overflow: hidden;
+  color: var(--c-amarillo);
+}
+
+/* Línea única sin salto; GSAP la desplaza en X con el scroll */
+.line {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.item {
+  padding-right: 0.45em;
+}
+
+.sep {
+  display: inline-block;
+  margin-left: 0.45em;
+  color: var(--c-verde);
+}
+
+/* Sin animación: la frase se muestra completa en varias líneas */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    padding-right: var(--gutter);
+  }
+  .line {
+    display: block;
+    white-space: normal;
+    text-wrap: balance;
+  }
+}

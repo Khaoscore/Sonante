@@ -1,0 +1,87 @@
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--hero-h);
+  padding-top: clamp(150px, 14vw, 200px);
+  padding-bottom: clamp(64px, 8vw, 120px);
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--c-blanco);
+}
+
+.naranja {
+  background: var(--c-naranja);
+}
+.magenta {
+  background: var(--c-magenta);
+}
+
+/* Gota degradada: 727×764 en x 593, y 92 (sobre 1440×946) */
+.drop {
+  position: absolute;
+  left: 41.2%;
+  top: 9.7%;
+  width: 50.5%;
+  max-width: 727px;
+  height: auto;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 39px;
+  text-align: center;
+}
+
+.title,
+.text,
+.logoTitle {
+  max-width: 997px;
+}
+
+.title {
+  text-wrap: balance;
+}
+
+.logoTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 39px;
+  width: 100%;
+}
+
+.wordmark {
+  width: 100%;
+  height: auto;
+  max-height: 163px;
+  object-fit: contain;
+}
+
+.text {
+  color: var(--c-blanco);
+}
+
+@media (max-width: 900px) {
+  .hero {
+    min-height: 0;
+    padding-top: 150px;
+  }
+  .drop {
+    left: 30%;
+    width: 90%;
+    max-width: none;
+    top: 0;
+    opacity: 0.9;
+  }
+  .inner {
+    gap: 28px;
+  }
+  .logoTitle {
+    gap: 24px;
+  }
+}

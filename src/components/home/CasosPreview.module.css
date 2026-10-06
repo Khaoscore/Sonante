@@ -1,0 +1,149 @@
+.section {
+  --casos-muted: var(--c-verde-oscuro);
+  --casos-turn: 700ms;
+  position: relative;
+  padding-top: clamp(96px, 13.2vw, 190px);
+  /* Los posts que salen giran fuera de su columna */
+  overflow-x: clip;
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: minmax(0, 590px) minmax(0, 508px);
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.title {
+  color: var(--c-blanco);
+}
+
+/* ---------- Ruleta de nombres ----------
+   Caja de la rueda: el nombre activo queda al centro y los vecinos se curvan
+   hacia la izquierda, girados (≈ -18.65° / 22.43° en el Figma). */
+.names {
+  position: relative;
+  height: 440px;
+  margin-top: 8px;
+}
+
+.wheel {
+  font-family: var(--font-body);
+  border-radius: var(--r-md);
+  /* Los nombres que salen de la caja se desvanecen en vez de cortarse en seco */
+  mask-image: linear-gradient(to bottom, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+.wheel:focus-visible {
+  outline: 2px solid var(--c-amarillo);
+  outline-offset: 4px;
+}
+
+.wheel :global(.option-wheel__item),
+.wheel :global(.option-wheel__item--selected) {
+  font-weight: 700;
+  line-height: 1.067;
+}
+
+.wheel :global(.option-wheel__item:not(.option-wheel__item--selected):hover) {
+  color: color-mix(in srgb, var(--c-amarillo) 55%, var(--casos-muted));
+}
+
+/* ---------- Posts ----------
+   Los tres posts comparten celda. El activo está al frente; los demás esperan
+   girados sobre un pivote a su izquierda, como si colgaran de la misma rueda:
+   los de arriba en sentido antihorario y los de abajo en sentido horario. */
+.posts {
+  display: grid;
+  justify-self: end;
+  width: 100%;
+  max-width: 508px;
+}
+
+.postLink {
+  grid-area: 1 / 1;
+  align-self: center;
+  display: block;
+  border-radius: 23px;
+  transform-origin: -70% 50%;
+  transition:
+    transform var(--casos-turn) var(--ease),
+    opacity calc(var(--casos-turn) * 0.6) var(--ease),
+    visibility 0s linear 0s;
+}
+
+.postLink[data-offset="0"] {
+  z-index: 1;
+}
+
+.postLink[data-offset="-1"],
+.postLink[data-offset="1"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    transform var(--casos-turn) var(--ease),
+    opacity calc(var(--casos-turn) * 0.6) var(--ease),
+    visibility 0s linear var(--casos-turn);
+}
+.postLink[data-offset="-1"] {
+  transform: rotate(-22deg) scale(0.92);
+}
+.postLink[data-offset="1"] {
+  transform: rotate(22deg) scale(0.92);
+}
+
+.postLink:focus-visible {
+  outline: 2px solid var(--c-amarillo);
+  outline-offset: 6px;
+}
+
+.post {
+  transition:
+    transform var(--t-med) var(--ease),
+    box-shadow var(--t-med) var(--ease);
+}
+.postLink:hover .post {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .left {
+    width: 100%;
+    max-width: 590px;
+  }
+  .names {
+    height: 360px;
+  }
+  .posts {
+    justify-self: center;
+  }
+}
+
+@media (max-width: 560px) {
+  .section {
+    --casos-muted: #0a4a43;
+  }
+  .names {
+    height: 280px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .postLink[data-offset="-1"],
+  .postLink[data-offset="1"] {
+    transform: none;
+  }
+}

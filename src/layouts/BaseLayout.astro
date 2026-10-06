@@ -1,0 +1,72 @@
+---
+import "@/styles/global.css";
+import Nav from "@/components/layout/Nav";
+import Footer from "@/components/layout/Footer";
+import CursorTrail from "@/components/effects/CursorTrail";
+import { site } from "@/data/site";
+import { ui } from "@/i18n/ui";
+import { defaultLocale, locales, ogLocale, routeKeyFromPath, routes, type Locale } from "@/i18n";
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Idioma de la página: "es" (por defecto) o "en" */
+  lang?: Locale;
+  /** Clase opcional para el <main> (p. ej. fondo de página) */
+  mainClass?: string;
+}
+
+const { title, lang = defaultLocale, mainClass } = Astro.props;
+const t = ui[lang];
+const description = Astro.props.description ?? t.description;
+
+const currentPath = Astro.url.pathname;
+const abs = (p: string) => (Astro.site ? new URL(p, Astro.site).href : p);
+const canonical = abs(currentPath);
+const routeKey = routeKeyFromPath(currentPath);
+const alternates = routeKey ? locales.map((l) => ({ lang: l, href: abs(routes[routeKey][l]) })) : [];
+const fullTitle = title === site.name ? title : `${title} · ${site.name}`;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
+    {routeKey && <link rel="alternate" hreflang="x-default" href={abs(routes[routeKey][defaultLocale])} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#00211d" />
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocale[lang]} />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Manrope:wght@400;600;700&family=Roboto:wght@400;700&family=Inter:wght@400;600&display=swap"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">{t.skipLink}</a>
+    <Nav client:load currentPath={currentPath} lang={lang} />
+    <main id="contenido" class={mainClass}>
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <CursorTrail client:only="react" />
+  </body>
+</html>

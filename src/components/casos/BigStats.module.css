@@ -1,0 +1,48 @@
+.band {
+  position: relative;
+  min-height: 391px;
+  display: flex;
+  align-items: center;
+  padding-block: 40px;
+  color: var(--c-verde-oscuro);
+  overflow: hidden;
+  background:
+    url("/assets/icons/wordmark-outline-yellow.svg") calc(50% + 329px) -172px / 2098px 344px no-repeat,
+    url("/assets/icons/wordmark-outline-yellow.svg") calc(50% - 329px) 210px / 2098px 344px no-repeat,
+    var(--c-amarillo);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 506px));
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.value {
+  white-space: nowrap;
+}
+
+.label {
+  max-width: 400px;
+  text-wrap: balance;
+}
+
+@media (max-width: 900px) {
+  .list {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 48px;
+  }
+  .band {
+    padding-block: 64px;
+  }
+}

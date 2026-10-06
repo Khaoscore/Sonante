@@ -1,0 +1,65 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  min-height: 178px;
+  padding: 23px 15px;
+  border-radius: 7.5px;
+  background: var(--c-blanco);
+  color: var(--c-casi-negro);
+  font-family: var(--font-inter);
+  letter-spacing: -0.01em;
+}
+
+.author {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.avatar {
+  width: 49px;
+  height: 49px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.1;
+}
+.handle {
+  margin-top: 4px;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+.dots {
+  position: absolute;
+  right: 0;
+  bottom: 4px;
+  display: flex;
+  gap: 4.6px;
+}
+.dots img {
+  width: 9.3px;
+  height: 9.3px;
+}
+
+.text {
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.icons {
+  display: flex;
+  gap: 15px;
+}
+.icons img {
+  width: 23px;
+  height: 23px;
+}

@@ -1,0 +1,82 @@
+/* =========================================================
+   Sonante — Design tokens
+   Fuente: Figma "Design library Sonante" (estilos aplicados
+   en "Web design Sonante"). Todos los valores del diseño
+   desktop (1440 px) se exponen como custom properties.
+   ========================================================= */
+
+:root {
+  /* ---------- Colores / Principal ---------- */
+  --c-verde-oscuro: #003833; /* Principal/Verde oscuro */
+  --c-verde: #0bb730; /* Principal/Verde */
+  --c-amarillo: #ffd148; /* Principal/Amarillo */
+  --c-blanco: #ffffff; /* Principal/Blanco */
+  --c-naranja: #e94b24; /* Principal/Naranja */
+  --c-magenta: #b61075; /* Principal/Magenta */
+
+  /* ---------- Colores / Secundario ---------- */
+  --c-casi-negro: #00211d; /* Secundario/Casi negro */
+  --c-coral: #ff7166; /* Secundario/Coral */
+  --c-naranja-claro: #ff9024; /* Secundario/Naranja claro */
+  --c-azul: #5180e2; /* Secundario/Azul */
+  --c-verde-agua: #72beb0; /* Secundario/Verde agua */
+  --c-bitter-lime-50: #f8ffe5; /* Bitter Lime/50 */
+
+  /* Overlays usados en el diseño */
+  --ov-casi-negro-50: rgba(0, 33, 29, 0.5);
+  --ov-verde-oscuro-30: rgba(0, 56, 51, 0.3);
+  --ov-magenta-30: rgba(182, 16, 117, 0.3);
+  --ov-amarillo-20: rgba(255, 209, 72, 0.2);
+  --ov-naranja-claro-20: rgba(255, 144, 36, 0.2);
+  --ov-naranja-20: rgba(233, 75, 36, 0.2);
+
+  /* ---------- Tipografía ---------- */
+  /* FreightBig Pro y TT Commons Pro son fuentes con licencia.
+     Se cargan desde /fonts si están presentes; si no, caen a
+     Playfair Display y Manrope (Google Fonts). */
+  --font-display: "FreightBig Pro", "Playfair Display", "Times New Roman", serif;
+  --font-body: "TT Commons Pro", "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-manrope: "Manrope", system-ui, sans-serif;
+  --font-social: "Roboto", system-ui, sans-serif;
+  --font-inter: "Inter", system-ui, sans-serif;
+
+  /* Escala Desktop (px en 1440) → fluida */
+  --fs-h1: clamp(2.75rem, 1.25rem + 5.2vw, 6rem); /* Heading 1: 96 */
+  --lh-h1: 1.0208; /* 98/96 */
+  --fs-hero: clamp(2.5rem, 1.5rem + 3.5vw, 4.5rem); /* Hero: 72 */
+  --lh-hero: 1.0139; /* 73/72 */
+  --fs-h2: clamp(2.25rem, 1.25rem + 2.6vw, 3.75rem); /* Heading 2: 60 */
+  --lh-h2: 1.0333; /* 62/60 */
+  --fs-h3: clamp(2rem, 1.25rem + 1.9vw, 3rem); /* Heading 3: 48 */
+  --lh-h3: 1.0833; /* 52/48 */
+  --fs-h4: clamp(1.375rem, 1rem + 0.9vw, 1.875rem); /* Heading 4: 30 */
+  --lh-h4: 1.0667; /* 32/30 */
+  --fs-medium: clamp(1.125rem, 1rem + 0.35vw, 1.375rem); /* Content/Medium: 22 */
+  --fs-button: 1.25rem; /* Text Button: 20 */
+  --fs-body: 1rem; /* Body: 16 */
+  --fs-body-sm: 0.875rem; /* Body bold sm: 14 */
+  --fs-note: 0.75rem; /* Note: 12 */
+  --fs-stat: clamp(5rem, 2rem + 9vw, 12.5rem); /* Cifras: 200 */
+
+  /* ---------- Layout ---------- */
+  --container: 1200px; /* 1440 - 2×120 */
+  --gutter: clamp(1.25rem, 8.333vw, 7.5rem); /* 120 en 1440 */
+  --nav-top: 37px;
+  --hero-h: clamp(640px, 65.7vw, 946px); /* 946 en 1440 */
+
+  /* ---------- Radios ---------- */
+  --r-sm: 8px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-pill: 999px;
+
+  /* ---------- Sombras ---------- */
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.15);
+  --shadow-post: 0 5px 15px rgba(0, 0, 0, 0.15);
+
+  /* ---------- Movimiento ---------- */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --t-fast: 180ms;
+  --t-med: 360ms;
+  --t-slow: 700ms;
+}

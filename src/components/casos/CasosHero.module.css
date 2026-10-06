@@ -1,0 +1,55 @@
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--hero-h);
+  padding-top: clamp(150px, 14vw, 200px);
+  padding-bottom: clamp(64px, 8vw, 120px);
+  background: var(--c-amarillo);
+  color: var(--c-casi-negro);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Elemento 1550×2048 centrado en (51.4 %, 54.4 %) y rotado −23.07° */
+.s {
+  position: absolute;
+  left: 51.4%;
+  top: 54.4%;
+  width: 107.6%;
+  max-width: none;
+  height: auto;
+  transform: translate(-50%, -50%) rotate(-23.07deg);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 39px;
+  text-align: center;
+}
+
+.title,
+.text {
+  max-width: 937px;
+}
+
+.title {
+  text-wrap: balance;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    min-height: 0;
+    padding-top: 150px;
+  }
+  .s {
+    width: 190%;
+  }
+  .inner {
+    gap: 24px;
+  }
+}

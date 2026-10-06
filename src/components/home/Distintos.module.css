@@ -1,0 +1,79 @@
+.section {
+  position: relative;
+  min-height: 1054px;
+  display: flex;
+  align-items: center;
+  background: var(--c-casi-negro);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Muro de fotos (DriftWall) a pantalla completa detrás del texto */
+.wall {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Velo que oscurece el lado izquierdo para mantener legible la columna de texto */
+.veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(0, 33, 29, 0.9) 0%, rgba(0, 33, 29, 0.62) 36%, rgba(0, 33, 29, 0.1) 62%, rgba(0, 33, 29, 0) 100%);
+}
+
+.inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding-block: clamp(80px, 12vw, 200px);
+  /* Solo el bloque de texto captura el puntero; el resto deja pasar el hover al muro */
+  pointer-events: none;
+}
+.inner > * {
+  pointer-events: auto;
+  width: fit-content;
+}
+
+.title {
+  max-width: 590px;
+  color: var(--c-coral);
+  text-wrap: balance;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  max-width: 590px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.itemTitle {
+  color: var(--c-amarillo);
+}
+
+.itemBody {
+  color: var(--c-blanco);
+}
+
+@media (max-width: 900px) {
+  .section {
+    min-height: 0;
+  }
+  .veil {
+    background: linear-gradient(180deg, rgba(0, 33, 29, 0.55) 0%, rgba(0, 33, 29, 0.7) 100%);
+  }
+  .inner > * {
+    width: auto;
+  }
+}

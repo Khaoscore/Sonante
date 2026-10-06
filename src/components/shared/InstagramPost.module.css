@@ -1,0 +1,161 @@
+/* Todas las medidas se escalan con --s (1 = 508 px de ancho de referencia) */
+.post {
+  --s: 1;
+  width: 100%;
+  max-width: calc(508px * var(--s));
+  padding-block: calc(8px * var(--s));
+  border-radius: calc(23px * var(--s));
+  background: var(--c-blanco);
+  color: var(--c-casi-negro);
+  font-family: var(--font-social);
+  font-size: calc(15.5px * var(--s));
+  box-shadow: var(--shadow-post);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: calc(7px * var(--s));
+  padding: calc(7px * var(--s)) calc(21px * var(--s));
+}
+
+.avatar {
+  width: calc(46px * var(--s));
+  height: calc(46px * var(--s));
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.meta {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: calc(4px * var(--s)) calc(7px * var(--s));
+}
+
+.handle {
+  display: flex;
+  align-items: center;
+  gap: calc(7px * var(--s));
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.verified {
+  width: calc(15.5px * var(--s));
+  height: calc(15px * var(--s));
+}
+
+.subtitle {
+  display: flex;
+  align-items: center;
+  gap: calc(6px * var(--s));
+  margin-top: calc(2px * var(--s));
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.audio {
+  width: calc(20px * var(--s));
+  height: calc(20px * var(--s));
+}
+
+.more {
+  width: calc(5.4px * var(--s));
+  height: calc(23px * var(--s));
+  margin-inline: calc(24px * var(--s)) calc(16px * var(--s));
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--c-verde-oscuro);
+}
+.reel {
+  aspect-ratio: 386.8 / 490.6;
+}
+.media > img:first-child {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.tagged,
+.volume {
+  position: absolute;
+  bottom: calc(14px * var(--s));
+  width: calc(35px * var(--s));
+  height: calc(35px * var(--s));
+}
+.tagged {
+  left: calc(14px * var(--s));
+}
+.volume {
+  right: calc(14px * var(--s));
+}
+
+.actions {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: calc(14px * var(--s)) calc(21px * var(--s));
+}
+.actionsLeft {
+  display: flex;
+  gap: calc(17.6px * var(--s));
+}
+.actionsLeft img {
+  height: calc(45px * var(--s));
+  width: auto;
+}
+.save {
+  width: calc(37px * var(--s));
+  height: calc(43px * var(--s));
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: calc(3px * var(--s));
+  padding: calc(7px * var(--s)) calc(21px * var(--s));
+}
+
+.liked {
+  display: flex;
+  align-items: center;
+  gap: calc(10px * var(--s));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.likedAvatars {
+  display: flex;
+  flex-shrink: 0;
+}
+.liked strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.likedAvatars img {
+  width: calc(29px * var(--s));
+  height: calc(29px * var(--s));
+  border-radius: 50%;
+  border: calc(2px * var(--s)) solid var(--c-blanco);
+}
+.likedAvatars img + img {
+  margin-left: calc(-7px * var(--s));
+}
+
+.caption {
+  padding-block: calc(7px * var(--s));
+  line-height: normal;
+}
+
+.date {
+  padding-block: calc(4px * var(--s));
+  color: #4a5a58;
+  font-size: calc(13px * var(--s));
+}

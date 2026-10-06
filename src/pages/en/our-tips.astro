@@ -1,0 +1,16 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/shared/PageHero";
+import TipsGrid from "@/components/tips/TipsGrid";
+import SocialWall from "@/components/tips/SocialWall";
+import { tipsContent } from "@/data/tips";
+
+const lang = "en";
+const { meta, hero } = tipsContent[lang];
+---
+
+<BaseLayout title={meta.title} description={meta.description} lang={lang}>
+  <PageHero color="magenta" title={hero.title} text={hero.text} />
+  <TipsGrid lang={lang} />
+  <SocialWall lang={lang} />
+</BaseLayout>

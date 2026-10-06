@@ -1,0 +1,88 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.media {
+  position: relative;
+  height: 262px;
+  border-radius: var(--r-md);
+  background: var(--c-amarillo);
+  overflow: visible;
+}
+
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* Botón circular verde (50 px, borde 4 px casi negro) rotado 60° en la esquina inferior izquierda */
+.arrow {
+  position: absolute;
+  left: -16px;
+  bottom: -15px;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 4px solid var(--c-casi-negro);
+  background: var(--c-verde);
+  color: var(--c-casi-negro);
+  transform: rotate(60deg);
+  transition: transform var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+
+.link:hover .arrow {
+  transform: rotate(60deg) scale(1.08);
+  background: #14c93a;
+}
+
+.link:hover .media img {
+  filter: brightness(1.05);
+}
+
+.title {
+  color: var(--c-bitter-lime-50);
+  transition: color var(--t-fast) var(--ease);
+}
+.link:hover .title {
+  color: var(--c-amarillo);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  max-width: 387px;
+}
+
+.tag {
+  flex: 1 1 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 32px;
+  border: 1px solid var(--c-amarillo);
+  background: var(--c-magenta);
+  color: var(--c-amarillo);
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .media {
+    height: 200px;
+  }
+}

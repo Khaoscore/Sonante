@@ -1,0 +1,72 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Gota degradada (1016×1068 en el diseño) */
+.drop {
+  position: absolute;
+  width: 70.5%;
+  max-width: 1016px;
+  height: auto;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.title {
+  max-width: 638px;
+  color: var(--c-amarillo);
+  text-wrap: balance;
+}
+
+/* Variante home: título + tarjeta, gota a la derecha (x 359, y −118 respecto a la sección) */
+.home {
+  padding-top: clamp(96px, 11.7vw, 168px);
+  padding-bottom: clamp(96px, 13.6vw, 196px);
+}
+.home .drop {
+  left: 25%;
+  top: -8%;
+}
+.home .inner {
+  padding-left: clamp(0px, 3.8vw, 55px);
+}
+
+/* Variante página: solo tarjeta, gota grande desde arriba a la derecha */
+.page {
+  padding-top: clamp(200px, 27.5vw, 396px);
+  padding-bottom: clamp(120px, 18vw, 259px);
+  min-height: 1410px;
+}
+.page .drop {
+  left: 20.6%;
+  top: 114px;
+}
+
+@media (max-width: 900px) {
+  .page {
+    min-height: 0;
+    padding-top: 160px;
+  }
+  .drop {
+    width: 110%;
+    max-width: none;
+    opacity: 0.85;
+  }
+  .home .drop {
+    left: 10%;
+    top: 0;
+  }
+  .page .drop {
+    left: 5%;
+    top: 40px;
+  }
+}

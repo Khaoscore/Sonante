@@ -1,0 +1,136 @@
+.case {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--hero-h);
+  padding-block: clamp(120px, 12vw, 180px);
+  color: var(--c-blanco);
+  overflow: hidden;
+  isolation: isolate;
+  text-align: center;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  background: var(--ov-casi-negro-50);
+  z-index: -1;
+}
+
+.tag {
+  position: absolute;
+  top: 72px;
+  right: var(--gutter);
+  padding: 16px 32px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  max-width: calc(992px + 2 * var(--gutter));
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 528px;
+}
+
+.cols {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 17px;
+  flex: 0 1 391px;
+}
+.colWide {
+  flex: 0 1 581px;
+}
+.colText {
+  max-width: 505px;
+}
+.col:not(.colWide) .colText {
+  max-width: 303px;
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+}
+
+.stat {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 333px;
+  text-align: left;
+}
+.stat img {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  margin-top: 2px;
+}
+.statCenter {
+  max-width: 215px;
+  text-align: center;
+  justify-content: center;
+}
+
+.closing {
+  max-width: 722px;
+}
+
+@media (max-width: 900px) {
+  .case {
+    padding-top: 150px;
+  }
+  .tag {
+    top: 110px;
+    left: var(--gutter);
+    right: auto;
+    padding: 10px 20px;
+    font-size: 1rem;
+    white-space: normal;
+  }
+  .cols,
+  .stats {
+    flex-direction: column;
+    align-items: center;
+  }
+  .col,
+  .colWide {
+    flex: 1 1 auto;
+  }
+  .stat,
+  .statCenter {
+    max-width: 420px;
+    text-align: center;
+    justify-content: center;
+  }
+}

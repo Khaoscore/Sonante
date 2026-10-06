@@ -1,0 +1,27 @@
+{
+  "name": "sonante-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Sitio web de Sonante — agencia de comunicación política. Construido con Astro + React a partir del diseño en Figma.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/react": "^6.0.5",
+    "astro": "^7.3.2",
+    "gsap": "^3.15.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "typescript": "^5.9.3"
+  }
+}

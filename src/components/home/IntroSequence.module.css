@@ -1,0 +1,23 @@
+/* Contenedor fijado por ScrollTrigger; flex evita que los márgenes de los hijos
+   colapsen hacia fuera y descuadren la medida del pin. */
+.sequence {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mientras GSAP no ha tomado el control (solo si hay JS), los párrafos y las
+   gotas permanecen ocultos para evitar un destello. El título se ve desde el inicio. */
+:global(html.js) .pending [data-anim="text"],
+:global(html.js) .pending [data-anim="bullet"] {
+  opacity: 0;
+}
+
+.sequence [data-anim="text"],
+.sequence [data-anim="bullet"] {
+  will-change: transform, opacity;
+}
+
+.sequence [data-anim="bullet"] {
+  transform-origin: 60% 60%;
+}

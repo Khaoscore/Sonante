@@ -1,0 +1,14 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ContactSection from "@/components/shared/ContactSection";
+
+const lang = "en";
+---
+
+<BaseLayout
+  title="Let's talk"
+  description="Write to us and tell us about your institution, campaign or leadership. We'll get back to you soon."
+  lang={lang}
+>
+  <ContactSection client:visible variant="page" lang={lang} ariaLabel="Contact form" />
+</BaseLayout>

@@ -1,0 +1,51 @@
+.band {
+  position: relative;
+  min-height: 391px;
+  display: flex;
+  align-items: center;
+  padding-block: 40px;
+  color: var(--c-blanco);
+  overflow: hidden;
+  background:
+    url("/assets/icons/wordmark-outline-magenta.svg") calc(50% + 329px) -172px / 2098px 344px no-repeat,
+    url("/assets/icons/wordmark-outline-magenta.svg") calc(50% - 329px) 210px / 2098px 344px no-repeat,
+    var(--c-magenta);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 382px));
+  justify-content: space-between;
+  gap: 27px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-stat);
+  line-height: 1;
+}
+
+.label {
+  max-width: 300px;
+  text-wrap: balance;
+}
+
+@media (max-width: 900px) {
+  .list {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    justify-items: center;
+  }
+  .band {
+    padding-block: 64px;
+  }
+}
