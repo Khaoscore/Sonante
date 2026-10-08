@@ -4,12 +4,12 @@
   display: flex;
   align-items: center;
   padding-block: 40px;
-  color: var(--c-blanco);
+  color: #E94B24;
   overflow: hidden;
   background:
     url("/assets/icons/wordmark-outline-magenta.svg") calc(50% + 329px) -172px / 2098px 344px no-repeat,
     url("/assets/icons/wordmark-outline-magenta.svg") calc(50% - 329px) 210px / 2098px 344px no-repeat,
-    var(--c-magenta);
+    #FFD148;
 }
 
 .list {

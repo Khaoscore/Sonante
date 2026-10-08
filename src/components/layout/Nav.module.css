@@ -37,7 +37,7 @@
 }
 .scrolled .nav {
   padding: var(--nav-pad-compact);
-  background-color: var(--c-verde-oscuro);
+  background-color: var(--nav-dark, var(--c-verde-oscuro));
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.08),
     0 12px 32px rgba(0, 33, 29, 0.35);
@@ -52,8 +52,8 @@
   width: 57px;
   height: 57px;
   border-radius: 50%;
-  background: var(--c-verde-oscuro);
-  color: var(--c-blanco);
+  background: var(--nav-dark, var(--c-verde-oscuro));
+  color: var(--nav-light, var(--c-blanco));
   transition:
     transform var(--t-fast) var(--ease),
     background-color var(--t-fast) var(--ease),
@@ -62,7 +62,6 @@
 }
 .logo:hover {
   transform: scale(1.04);
-  background: #004a43;
 }
 .symbol {
   width: 32px;
@@ -95,13 +94,13 @@
   gap: 4px;
   padding: 4px;
   border-radius: var(--r-pill);
-  background: var(--c-verde-oscuro);
+  background: var(--nav-dark, var(--c-verde-oscuro));
 }
 
 .item {
   /* Colores del hover animado: círculo verde oscuro y etiqueta verde (como el estado activo) */
-  --hover-bg: var(--c-verde-oscuro);
-  --hover-text: var(--c-verde);
+  --hover-bg: var(--nav-dark, var(--c-verde-oscuro));
+  --hover-text: var(--nav-accent, var(--c-verde));
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -110,8 +109,8 @@
   justify-content: center;
   padding: 12px 24px;
   border-radius: var(--r-pill);
-  background: var(--c-blanco);
-  color: var(--c-verde-oscuro);
+  background: var(--nav-light, var(--c-blanco));
+  color: var(--nav-item-text, var(--c-verde-oscuro));
   font-weight: 700;
   font-size: var(--fs-button);
   line-height: normal;
@@ -120,10 +119,10 @@
 }
 
 .cta {
-  --hover-text: var(--c-blanco);
-  background: var(--c-verde);
+  --hover-text: var(--nav-light, var(--c-blanco));
+  background: var(--nav-accent, var(--c-verde));
+  color: var(--nav-cta-text, var(--c-verde-oscuro));
 }
-
 /* Hover CSS de respaldo: panel móvil, pantallas táctiles, reduced-motion o antes de cargar GSAP */
 .pill:not(.fx) .item:not(.active):hover {
   background: var(--c-bitter-lime-50);
@@ -176,8 +175,8 @@
 /* Estado activo del diseño: fondo verde oscuro y texto verde */
 .active,
 .active:hover {
-  background: var(--c-verde-oscuro);
-  color: var(--c-verde);
+  background: var(--nav-dark, var(--c-verde-oscuro));
+  color: var(--nav-accent, var(--c-verde));
 }
 
 .right {
@@ -195,14 +194,15 @@
   height: 49px;
   padding: 12px 16px;
   border-radius: 32px;
-  background: var(--c-verde-oscuro);
-  color: var(--c-verde);
+  background: var(--nav-dark, var(--c-verde-oscuro));
+  color: var(--nav-accent, var(--c-verde));
   font-weight: 700;
   font-size: var(--fs-button);
   transition: background-color var(--t-fast) var(--ease);
 }
 .lang:hover {
-  background: #004a43;
+  background: var(--nav-dark-hover, #004a43)
+  ;
 }
 .lang svg {
   width: 14px;
@@ -218,8 +218,8 @@
   width: 57px;
   height: 57px;
   border-radius: 50%;
-  background: var(--c-verde-oscuro);
-  color: var(--c-blanco);
+  background: var(--nav-dark, var(--c-verde-oscuro));
+  color: var(--nav-light, var(--c-blanco));
   place-items: center;
   transition:
     width var(--t-med) var(--ease),
@@ -233,6 +233,12 @@
 .backdrop {
   display: none;
   pointer-events: auto;
+}
+
+.active,
+.active:hover {
+  background: var(--nav-active-bg, var(--c-verde-oscuro));
+  color: var(--nav-active-text, var(--c-verde));
 }
 
 /* ---------- Responsive ---------- */
@@ -274,7 +280,8 @@
   }
   .langMobile .lang {
     width: 100%;
-    background: #004a43;
+    background: var(--nav-dark-hover, #004a43)
+    ;
   }
   .langDesktop {
     display: none;

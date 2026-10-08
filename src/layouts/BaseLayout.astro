@@ -26,6 +26,9 @@ const canonical = abs(currentPath);
 const routeKey = routeKeyFromPath(currentPath);
 const alternates = routeKey ? locales.map((l) => ({ lang: l, href: abs(routes[routeKey][l]) })) : [];
 const fullTitle = title === site.name ? title : `${title} · ${site.name}`;
+
+const page = Astro.url.pathname.split("/").filter(Boolean)[0] ?? "home";
+
 ---
 
 <!doctype html>
@@ -60,7 +63,7 @@ const fullTitle = title === site.name ? title : `${title} · ${site.name}`;
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Manrope:wght@400;600;700&family=Roboto:wght@400;700&family=Inter:wght@400;600&display=swap"
     />
   </head>
-  <body>
+  <body data-page={page}>
     <a class="skip-link" href="#contenido">{t.skipLink}</a>
     <Nav client:load currentPath={currentPath} lang={lang} />
     <main id="contenido" class={mainClass}>

@@ -1,4 +1,5 @@
 .rows {
+  background:#FFFF;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -38,9 +39,17 @@
   text-wrap: balance;
 }
 
+
+:global(body) {
+  background: #ffffff; /* el color que quieras */
+} 
+
 .body {
-  color: var(--c-blanco);
+  
+  color: #0b1f1a;
 }
+
+
 
 @media (max-width: 900px) {
   .rows {

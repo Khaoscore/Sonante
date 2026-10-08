@@ -222,6 +222,80 @@ button {
   top: 16px;
 }
 
+
+
+body[data-page="quienes-somos"] {
+  --nav-dark: #FFD148;
+  --nav-dark-hover: #ffffff;
+  --nav-accent: #E94B24;
+  --nav-light: #ffffff;
+
+  --nav-item-text: #E94B24;    /* texto de "Casos de éxito" y "Nuestros tips" */
+  --nav-active-bg: #FFD148;    /* fondo del botón activo (el que hoy se ve negro) */
+  --nav-active-text: #E94B24;  /* texto del botón activo */
+  --nav-cta-text: #FFD148;
+  --nav-logo-accent: #E94B24;
+
+  --footer-bg: #E94B24;          /* bloque grande */
+  --footer-text: #FFFFFF;        /* texto "¿Qué hacemos?" y párrafo */
+  --footer-accent: #FFD148;      /* "© Sonante SAS...", enlaces del menú, hover del correo */
+  --footer-hover: #FFFFFF;       /* hover de los enlaces del menú */
+  --footer-strip-bg: #FFD148;    /* franja de abajo */
+  --footer-strip-text: #E94B24;  /* texto de la franja */
+}
+
+body[data-page="casos-de-exito"] {
+  --nav-dark: #E94B24;
+  --nav-dark-hover: #ffffff;
+  --nav-accent: #FFD148;
+  --nav-light: #ffffff;
+
+  --nav-item-text: #E94B24;    /* texto de "Casos de éxito" y "Nuestros tips" */
+  --nav-active-bg: #E94B24;    /* fondo del botón activo (el que hoy se ve negro) */
+  --nav-active-text: #FFD148;  /* texto del botón activo */
+  --nav-cta-text: #e94b24;
+  --nav-logo-accent: #FFD148;
+
+  --footer-bg: #FFD148;          /* bloque grande */
+  --footer-text: #000000;        /* texto "¿Qué hacemos?" y párrafo */
+  --footer-accent: #E94B24;      /* "© Sonante SAS...", enlaces del menú, hover del correo */
+  --footer-hover: #000000;       /* hover de los enlaces del menú */
+  --footer-strip-bg: #E94B24;    /* franja de abajo */
+  --footer-strip-text: #ffd148;  /* texto de la franja */
+  --footer-logo: #000000;    /* logo SONANTE */
+  --footer-social: #000000;  /* iconos de redes */
+}
+
+body[data-page="nuestros-tips"] {
+  --nav-dark: #FFD148;
+  --nav-dark-hover: #ffffff;
+  --nav-accent: #B61075;
+  --nav-light: #ffffff;
+
+  --nav-item-text: #B61075;    /* texto de "Casos de éxito" y "Nuestros tips" */
+  --nav-active-bg: #FFD148;    /* fondo del botón activo (el que hoy se ve negro) */
+  --nav-active-text: #B61075;  /* texto del botón activo */
+  --nav-cta-text: #FFD148;
+  --nav-logo-accent: #B61075;
+
+  --footer-bg: #B61075;          /* bloque grande */
+  --footer-text: #FFFFFF;        /* texto "¿Qué hacemos?" y párrafo */
+  --footer-accent: #FFD148;      /* "© Sonante SAS...", enlaces del menú, hover del correo */
+  --footer-hover: #FFFFFF;       /* hover de los enlaces del menú */
+  --footer-strip-bg: #FFD148;    /* franja de abajo */
+  --footer-strip-text: #E94B24;  /* texto de la franja */
+}
+
+body[data-page="quienes-somos"] {
+  /* ...lo que ya tienes del menú... */
+  --footer-bg: #E94B24;          /* bloque grande */
+  --footer-text: #FFFFFF;        /* texto "¿Qué hacemos?" y párrafo */
+  --footer-accent: #FFD148;      /* "© Sonante SAS...", enlaces del menú, hover del correo */
+  --footer-hover: #FFFFFF;       /* hover de los enlaces del menú */
+  --footer-strip-bg: #FFD148;    /* franja de abajo */
+  --footer-strip-text: #E94B24;  /* texto de la franja */
+}
+
 /* ---------- Cursor personalizado ----------
    La clase la añade el componente CursorTrail solo con puntero fino
    y sin preferencia de movimiento reducido. */

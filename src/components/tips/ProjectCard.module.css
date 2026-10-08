@@ -5,6 +5,9 @@
   min-width: 0;
 }
 
+:global(body) {
+  background: #ffffff; /* el color que quieras */
+} 
 .link {
   display: flex;
   flex-direction: column;
@@ -53,7 +56,7 @@
 }
 
 .title {
-  color: var(--c-bitter-lime-50);
+  color: #B60175;
   transition: color var(--t-fast) var(--ease);
 }
 .link:hover .title {

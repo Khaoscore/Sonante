@@ -1,8 +1,8 @@
 .footer {
   position: relative;
   z-index: 2;
-  background: var(--c-verde-oscuro);
-  color: var(--c-bitter-lime-50);
+  background: var(--footer-bg, var(--c-verde-oscuro));
+  color: var(--footer-text, var(--c-bitter-lime-50));
 }
 
 .inner {
@@ -24,15 +24,23 @@
   gap: 16px;
 }
 
-.wordmark {
+.brand a {
+  display: block;
   width: 100%;
-  height: auto;
+}
+
+/* Logo como máscara: el color lo pone background-color */
+.wordmark {
+  display: block;
+  width: 100%;
   aspect-ratio: 605.61 / 99.28;
-  object-fit: contain;
+  background-color: var(--footer-logo, var(--c-blanco));
+  -webkit-mask: url("/assets/icons/logo-sonante.svg") center / contain no-repeat;
+  mask: url("/assets/icons/logo-sonante.svg") center / contain no-repeat;
 }
 
 .legal {
-  color: var(--c-amarillo);
+  color: var(--footer-accent, var(--c-amarillo));
   font-weight: 700;
   font-size: var(--fs-note);
   white-space: nowrap;
@@ -65,7 +73,7 @@
   text-underline-position: from-font;
 }
 .mail:hover {
-  color: var(--c-amarillo);
+  color: var(--footer-accent, var(--c-amarillo));
 }
 
 .menu {
@@ -78,13 +86,13 @@
   gap: 18px;
 }
 .menu a {
-  color: var(--c-amarillo);
+  color: var(--footer-accent, var(--c-amarillo));
   font-weight: 700;
   font-size: var(--fs-button);
   transition: color var(--t-fast) var(--ease);
 }
 .menu a:hover {
-  color: var(--c-blanco);
+  color: var(--footer-hover, var(--c-blanco));
 }
 
 .social {
@@ -103,9 +111,19 @@
   transform: translateY(-2px);
   opacity: 0.85;
 }
-.social img {
+
+/* Iconos de redes como máscara */
+.socialIcon {
+  display: block;
   width: 32px;
   height: 32px;
+  background-color: var(--footer-social, var(--c-blanco));
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
 .copyright {
@@ -113,8 +131,8 @@
   align-items: center;
   justify-content: center;
   padding: 10px var(--gutter);
-  background: var(--c-amarillo);
-  color: var(--c-verde-oscuro);
+  background: var(--footer-strip-bg, var(--c-amarillo));
+  color: var(--footer-strip-text, var(--c-verde-oscuro));
   font-weight: 700;
   font-size: var(--fs-note);
   text-align: center;

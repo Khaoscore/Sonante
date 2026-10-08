@@ -27,12 +27,12 @@ export type AboutContent = {
 };
 
 const visual = [
-  { id: "jessica", color: "var(--c-naranja-claro)", image: "/assets/img/jessica-blanco.jpg", imagePosition: "center top" },
-  { id: "jose", color: "var(--c-azul)", image: "/assets/img/jose-paz.jpg", imagePosition: "center top" },
-  { id: "dato-jessica", color: "var(--c-coral)", image: "/assets/img/team-calibrando.jpg" },
-  { id: "dato-jose", color: "var(--c-verde-agua)", image: "/assets/img/team-1595.jpg" },
-  { id: "ruptura", color: "var(--c-verde)", image: "/assets/img/team-1594.jpg" },
-  { id: "esto-es-sonante", color: "var(--c-naranja)", image: "/assets/img/team-image-4.png" },
+  { id: "jessica", color: "#E94B24", image: "/assets/img/jessica-blanco.png", imagePosition: "center top" },
+  { id: "jose", color: "#FF9024", image: "/assets/img/jose-paz.png", imagePosition: "center top" },
+  { id: "dato-jessica", color: "#E94B24", image: "/assets/img/team-calibrando.png" },
+  { id: "dato-jose", color: "#FF9024", image: "/assets/img/team-1595.png" },
+  { id: "ruptura", color: "#E94B24", image: "/assets/img/team-1594.png" },
+  { id: "esto-es-sonante", color: "#FF9024", image: "/assets/img/team-image-4.png" },
 ];
 
 const heroText = {
@@ -62,13 +62,13 @@ const copy: Record<Locale, Copy[]> = {
       title: "Dato Jessica Blanco",
       alt: "Equipo de Sonante grabando contenido",
       body:
-        "es politóloga, estratega digital, consultora en comunicación política y creadora de contenido. Según el Panel de Opinión de Cifras &amp; Conceptos, fue reconocida como una de las creadoras de contenido más influyentes en temas políticos en Colombia en 2022 y 2023.",
+        "Jessica es una boyacense orgullosa que empezó a crear contenido durante la pandemia como una forma de expresar sus ideas, en un momento en el que salir a las calles o ir a la universidad no era posible.<br> Esa experiencia le permitió conocer de primera mano lo que implica exponerse, crear y construir una comunidad. En Sonante sabemos que detrás del proceso creativo no solo hay estrategia, también hay emociones e inseguridades, y por eso acompañamos cada proyecto entendiendo también esa parte del camino.",
     },
     {
       title: "Dato José Paz",
       alt: "Equipo de Sonante en sesión de producción",
       body:
-        "es politóloga, estratega digital, consultora en comunicación política y creadora de contenido. Según el Panel de Opinión de Cifras &amp; Conceptos, fue reconocida como una de las creadoras de contenido más influyentes en temas políticos en Colombia en 2022 y 2023.",
+        "José es cruceño, aunque Bogotá ya lleva más de ocho años siendo su casa. Habla cuatro idiomas, le gusta mucho la fotografía y su formación en ciencia política y relaciones internacionales hace que conecte constantemente lo que pasa aquí con lo que ocurre en otros lugares del mundo. <br> Eso también se nota en Sonante. Muchas veces una conversación local termina cruzándose con referencias, tendencias o aprendizajes de América Latina y de otros contextos que nos ayudan a mirar los problemas desde más de un ángulo.",
     },
     {
       title: "También quisimos cerrar una ruptura muy común en la comunicación",
