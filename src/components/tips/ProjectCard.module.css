@@ -69,7 +69,7 @@
 }
 
 .tag {
-  flex: 1 1 0;
+  flex: 0 1 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -79,6 +79,21 @@
   background: var(--c-magenta);
   color: var(--c-amarillo);
   white-space: nowrap;
+}
+
+/* Categoría: misma píldora con los colores invertidos */
+.category {
+  background: var(--c-amarillo);
+  border-color: var(--c-amarillo);
+  color: var(--c-casi-negro);
+}
+
+.featured .tags {
+  max-width: 560px;
+}
+
+.title {
+  text-wrap: pretty;
 }
 
 @media (max-width: 560px) {

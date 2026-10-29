@@ -1,0 +1,95 @@
+---
+/**
+ * Plantilla de artículo del blog ("Nuestros tips").
+ * Recibe la entrada de la colección `blog` y pinta cabecera, cuerpo (slot),
+ * índice lateral, etiquetas, compartir y artículos relacionados.
+ */
+import type { MarkdownHeading } from "astro";
+import BaseLayout from "./BaseLayout.astro";
+import ArticleHero from "@/components/tips/ArticleHero";
+import ArticleAside from "@/components/tips/ArticleAside";
+import RelatedTips from "@/components/tips/RelatedTips";
+import styles from "@/components/tips/ArticleBody.module.css";
+import "@/components/tips/ArticleGraphics.css";
+import { tipsContent } from "@/data/tips";
+import { site } from "@/data/site";
+import { pathFor } from "@/i18n";
+import { ui } from "@/i18n/ui";
+import { articlePath, formatDate, relatedArticles, resolveCover, toTip, type Article } from "@/lib/blog";
+
+interface Props {
+  article: Article;
+  /** Todos los artículos visibles, para calcular los relacionados */
+  articles: Article[];
+  headings: MarkdownHeading[];
+}
+
+const { article, articles, headings } = Astro.props;
+const lang = "es";
+const t = tipsContent[lang].article;
+const { data } = article;
+
+const cover = resolveCover(data.cover);
+/** Imagen para redes: la foto de portada o la portada generada (/og/<slug>.jpg) */
+const shareImage = cover?.src ?? `/og/${article.id}.jpg`;
+const url = new URL(articlePath(article.id), Astro.site ?? site.url).href;
+const date = data.publishDate ? { iso: data.publishDate.toISOString().slice(0, 10), label: formatDate(data.publishDate) } : undefined;
+const toc = headings.filter((h) => h.depth === 2).map(({ slug, text }) => ({ slug, text }));
+const related = relatedArticles(article, articles).map((a) => toTip(a));
+
+const enc = encodeURIComponent;
+const share = [
+  { name: "WhatsApp", href: `https://wa.me/?text=${enc(`${data.title} ${url}`)}` },
+  { name: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}` },
+  { name: "X", href: `https://x.com/intent/post?text=${enc(data.title)}&url=${enc(url)}` },
+  { name: "Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${enc(url)}` },
+].map((s) => ({ ...s, label: t.shareOn(s.name) }));
+
+// Datos estructurados (schema.org) para buscadores
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: data.title,
+  description: data.description,
+  inLanguage: "es",
+  url,
+  mainEntityOfPage: url,
+  articleSection: data.category,
+  keywords: data.tags.join(", "),
+  author: { "@type": "Organization", name: data.author },
+  publisher: { "@type": "Organization", name: site.legalName, url: site.url },
+  ...(date && { datePublished: date.iso }),
+  image: new URL(shareImage, site.url).href,
+};
+---
+
+<BaseLayout title={data.title} description={data.description} lang={lang} ogType="article" image={shareImage}>
+  <script is:inline type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+  <div class={styles.progress} aria-hidden="true"></div>
+
+  <article>
+    <ArticleHero
+      slug={article.id}
+      backHref={pathFor("tips", lang)}
+      backLabel={t.back}
+      category={data.category}
+      title={data.title}
+      subtitle={data.subtitle}
+      byline={`${t.by} ${data.author}`}
+      readingTime={data.readingTime ? t.readingTime(data.readingTime) : undefined}
+      date={date}
+      cover={cover}
+      photoLabel={t.photo}
+      draftNote={data.status === "incompleto" ? t.draft : undefined}
+    />
+
+    <div class={`container ${styles.layout}`}>
+      <div class={styles.prose}>
+        <slot />
+      </div>
+      <ArticleAside tocTitle={t.toc} toc={toc} tagsTitle={t.tags} tags={data.tags} shareTitle={t.share} share={share} />
+    </div>
+  </article>
+
+  <RelatedTips title={t.related} tips={related} allHref={pathFor("tips", lang)} allLabel={t.allTips} tagsLabel={ui[lang].a11y.tags} />
+</BaseLayout>

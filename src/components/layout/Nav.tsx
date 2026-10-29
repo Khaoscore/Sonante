@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { gsap as Gsap } from "gsap";
-import { alternatePath, otherLocale, pathFor, routeKeyFromPath, type Locale } from "@/i18n";
+import { alternatePath, otherLocale, pathFor, routeKeyFromPath, sectionKeyFromPath, type Locale } from "@/i18n";
 import { ui } from "@/i18n/ui";
 import { Globe, Menu, Close, SonanteSymbol } from "@/components/ui/Icons";
 import styles from "./Nav.module.css";
@@ -41,7 +41,9 @@ export default function Nav({ currentPath, lang = "es" }: Props) {
   const rightRef = useRef<HTMLDivElement>(null);
   const panelId = useId();
   const t = ui[lang];
-  const currentKey = routeKeyFromPath(currentPath);
+  const currentKey = sectionKeyFromPath(currentPath);
+  /** true en la página de la sección; en sus subpáginas (artículos) el enlace se marca pero no es "page" */
+  const exactPage = routeKeyFromPath(currentPath) === currentKey;
   const target = otherLocale(lang);
   const switchHref = alternatePath(currentPath, target);
 
@@ -218,7 +220,7 @@ export default function Nav({ currentPath, lang = "es" }: Props) {
                     }}
                     href={href}
                     className={cls}
-                    aria-current={active ? "page" : undefined}
+                    aria-current={active ? (exactPage ? "page" : "true") : undefined}
                     onClick={() => setOpen(false)}
                     onMouseEnter={() => animatePill(i, true)}
                     onMouseLeave={() => animatePill(i, false)}

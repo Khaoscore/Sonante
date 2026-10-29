@@ -44,6 +44,19 @@ export function routeKeyFromPath(path: string): RouteKey | undefined {
   return (Object.keys(routes) as RouteKey[]).find((key) => locales.some((l) => routes[key][l] === p));
 }
 
+/**
+ * Sección a la que pertenece una ruta, incluidas sus subpáginas
+ * (/nuestros-tips/mi-articulo/ → "tips"). Sirve para el menú activo y el cambio de idioma.
+ */
+export function sectionKeyFromPath(path: string): RouteKey | undefined {
+  const exact = routeKeyFromPath(path);
+  if (exact) return exact;
+  const p = normalize(path);
+  return (Object.keys(routes) as RouteKey[]).find(
+    (key) => key !== "home" && locales.some((l) => p.startsWith(routes[key][l])),
+  );
+}
+
 /** Idioma detectado a partir de la ruta */
 export function localeFromPath(path: string): Locale {
   const p = normalize(path);
@@ -54,9 +67,9 @@ export function otherLocale(lang: Locale): Locale {
   return lang === "es" ? "en" : "es";
 }
 
-/** Ruta equivalente de la página actual en otro idioma (home si no existe) */
+/** Ruta equivalente de la página actual en otro idioma (su sección o el home si no existe) */
 export function alternatePath(path: string, target: Locale): string {
-  const key = routeKeyFromPath(path);
+  const key = sectionKeyFromPath(path);
   return key ? routes[key][target] : routes.home[target];
 }
 

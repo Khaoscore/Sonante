@@ -1,0 +1,133 @@
+.header {
+  position: relative;
+}
+
+.band {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--c-magenta);
+  color: var(--c-blanco);
+  padding-top: clamp(150px, 13vw, 190px);
+  /* Espacio para que la portada monte sobre el borde inferior */
+  padding-bottom: clamp(120px, 14vw, 200px);
+}
+
+/* Gota degradada de la librería, como en el hero de "Nuestros tips" */
+.drop {
+  position: absolute;
+  right: -6%;
+  top: 4%;
+  width: 46%;
+  max-width: 640px;
+  height: auto;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: var(--c-bitter-lime-50);
+  transition: color var(--t-fast) var(--ease), gap var(--t-fast) var(--ease);
+}
+.back:hover {
+  color: var(--c-amarillo);
+  gap: 12px;
+}
+
+.draft {
+  padding: 10px 16px;
+  border-radius: var(--r-sm);
+  background: var(--c-amarillo);
+  color: var(--c-casi-negro);
+}
+
+.category {
+  padding: 6px 14px;
+  border-radius: 32px;
+  background: var(--c-amarillo);
+  color: var(--c-casi-negro);
+}
+
+.title {
+  max-width: 21ch;
+  text-wrap: balance;
+}
+
+.subtitle {
+  max-width: 44ch;
+  color: var(--c-amarillo);
+  text-wrap: pretty;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 0;
+  margin-top: 8px;
+  color: var(--c-bitter-lime-50);
+}
+
+/* Separador "·" entre los datos */
+.meta > * + *::before {
+  content: "·";
+  margin-inline: 10px;
+  opacity: 0.7;
+}
+
+.cover {
+  margin-top: calc(-1 * clamp(84px, 10vw, 150px));
+  position: relative;
+}
+
+.cover img {
+  width: 100%;
+  aspect-ratio: 16 / 8;
+  max-height: 620px;
+  object-fit: cover;
+  border-radius: var(--r-md);
+  background: var(--c-amarillo);
+  box-shadow: var(--shadow-card);
+}
+
+/* Portada generada: banda más baja que una foto */
+.generated {
+  position: relative;
+  aspect-ratio: 16 / 6;
+  max-height: 460px;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.cover figcaption {
+  margin-top: 10px;
+  color: rgba(248, 255, 229, 0.7);
+  text-align: right;
+}
+
+@media (max-width: 900px) {
+  .drop {
+    right: -30%;
+    width: 90%;
+    top: 0;
+    opacity: 0.6;
+  }
+  .cover img {
+    aspect-ratio: 4 / 3;
+  }
+  .generated {
+    aspect-ratio: 16 / 9;
+  }
+}

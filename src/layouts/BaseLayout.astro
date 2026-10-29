@@ -14,9 +14,13 @@ interface Props {
   lang?: Locale;
   /** Clase opcional para el <main> (p. ej. fondo de página) */
   mainClass?: string;
+  /** Tipo Open Graph: "article" en las páginas de artículo */
+  ogType?: "website" | "article";
+  /** Imagen para compartir (ruta de /public o URL absoluta) */
+  image?: string;
 }
 
-const { title, lang = defaultLocale, mainClass } = Astro.props;
+const { title, lang = defaultLocale, mainClass, ogType = "website", image } = Astro.props;
 const t = ui[lang];
 const description = Astro.props.description ?? t.description;
 
@@ -26,6 +30,7 @@ const canonical = abs(currentPath);
 const routeKey = routeKeyFromPath(currentPath);
 const alternates = routeKey ? locales.map((l) => ({ lang: l, href: abs(routes[routeKey][l]) })) : [];
 const fullTitle = title === site.name ? title : `${title} · ${site.name}`;
+const ogImage = image ? abs(image) : undefined;
 ---
 
 <!doctype html>
@@ -45,13 +50,15 @@ const fullTitle = title === site.name ? title : `${title} · ${site.name}`;
     </script>
     <meta name="generator" content={Astro.generator} />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={ogLocale[lang]} />
-    <meta name="twitter:card" content="summary" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+    <slot name="head" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

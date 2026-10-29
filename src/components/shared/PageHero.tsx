@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
+import { useSpotlight } from "@/components/effects/useSpotlight";
 import styles from "./PageHero.module.css";
 
 type Props = {
@@ -14,11 +15,15 @@ type Props = {
 /**
  * Hero de página interior con la gota degradada (Gradient-11) a la derecha.
  * Corresponde a los frames 45:1680 (Quiénes somos) y 45:1853 (Nuestros tips).
+ * La gota actúa de reflector y sigue al ratón (requiere `client:load` en la página).
  */
 export default function PageHero({ color, title, kicker, text }: Props) {
+  const dropRef = useRef<HTMLImageElement>(null);
+  useSpotlight(dropRef);
+
   return (
     <section className={`${styles.hero} ${styles[color]}`}>
-      <img src="/assets/img/gradient-11.png" alt="" className={styles.drop} width={727} height={764} aria-hidden="true" />
+      <img ref={dropRef} src="/assets/img/gradient-11.png" alt="" className={styles.drop} width={727} height={764} aria-hidden="true" />
       <div className={`container ${styles.inner}`}>
         {kicker ? (
           <h1 className={styles.logoTitle}>

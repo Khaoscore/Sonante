@@ -1,0 +1,446 @@
+/* =========================================================
+   Gráficas y esquemas dentro de los artículos.
+   El HTML lo genera src/lib/graficas.mjs. Los selectores
+   empiezan por figure.g para ganarle a los estilos del
+   cuerpo del artículo (párrafos, listas, negritas).
+   ========================================================= */
+
+figure.g {
+  --g-panel: #032b26;
+  --g-line: rgba(248, 255, 229, 0.12);
+  --g-muted: rgba(248, 255, 229, 0.72);
+  margin: 2.4em 0;
+  padding: clamp(20px, 3.5vw, 32px);
+  border: 1px solid var(--g-line);
+  border-radius: var(--r-md);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(182, 16, 117, 0.18), transparent 45%),
+    var(--g-panel);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  container-type: inline-size;
+}
+
+figure.g p,
+figure.g ul,
+figure.g ol,
+figure.g dl,
+figure.g dd {
+  margin: 0;
+  padding: 0;
+}
+figure.g ul,
+figure.g ol {
+  list-style: none;
+}
+figure.g li {
+  margin: 0;
+  padding: 0;
+}
+figure.g li::marker {
+  content: none;
+}
+figure.g strong {
+  background: none;
+  color: var(--c-amarillo);
+}
+
+/* ---------- Cabecera y pie ---------- */
+figure.g .g__head {
+  margin-bottom: 22px;
+}
+figure.g .g__kicker {
+  display: inline-block;
+  margin-bottom: 6px;
+  font-size: var(--fs-note);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-verde);
+}
+figure.g .g__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.25rem, 1rem + 0.8vw, 1.625rem);
+  line-height: 1.15;
+  color: var(--c-blanco);
+  text-wrap: balance;
+}
+figure.g .g__foot {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--g-line);
+}
+figure.g .g__caption {
+  color: var(--c-bitter-lime-50);
+  text-wrap: pretty;
+}
+figure.g .g__source {
+  margin-top: 6px;
+  font-size: var(--fs-note);
+  color: var(--g-muted);
+}
+
+/* ---------- Barras ---------- */
+figure.g .g__bars {
+  display: grid;
+  gap: 14px;
+}
+figure.g .g__bar {
+  display: grid;
+  grid-template-columns: minmax(0, 34%) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+}
+figure.g .g__bar-label {
+  font-weight: 700;
+  color: var(--c-bitter-lime-50);
+}
+figure.g .g__bar-track {
+  height: 14px;
+  border-radius: var(--r-pill);
+  background: rgba(248, 255, 229, 0.08);
+  overflow: hidden;
+}
+figure.g .g__bar-fill {
+  display: block;
+  width: calc(var(--v) * 100%);
+  height: 100%;
+  border-radius: inherit;
+  background: rgba(255, 209, 72, 0.55);
+  transform-origin: 0 50%;
+}
+figure.g .g__bar.is-highlight .g__bar-fill {
+  background: var(--c-amarillo);
+}
+figure.g .g__bar-value {
+  min-width: 4.5ch;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: var(--c-amarillo);
+}
+
+@container (max-width: 460px) {
+  figure.g .g__bar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 12px;
+  }
+  figure.g .g__bar-label {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Las barras crecen al entrar en pantalla (solo navegadores con view-timeline) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    figure.g .g__bar-fill {
+      animation: g-grow linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 35%;
+    }
+  }
+}
+@keyframes g-grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* ---------- Cifras ---------- */
+figure.g .g__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+figure.g .g__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px;
+  border-radius: var(--r-sm);
+  background: rgba(0, 33, 29, 0.6);
+}
+figure.g .g__stat dd {
+  order: -1;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2rem, 1.4rem + 2vw, 2.75rem);
+  line-height: 1;
+  color: var(--c-amarillo);
+}
+figure.g .g__stat dt {
+  color: var(--c-bitter-lime-50);
+}
+
+/* ---------- Pasos ---------- */
+figure.g .g__flow {
+  display: grid;
+  gap: 0;
+}
+figure.g .g__step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  column-gap: 16px;
+  padding-bottom: 20px;
+}
+figure.g .g__step:last-child {
+  padding-bottom: 0;
+}
+/* Línea que une los números */
+figure.g .g__step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 19px;
+  top: 40px;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(var(--c-magenta), rgba(182, 16, 117, 0.25));
+}
+figure.g .g__step-num {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--c-amarillo);
+  background: var(--c-magenta);
+  font-weight: 700;
+  color: var(--c-amarillo);
+}
+figure.g .g__step-title {
+  padding-top: 8px;
+  font-weight: 700;
+  font-size: 1.0625rem;
+  color: var(--c-blanco);
+}
+figure.g .g__step-text {
+  margin-top: 4px;
+  color: var(--g-muted);
+}
+
+/* Con 2–4 pasos y espacio suficiente, en horizontal */
+@container (min-width: 600px) {
+  figure.g .g__flow[data-count="2"],
+  figure.g .g__flow[data-count="3"],
+  figure.g .g__flow[data-count="4"] {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  figure.g .g__flow[data-count="2"] .g__step,
+  figure.g .g__flow[data-count="3"] .g__step,
+  figure.g .g__flow[data-count="4"] .g__step {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    padding-bottom: 0;
+  }
+  figure.g .g__flow[data-count="2"] .g__step-num,
+  figure.g .g__flow[data-count="3"] .g__step-num,
+  figure.g .g__flow[data-count="4"] .g__step-num {
+    grid-row: auto;
+    margin-bottom: 4px;
+  }
+  figure.g .g__flow[data-count="2"] .g__step:not(:last-child)::before,
+  figure.g .g__flow[data-count="3"] .g__step:not(:last-child)::before,
+  figure.g .g__flow[data-count="4"] .g__step:not(:last-child)::before {
+    left: 48px;
+    right: -8px;
+    top: 19px;
+    bottom: auto;
+    width: auto;
+    height: 2px;
+    background: linear-gradient(90deg, var(--c-magenta), rgba(182, 16, 117, 0.25));
+  }
+}
+
+/* ---------- Ideas en paralelo ---------- */
+figure.g .g__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+figure.g .g__card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px;
+  border-radius: var(--r-sm);
+  border-top: 3px solid var(--c-amarillo);
+  background: rgba(0, 33, 29, 0.6);
+}
+figure.g .g__card-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--c-amarillo);
+}
+figure.g .g__card-title {
+  font-weight: 700;
+  font-size: 1.0625rem;
+  line-height: 1.25;
+  color: var(--c-blanco);
+}
+figure.g .g__card-text {
+  color: var(--g-muted);
+}
+
+/* ---------- Matriz 2×2 ---------- */
+figure.g .g__matrix {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 10px;
+}
+figure.g .g__axis {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-note);
+  color: var(--g-muted);
+}
+figure.g .g__axis strong {
+  font-size: 0.8125rem;
+  color: var(--c-verde);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+figure.g .g__axis--y {
+  grid-row: 1;
+  grid-column: 1;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+figure.g .g__axis--x {
+  grid-row: 2;
+  grid-column: 2;
+}
+figure.g .g__quads {
+  grid-row: 1;
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+figure.g .g__quad {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border-radius: var(--r-sm);
+  background: rgba(0, 33, 29, 0.6);
+  border: 1px solid transparent;
+}
+figure.g .g__quad.is-highlight {
+  border-color: var(--c-amarillo);
+  background: rgba(255, 209, 72, 0.1);
+}
+figure.g .g__quad-title {
+  font-weight: 700;
+  color: var(--c-blanco);
+}
+figure.g .g__quad-text {
+  font-size: 0.875rem;
+  color: var(--g-muted);
+}
+
+/* ---------- Sistema (centro y partes) ---------- */
+figure.g .g__hub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+figure.g .g__hub-center {
+  position: relative;
+  z-index: 1;
+  padding: 12px 22px;
+  border-radius: var(--r-pill);
+  background: var(--c-magenta);
+  border: 2px solid var(--c-amarillo);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  text-align: center;
+  color: var(--c-amarillo);
+}
+figure.g .g__hub-items {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  width: 100%;
+  margin-top: 28px;
+}
+/* Línea que baja del centro */
+figure.g .g__hub-items::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -28px;
+  height: 14px;
+  width: 2px;
+  background: var(--c-amarillo);
+}
+figure.g .g__hub-item {
+  position: relative;
+  padding: 18px 16px 16px;
+  border-radius: var(--r-sm);
+  border-top: 2px solid var(--c-amarillo);
+  background: rgba(0, 33, 29, 0.6);
+}
+figure.g .g__hub-title {
+  font-weight: 700;
+  color: var(--c-blanco);
+}
+figure.g .g__hub-text {
+  margin-top: 4px;
+  color: var(--g-muted);
+}
+
+/* Con 4 elementos, cuadrícula 2×2 para no dejar uno suelto */
+@container (min-width: 420px) {
+  figure.g .g__cards[data-count="4"],
+  figure.g .g__hub-items[data-count="4"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Fotos de uso libre ---------- */
+figure.g-photo {
+  margin: 2.4em 0;
+}
+figure.g-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border-radius: var(--r-md);
+  background: #032b26;
+}
+figure.g-photo figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 12px;
+  padding-left: 14px;
+  border-left: 3px solid var(--c-magenta);
+  line-height: 1.45;
+}
+figure.g-photo .g-photo__caption {
+  font-size: 0.9375rem;
+  color: var(--c-bitter-lime-50);
+}
+figure.g-photo .g-photo__credit {
+  font-size: var(--fs-note);
+  color: rgba(248, 255, 229, 0.72);
+}
+figure.g-photo .g-photo__credit a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+}
+figure.g-photo .g-photo__credit a:hover {
+  color: var(--c-amarillo);
+}

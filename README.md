@@ -26,6 +26,9 @@ src/
   styles/tokens.css  design tokens (colores, tipografía, layout) de la librería
   styles/global.css  reset, @font-face, utilidades tipográficas
   layouts/BaseLayout.astro
+  layouts/ArticleLayout.astro  plantilla de artículo del blog
+  content.config.ts  colección `blog` (lee blog-sonante/articulos/*.md)
+  lib/blog.ts        orden, portadas y relacionados de los artículos
   data/              contenido editable (site, servicios, casos, team, tips)
   components/
     ui/              Button, Icons
@@ -34,8 +37,10 @@ src/
     shared/          PageHero, InstagramPost, ContactForm (isla), ContactSection
     nosotros/        TeamRows
     casos/           CasosHero, CaseSection, StatsBand, Testimonials (isla), BigStats
-    tips/            ProjectCard, TipsGrid, SocialWall, XPost, TweetCard
-  pages/             index, quienes-somos, casos-de-exito, nuestros-tips, contacto
+    tips/            ProjectCard, TipsGrid, SocialWall, XPost, TweetCard,
+                     ArticleHero, ArticleAside, RelatedTips, ArticleBody.module.css
+  pages/             index, quienes-somos, casos-de-exito, nuestros-tips, contacto,
+                     nuestros-tips/[slug] (una página por artículo)
 ```
 
 Los componentes React se renderizan en el servidor; solo se hidratan los que
@@ -174,11 +179,53 @@ mensaje prellenado hacia `sonanteagencia@gmail.com`. Para enviar a un servicio
 (Formspree, Getform, webhook de n8n…), copia `.env.example` a `.env` y define
 `PUBLIC_FORM_ENDPOINT` con la URL del endpoint que acepte `multipart/form-data`.
 
+## Blog ("Nuestros tips")
+
+Los artículos viven en `blog-sonante/articulos/*.md` (una carpeta fuera de `src/`
+para que el equipo editorial la maneje sin tocar código). Astro los carga como la
+colección `blog` (`src/content.config.ts`) y genera:
+
+- `/nuestros-tips/`: la rejilla; el primer artículo va como tarjeta destacada.
+  `/en/our-tips/` muestra los mismos artículos con un aviso de que están en español.
+- `/nuestros-tips/<slug>/`: cada artículo con la plantilla `ArticleLayout.astro`
+  (cabecera magenta, índice lateral, etiquetas, compartir y "Sigue leyendo").
+
+Cómo se publica:
+
+- **Nuevo artículo**: agregar el `.md` con el frontmatter de
+  `blog-sonante/_criterios-de-edicion.md`. Si falta un campo o la categoría no es
+  una de las cuatro, el build falla y dice qué corregir.
+- **Orden**: con `publishDate`, del más reciente al más antiguo; sin fecha, por el
+  número del archivo (`01-…`, `02-…`).
+- **Estado**: `listo` y `revisar` se publican; `incompleto` solo se ve en
+  `npm run dev` (con un aviso de borrador) y no entra en el build.
+- **Portadas**: sin foto, cada artículo tiene una portada generada
+  (`src/components/tips/ArticleCover.tsx` + `src/lib/cover.ts`): fondo oscuro con
+  brillos de la paleta de su categoría, el símbolo "S" en un círculo y un destello;
+  la variación sale del slug, así que es estable. La misma portada se renderiza como
+  imagen para redes en `/og/<slug>.jpg` (endpoint con sharp). Para usar una foto,
+  exportarla a `public/images/blog/<slug>.jpg` (también sirve `.webp`, `.png` o
+  `.avif`) y reemplaza a la generada. El campo `cover.credit` se publica como pie de
+  foto: dejarlo con el crédito final, sin notas internas.
+- **Gráficas**: cada artículo las define en su frontmatter, bajo `graficas:`, y marca
+  dónde va cada una con una línea propia `<figure data-grafica="id"></figure>`.
+  Tipos: `bars`, `stats`, `flow`, `cards`, `matrix`, `hub` y `foto` (el esquema está en
+  `src/content.config.ts`, el HTML lo genera `src/lib/graficas.mjs` y los estilos
+  están en `src/components/tips/ArticleGraphics.css`). Usan solo datos del propio
+  artículo (las cifras pendientes se graficaron cuando el equipo las confirmó, el
+  29 de octubre de 2026). Las fotos son de uso libre (Wikimedia Commons), están en
+  `public/images/blog/contenido/` y llevan autor, licencia y enlace en su pie.
+- Los comentarios HTML (`<!-- PENDIENTE … -->`) no llegan a la web, y un
+  encabezado final vacío (p. ej. "Referencias" sin fuentes) no se muestra.
+  Los plugins están en `src/lib/markdown-plugins.mjs` (API de Sätteri, el
+  procesador de Markdown de Astro 7).
+- Al agregar la colección por primera vez, reiniciar `npm run dev`.
+
 ## Pendientes de contenido (heredados del diseño)
 
 - **Paola Pabón**: en Figma su bloque repite los textos y cifras de Sergio Fajardo. Están marcados en `src/data/casos.ts`; reemplazar con la información real.
 - **Posts de la ruleta del home**: los de Luis E. Gómez (`ig-post-gomez.jpg`, `ig-avatar-gomez.png`) y Paola Pabón (`ig-post-pabon.jpg`, `ig-avatar-pabon.png`) son recortes provisionales de las fotos de la página de casos, con textos redactados a partir de esa página. Reemplazarlos por los posts reales que elija el cliente.
-- **Nuestros tips**: tarjetas con título y etiquetas genéricas y bloque amarillo en lugar de imagen. Editar `src/data/tips.ts` (admite `image`).
+- **Nuestros tips**: los artículos ya son reales, pero faltan las portadas y el artículo 02 está incompleto. Ver `blog-sonante/README.md` para los pendientes editoriales.
 - **Redes sociales**: las URL de `src/data/site.ts` son perfiles genéricos; falta el número de WhatsApp.
 - **Testimonios**: solo existe el de Sergio Fajardo; el componente admite varios.
 - **Traducción**: la versión en inglés fue redactada a partir del español del diseño; conviene una revisión final del cliente.
