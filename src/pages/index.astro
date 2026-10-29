@@ -19,7 +19,7 @@ const { meta } = home[lang];
   <!-- El recurso gráfico "S" degradado (1802×2383) atraviesa hero, cinta, intro y servicios -->
   <div class="home-top">
     <HomeHero lang={lang}>
-      <HeroCarousel client:load />
+      <HeroCarousel client:load lang={lang} />
     </HomeHero>
     <IntroSequence client:load lang={lang} />
     <Servicios client:visible lang={lang} />

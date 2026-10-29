@@ -9,6 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "reels": "node scripts/reels.mjs",
     "astro": "astro"
   },
   "dependencies": {

@@ -80,17 +80,65 @@ en inglés; la correspondencia está en `src/i18n/index.ts`:
 ## Carrusel del hero
 
 `src/components/home/HeroCarousel.tsx` (isla con `client:load`, insertada como hijo de
-`HomeHero` desde las páginas de inicio). Las 13 piezas recorren la fila en bucle y su
+`HomeHero` desde las páginas de inicio). Las piezas recorren la fila en bucle y su
 forma se calcula según la posición en pantalla: grandes y giradas en perspectiva en los
 bordes, planas y más pequeñas en el centro, como en Figma.
 
 - La separación visible entre piezas vecinas es siempre la misma (`GAP_RATIO`, 25 px a 1440):
   cada pieza se coloca resolviendo su posición contra el borde proyectado de la anterior.
-- Rotación automática lenta (`AUTO_SPEED`, px/s) que se pausa mientras se arrastra.
-- Arrastre con ratón y táctil (Pointer Events) con inercia al soltar (`FRICTION`).
+- Rotación automática lenta (`AUTO_SPEED`, px/s) que se detiene mientras se arrastra, mientras
+  el mouse está sobre una pieza, con foco del teclado dentro o mientras un video tiene sonido.
+- Arrastre con ratón y táctil (Pointer Events) con inercia al soltar (`FRICTION`). Un gesto
+  de menos de `DRAG_THRESHOLD` px es un clic (abre el video); más, es arrastre.
 - `MAX_ROTATION` (giro en los bordes) y `MIN_SCALE` (tamaño en el centro) ajustan la forma.
-- Con `prefers-reduced-motion` no gira solo, pero sigue pudiendo arrastrarse.
-- Las fotos se listan en `PHOTOS` (`public/assets/img/hero/`).
+- Con `prefers-reduced-motion` no gira solo ni reproduce los bucles, pero sigue pudiendo
+  arrastrarse y activar el sonido.
+- Si hay pocas piezas, la lista se repite hasta `MIN_ITEMS` para cubrir pantallas anchas.
+
+### Reels y TikToks del hero
+
+Las piezas son videos de clientes (el primero de la lista arranca centrado), como en la
+galería de Elexa: se reproducen en bucle y sin sonido mientras están en pantalla, el botón
+redondo les da sonido (y calla a los demás), al pasar el mouse se difuminan bajo un velo
+verde con "Ver en Instagram / TikTok" y toda la pieza enlaza a la publicación. Arriba a la
+izquierda muestran las visualizaciones y los me gusta (`likes`).
+
+Los videos se listan en `src/data/hero-reels.json`, en el orden en que aparecen:
+
+```json
+[
+  { "id": "fajardo-saben", "url": "https://www.instagram.com/reel/XXXX/", "views": 1250000, "likes": 98000 },
+  { "id": "gomez-gobiernos", "url": "https://www.tiktok.com/@cuenta/video/123", "views": null }
+]
+```
+
+y se descargan con `npm run reels` (requiere [yt-dlp](https://github.com/yt-dlp/yt-dlp) y
+[ffmpeg](https://ffmpeg.org) en el PATH). Por cada `id` deja en `public/assets/video/hero/`,
+en WebM (VP9 a dos pasadas + Opus, ~40 % más liviano que el MP4 equivalente):
+
+| Archivo          | Qué es                                                        |
+| ---------------- | ------------------------------------------------------------- |
+| `<id>-loop.webm` | primeros 10 s sin audio (≤ 440 KB): el bucle que se ve siempre |
+| `<id>.webm`      | video completo con audio: sólo se carga al activar el sonido  |
+| `<id>.webp`      | póster (primer cuadro), visible mientras carga                |
+
+- Los bucles arrancan cuando la página terminó de cargar (antes se ven los pósters) y sólo
+  los de las piezas visibles; fuera de pantalla se pausan.
+- Safari lee WebM desde macOS 11.3 / iOS 17.4: en equipos más viejos se ve el póster fijo.
+- Codificar en VP9 es lento (unos 3 s por segundo de video): `npm run reels -- --force`
+  con los 7 videos tarda alrededor de 20 minutos.
+
+- `views: null` se completa solo con lo que reporta la plataforma. TikTok lo da; **Instagram
+  no lo entrega sin sesión**, así que en los reels hay que escribir la cifra a mano (o correr
+  `npm run reels -- --cookies-from-browser chrome`). Sin cifra no se muestra la etiqueta.
+- `npm run reels -- --views` actualiza las visualizaciones; `-- --force` vuelve a descargar.
+- Si una plataforma no deja descargar (TikTok a veces responde con una verificación
+  anti-bots), deja el archivo original en `videos-originales/<id>.mp4` (carpeta fuera de git)
+  y vuelve a correr `npm run reels`: usa ese archivo en lugar de descargar. En ese caso la
+  cifra de visualizaciones va a mano.
+- El script marca `"ready": true` los videos procesados; el carrusel sólo muestra esos.
+- Mientras la lista esté vacía, el carrusel muestra las capturas fijas de
+  `public/assets/img/hero/`.
 
 ## Muro de fotos de "Lo que nos hace distintos" (DriftWall)
 

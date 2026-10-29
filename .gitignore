@@ -33,6 +33,9 @@ Thumbs.db
 # visual QA screenshots
 page-w*.png
 
+# original hero videos (npm run reels publishes the optimized ones in public/)
+videos-originales/
+
 # licensed fonts are not committed
 public/fonts/*.woff
 public/fonts/*.woff2

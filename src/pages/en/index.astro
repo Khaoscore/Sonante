@@ -18,7 +18,7 @@ const { meta } = home[lang];
 <BaseLayout title={meta.title} description={meta.description} lang={lang}>
   <div class="home-top">
     <HomeHero lang={lang}>
-      <HeroCarousel client:load />
+      <HeroCarousel client:load lang={lang} />
     </HomeHero>
     <IntroSequence client:load lang={lang} />
     <Servicios client:visible lang={lang} />
