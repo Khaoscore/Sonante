@@ -202,7 +202,7 @@ export default function Nav({ currentPath, lang = "es" }: Props) {
       <div className="container">
         <nav className={styles.nav} aria-label={t.nav.ariaLabel}>
           <a href={pathFor("home", lang)} className={styles.logo} aria-label={t.nav.logoLabel} onMouseEnter={spinLogo}>
-            <SonanteSymbol ref={symbolRef} className={styles.symbol} accent="var(--c-verde)" />
+            <SonanteSymbol ref={symbolRef} className={styles.symbol} accent="var(--nav-logo-accent, var(--c-verde))" />
           </a>
 
           <ul ref={listRef} id={panelId} className={[styles.pill, open && styles.pillOpen, fx && styles.fx].filter(Boolean).join(" ")}>

@@ -1,6 +1,9 @@
 .section {
   padding-top: clamp(96px, 15vw, 217px);
   padding-bottom: clamp(96px, 16vw, 230px);
+  /* La tarjeta que se manda al fondo sale volando por un lado: sin este recorte
+     ensancha la página en mobile y el menú fijo se estira y se corre */
+  overflow-x: clip;
 }
 
 .inner {
@@ -10,48 +13,42 @@
   gap: 32px;
 }
 
-.stack {
+:global(body) {
+  background: #ffffff; /* el color que quieras */
+} 
+
+/* Contenedor de la pila: las copias invisibles (sizer) le dan el alto de la
+   tarjeta más larga; Stack se superpone encima */
+.stackWrap {
   position: relative;
   width: 100%;
   max-width: 793px;
+}
+
+.sizer {
+  display: grid;
+  visibility: hidden;
+  pointer-events: none;
+}
+.sizer > * {
+  grid-area: 1 / 1;
+}
+
+.stack {
+  position: absolute;
+  inset: 0;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   gap: 26px;
+  height: 100%;
+  margin: 0;
   padding: 34px;
   border-radius: 18px;
-  color: var(--c-casi-negro);
-}
-
-/* Tarjeta trasera: naranja, desplazada +12 px a la derecha y −13 px arriba */
-.back {
-  position: absolute;
-  inset: 0;
-  transform: translate(12px, -13px);
-  background: var(--c-naranja);
-  overflow: hidden;
-}
-.back .quote {
-  opacity: 0;
-}
-
-.front {
-  position: relative;
-  background: var(--c-verde);
-  animation: pop var(--t-med) var(--ease);
-}
-
-@keyframes pop {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+  background: var(--card-bg);
+  color: var(--card-text);
 }
 
 .quote {
@@ -76,7 +73,7 @@
 }
 
 .name {
-  color: var(--c-amarillo);
+  color: var(--card-name);
   font-size: var(--fs-body);
   line-height: 20px;
 }
@@ -88,18 +85,16 @@
 
 .controls {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  gap: 16px;
-  color: var(--c-blanco);
+  gap: 8px 16px;
+  color: var(--c-casi-negro);
+  text-align: center;
 }
-.controls button {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--c-verde-oscuro);
-  color: var(--c-verde);
+.hint {
+  font-size: var(--fs-note);
+  opacity: 0.75;
 }
 .counter {
   font-weight: 700;

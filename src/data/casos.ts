@@ -18,6 +18,8 @@ export type Caso = {
   image: string;
   /** Posición del recorte de la foto de fondo */
   imagePosition?: string;
+  /** Desplazamiento vertical (%) de la foto en el marco cerrado de la animación */
+  frameShiftY?: number;
   objetivo: string;
   hicimos: string;
   stats: {
@@ -35,17 +37,25 @@ export type Testimonio = {
   name: string;
   role: string;
   avatar: string;
+  /** Colores de la tarjeta: fondo, texto y nombre */
+  bg: string;
+  textColor: string;
+  nameColor: string;
 };
 
 export type CasosContent = {
   meta: { title: string; description: string };
   hero: { title: string; text: string };
-  labels: { goal: string; whatWeDid: string; statsBand: string; testimonials: string; results: string };
+  labels: { goal: string; whatWeDid: string; statsBand: string; testimonials: string; testimonialsHint: string; results: string };
   casos: Caso[];
   statsBand: Stat[];
   bigStats: Stat[];
   testimonios: Testimonio[];
 };
+
+/** Colores de las tarjetas de testimonios */
+const fajardoCard = { bg: "#E94B24", textColor: "#ffffff", nameColor: "var(--c-amarillo)" };
+const pabonCard = { bg: "#FFD148", textColor: "#000000", nameColor: "#E94B24" };
 
 /** Parte visual, común a todos los idiomas */
 const visual = {
@@ -64,6 +74,7 @@ const visual = {
     name: "Luis Ernesto Gómez",
     image: "/assets/img/caso-gomez.jpg",
     imagePosition: "center 20%",
+    frameShiftY: 22,
   },
   pabon: {
     id: "pabon",
@@ -110,7 +121,7 @@ export const casosContent: Record<Locale, CasosContent> = {
   es: {
     meta: { title: "Casos de éxito", description: heroText.es.slice(0, 155) },
     hero: { title: "Proyectos que nos enorgullecen", text: heroText.es },
-    labels: { goal: "Objetivo", whatWeDid: "Lo que hicimos", statsBand: "Campañas acompañadas", testimonials: "Testimonios", results: "Resultados" },
+    labels: { goal: "Objetivo", whatWeDid: "Lo que hicimos", statsBand: "Campañas acompañadas", testimonials: "Testimonios", testimonialsHint: "Arrastra la tarjeta o haz clic para ver el siguiente testimonio", results: "Resultados" },
     casos: [
       { ...visual.fajardo, tag: "Campaña presidencial", role: "Excandidato presidencial en Colombia", ...fajardoEs },
       {
@@ -146,13 +157,22 @@ export const casosContent: Record<Locale, CasosContent> = {
         name: "Sergio Fajardo",
         role: "Excandidato presidencial",
         avatar: "/assets/img/caso-fajardo.jpg",
+        ...fajardoCard,
+      },
+      {
+        quote:
+          "Cuando empezamos a trabajar con Sonante, mi TikTok tenía menos de 5.000 seguidores y hoy supera los 123.000. Pero lo más importante no fue solo crecer. Cambiamos nuestra forma de comunicar. Dejamos de pensar las redes como un lugar donde simplemente mostrábamos lo que hacíamos y empezamos a producir pensando realmente en los lenguajes y formatos digitales. Sonante se integró con nuestro equipo, lo capacitó y nos ayudó a construir una nueva manera de trabajar. Cuatro años después, esa forma de comunicar ya hace parte de nuestro día a día.",
+        name: "Paola Pabón",
+        role: "Prefecta de Pichincha, Ecuador",
+        avatar: "/assets/img/ig-post-pabon.jpg",
+        ...pabonCard,
       },
     ],
   },
   en: {
     meta: { title: "Success stories", description: heroText.en.slice(0, 155) },
     hero: { title: "Projects we're proud of", text: heroText.en },
-    labels: { goal: "Goal", whatWeDid: "What we did", statsBand: "Campaigns supported", testimonials: "Testimonials", results: "Results" },
+    labels: { goal: "Goal", whatWeDid: "What we did", statsBand: "Campaigns supported", testimonials: "Testimonials", testimonialsHint: "Drag the card or click to see the next testimonial", results: "Results" },
     casos: [
       { ...visual.fajardo, tag: "Presidential campaign", role: "Former presidential candidate in Colombia", ...fajardoEn },
       {
@@ -188,6 +208,15 @@ export const casosContent: Record<Locale, CasosContent> = {
         name: "Sergio Fajardo",
         role: "Former presidential candidate",
         avatar: "/assets/img/caso-fajardo.jpg",
+        ...fajardoCard,
+      },
+      {
+        quote:
+          "When we started working with Sonante, my TikTok had fewer than 5,000 followers and today it has more than 123,000. But the most important thing wasn't just growing. We changed the way we communicate. We stopped thinking of social media as a place where we simply showed what we were doing and started producing with digital languages and formats truly in mind. Sonante became part of our team, trained it and helped us build a new way of working. Four years later, that way of communicating is part of our everyday work.",
+        name: "Paola Pabón",
+        role: "Prefect of Pichincha, Ecuador",
+        avatar: "/assets/img/ig-post-pabon.jpg",
+        ...pabonCard,
       },
     ],
   },

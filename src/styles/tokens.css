@@ -80,3 +80,13 @@
   --t-med: 360ms;
   --t-slow: 700ms;
 }
+
+/* Escala Mobile (frame 383:3277, 390 px de ancho) */
+@media (max-width: 560px) {
+  :root {
+    --fs-hero: 2.125rem; /* "Sabemos de redes…": 3 líneas a 390 px */
+    --fs-h2: 2.75rem; /* "Casos de éxito", "Así trabajamos", "Hablemos de tu proyecto" */
+    --fs-medium: 1rem; /* textos bajo los títulos de los heros */
+    --gutter: 1.5rem; /* márgenes laterales de 24 px */
+  }
+}

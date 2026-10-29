@@ -100,6 +100,43 @@
   transform: scale(1.04);
 }
 
+/* Tinte de color que la foto lleva siempre */
+.tint {
+  position: absolute;
+  inset: 0;
+  background: var(--tint);
+  transition: opacity var(--t-med) var(--ease);
+}
+.cardActive .tint {
+  opacity: 0;
+}
+
+/* Nombre del servicio sobre la tarjeta (estado base) */
+.label {
+  position: absolute;
+  left: 50%;
+  width: 86%;
+  transform: translateX(-50%);
+  color: var(--c-blanco);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 0.8rem + 0.9vw, 1.6rem);
+  line-height: 1.15;
+  text-wrap: balance;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  transition: opacity var(--t-med) var(--ease);
+}
+.labelTop {
+  top: 12%;
+}
+.labelBottom {
+  bottom: 12%;
+}
+.cardActive .label {
+  opacity: 0;
+}
+
 .overlay {
   position: absolute;
   inset: 0;
@@ -166,11 +203,40 @@
     padding-block: 56px;
     gap: 28px;
   }
-  .card {
-    flex: 1 1 100%;
-    height: 240px;
-  }
+  /* Mobile (frame 383:3277): tarjetas altas con el nombre grande */
+  .card,
   .cardActive {
-    height: 340px;
+    flex: 1 1 100%;
+    height: 430px;
+  }
+  .label {
+    font-size: 1.625rem;
+  }
+  .labelTop {
+    top: 14%;
+  }
+  .labelBottom {
+    bottom: 12%;
+  }
+}
+
+/* Título: 3D en desktop, plano en mobile */
+.plainTitle {
+  display: none;
+  color: var(--c-blanco);
+}
+@media (max-width: 560px) {
+  .head {
+    min-height: 0;
+  }
+  .depthTitle {
+    margin-bottom: 0;
+  }
+  .depthWrap {
+    display: none;
+  }
+  .plainTitle {
+    display: block;
+    font-weight: 700;
   }
 }

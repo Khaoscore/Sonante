@@ -39,22 +39,26 @@ export default function Servicios({ lang = "es" }: Props) {
             </h2>
           ) : (
             <h2 id="servicios-title" className={styles.depthTitle} key="base">
-              <DepthText
-                text={heading}
-                layers={34}
-                depth={2.4}
-                faceColor="#ffffff"
-                depthColor="#0bb730"
-                tilt={7.5}
-                pointerTracking
-                smoothing={0.14}
-                perspective={900}
-                autoOrbit
-                orbitSpeed={0.35}
-                fontSize="clamp(3.5rem, 1.5rem + 8vw, 8.5rem)"
-                fontWeight={800}
-                shadow
-              />
+              {/* En mobile se muestra el título plano (frame 383:3277) en vez del 3D */}
+              <span className={`t-h1 ${styles.plainTitle}`}>{heading}</span>
+              <span className={styles.depthWrap}>
+                <DepthText
+                  text={heading}
+                  layers={34}
+                  depth={2.4}
+                  faceColor="#ffffff"
+                  depthColor="#0bb730"
+                  tilt={7.5}
+                  pointerTracking
+                  smoothing={0.14}
+                  perspective={900}
+                  autoOrbit
+                  orbitSpeed={0.35}
+                  fontSize="clamp(3.5rem, 1.5rem + 8vw, 8.5rem)"
+                  fontWeight={800}
+                  shadow
+                />
+              </span>
             </h2>
           )}
         </div>
@@ -62,7 +66,7 @@ export default function Servicios({ lang = "es" }: Props) {
         <ul className={styles.cards} onMouseLeave={() => setActive(null)}>
           {items.map((s, i) => {
             const isActive = active === i;
-            const cardStyle = { "--overlay": s.overlay, "--text": s.textColor } as CSSProperties;
+            const cardStyle = { "--overlay": s.overlay, "--tint": s.tint, "--text": s.textColor } as CSSProperties;
             return (
               <li key={s.id} className={`${styles.card} ${isActive ? styles.cardActive : ""}`} style={cardStyle}>
                 <button
@@ -74,8 +78,13 @@ export default function Servicios({ lang = "es" }: Props) {
                   onFocus={() => setActive(i)}
                   onClick={() => setActive(isActive ? null : i)}
                 >
-                  <img src={s.image} alt={s.alt} loading="lazy" decoding="async" />
+                  <img src={s.image} alt={s.alt} loading="lazy" decoding="async" style={{ objectPosition: s.imagePosition }} />
+                  <span className={styles.tint} aria-hidden="true" />
                   <span className={styles.overlay} aria-hidden="true" />
+                  {/* Nombre del servicio: arriba en las tarjetas impares, abajo en las pares */}
+                  <span className={`${styles.label} ${i % 2 ? styles.labelBottom : styles.labelTop}`} aria-hidden="true">
+                    {s.label}
+                  </span>
                   <span className={`t-medium ${styles.text}`}>{s.text}</span>
                 </button>
               </li>

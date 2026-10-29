@@ -1,102 +1,123 @@
 .section {
-  --casos-muted: var(--c-verde-oscuro);
-  --casos-turn: 700ms;
+  --casos-turn: 600ms;
+  /* Ancho del post central; los laterales se escalan a partir de él */
+  --casos-w: min(420px, 78vw);
+  --casos-side-scale: 0.86;
   position: relative;
   padding-top: clamp(96px, 13.2vw, 190px);
-  /* Los posts que salen giran fuera de su columna */
+  /* Los posts laterales pueden salir del contenedor en pantallas angostas */
   overflow-x: clip;
-}
-
-.inner {
-  display: grid;
-  grid-template-columns: minmax(0, 590px) minmax(0, 508px);
-  justify-content: space-between;
-  align-items: center;
-  gap: 40px;
-}
-
-.left {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
 }
 
 .title {
   color: var(--c-blanco);
+  text-align: center;
+  margin-bottom: clamp(24px, 4vw, 48px);
 }
 
-/* ---------- Ruleta de nombres ----------
-   Caja de la rueda: el nombre activo queda al centro y los vecinos se curvan
-   hacia la izquierda, girados (≈ -18.65° / 22.43° en el Figma). */
-.names {
+.carousel {
   position: relative;
-  height: 440px;
-  margin-top: 8px;
+  outline: none;
+  touch-action: pan-y;
+  user-select: none;
 }
-
-.wheel {
-  font-family: var(--font-body);
-  border-radius: var(--r-md);
-  /* Los nombres que salen de la caja se desvanecen en vez de cortarse en seco */
-  mask-image: linear-gradient(to bottom, transparent 0, #000 8%, #000 92%, transparent 100%);
-}
-.wheel:focus-visible {
+.carousel:focus-visible {
   outline: 2px solid var(--c-amarillo);
-  outline-offset: 4px;
+  outline-offset: 8px;
+  border-radius: var(--r-md);
 }
 
-.wheel :global(.option-wheel__item),
-.wheel :global(.option-wheel__item--selected) {
+/* ---------- Usuario y descripción sobre el post activo ---------- */
+.headline {
+  width: var(--casos-w);
+  margin: 0 auto 16px;
+  min-height: 4.6em;
+}
+
+.headlineInner {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: casos-fade var(--casos-turn) var(--ease);
+}
+
+.handle {
+  color: var(--c-verde);
+  font-family: var(--font-social, var(--font-body));
   font-weight: 700;
-  line-height: 1.067;
+  font-size: clamp(1.05rem, 0.9rem + 0.6vw, 1.35rem);
+  line-height: 1.2;
+  overflow-wrap: anywhere;
 }
 
-.wheel :global(.option-wheel__item:not(.option-wheel__item--selected):hover) {
-  color: color-mix(in srgb, var(--c-amarillo) 55%, var(--casos-muted));
+.desc {
+  color: var(--c-blanco);
+  font-size: clamp(0.85rem, 0.8rem + 0.2vw, 0.95rem);
+  line-height: 1.35;
+}
+
+@keyframes casos-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ---------- Posts ----------
-   Los tres posts comparten celda. El activo está al frente; los demás esperan
-   girados sobre un pivote a su izquierda, como si colgaran de la misma rueda:
-   los de arriba en sentido antihorario y los de abajo en sentido horario. */
-.posts {
+   Los tres comparten celda. El activo está al centro y al frente; los demás
+   se desplazan a los lados, más pequeños y cubiertos por un velo verde. */
+.track {
+  position: relative;
   display: grid;
-  justify-self: end;
-  width: 100%;
-  max-width: 508px;
+  justify-items: center;
+  align-items: center;
 }
 
 .postLink {
   grid-area: 1 / 1;
-  align-self: center;
+  position: relative;
   display: block;
+  width: var(--casos-w);
   border-radius: 23px;
-  transform-origin: -70% 50%;
   transition:
     transform var(--casos-turn) var(--ease),
-    opacity calc(var(--casos-turn) * 0.6) var(--ease),
-    visibility 0s linear 0s;
+    opacity var(--casos-turn) var(--ease);
+}
+
+.postLink::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--c-casi-negro);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--casos-turn) var(--ease);
 }
 
 .postLink[data-offset="0"] {
-  z-index: 1;
+  z-index: 2;
 }
 
 .postLink[data-offset="-1"],
 .postLink[data-offset="1"] {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition:
-    transform var(--casos-turn) var(--ease),
-    opacity calc(var(--casos-turn) * 0.6) var(--ease),
-    visibility 0s linear var(--casos-turn);
+  z-index: 1;
+  cursor: pointer;
+}
+.postLink[data-offset="-1"]::after,
+.postLink[data-offset="1"]::after {
+  opacity: 0.55;
 }
 .postLink[data-offset="-1"] {
-  transform: rotate(-22deg) scale(0.92);
+  transform: translateX(calc(-100% - 24px)) scale(var(--casos-side-scale));
 }
 .postLink[data-offset="1"] {
-  transform: rotate(22deg) scale(0.92);
+  transform: translateX(calc(100% + 24px)) scale(var(--casos-side-scale));
 }
 
 .postLink:focus-visible {
@@ -105,45 +126,139 @@
 }
 
 .post {
-  transition:
-    transform var(--t-med) var(--ease),
-    box-shadow var(--t-med) var(--ease);
+  max-width: none;
+  transition: box-shadow var(--t-med) var(--ease);
 }
-.postLink:hover .post {
-  transform: translateY(-6px);
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.3);
+.postLink[data-offset="0"]:hover .post {
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
+}
+
+.post img {
+  -webkit-user-drag: none;
+}
+
+/* ---------- Flechas: círculos blancos sobre los posts laterales ---------- */
+.arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--c-blanco);
+  color: var(--c-casi-negro);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transform: translate(-50%, -50%);
+  transition: transform var(--t-fast) var(--ease);
+}
+.arrow:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+.arrow:focus-visible {
+  outline: 2px solid var(--c-amarillo);
+  outline-offset: 3px;
+}
+.arrow svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Centradas sobre cada post lateral */
+.prev {
+  left: calc(50% - var(--casos-w) - 24px);
+}
+.next {
+  left: calc(50% + var(--casos-w) + 24px);
+}
+
+/* ---------- Puntos (solo móvil) ---------- */
+.dots {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--c-blanco) 35%, transparent);
+  cursor: pointer;
+  transition:
+    background var(--t-fast) var(--ease),
+    width var(--t-fast) var(--ease);
+}
+.dot[aria-current="true"] {
+  width: 24px;
+  border-radius: 5px;
+  background: var(--c-verde);
 }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 1000px) {
-  .inner {
-    grid-template-columns: 1fr;
-    justify-items: center;
-  }
-  .left {
-    width: 100%;
-    max-width: 590px;
-  }
-  .names {
-    height: 360px;
-  }
-  .posts {
-    justify-self: center;
+@media (max-width: 1100px) {
+  .section {
+    --casos-w: min(360px, 78vw);
   }
 }
 
+@media (max-width: 760px) {
+  .section {
+    --casos-w: min(340px, calc(100vw - 72px));
+  }
+  /* En móvil solo se asoma el borde de los posts laterales */
+  .prev {
+    left: 22px;
+  }
+  .next {
+    left: calc(100% - 22px);
+  }
+  .dots {
+    display: flex;
+  }
+}
+
+/* Mobile (frame 383:3277): post compacto, los vecinos se asoman por los
+   bordes de la pantalla y las flechas van sobre los bordes del post */
 @media (max-width: 560px) {
   .section {
-    --casos-muted: #0a4a43;
+    --casos-w: min(310px, calc(100vw - 80px));
+    --casos-side-scale: 0.9;
   }
-  .names {
-    height: 280px;
+  .postLink[data-offset="-1"] {
+    transform: translateX(calc(-100% + 6px)) scale(var(--casos-side-scale));
+  }
+  .postLink[data-offset="1"] {
+    transform: translateX(calc(100% - 6px)) scale(var(--casos-side-scale));
+  }
+  /* El post se dibuja a escala (508 px de referencia → ~310 px) */
+  .post {
+    --s: 0.61 !important;
+  }
+  .prev {
+    left: calc(50% - var(--casos-w) / 2);
+  }
+  .next {
+    left: calc(50% + var(--casos-w) / 2);
+  }
+  .dots {
+    display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .postLink[data-offset="-1"],
-  .postLink[data-offset="1"] {
-    transform: none;
+  .section {
+    --casos-turn: 0ms;
   }
 }

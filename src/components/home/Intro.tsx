@@ -15,7 +15,7 @@ export default function Intro({ lang = "es" }: Props) {
     <section className={`container ${styles.intro}`} aria-label={ariaLabel}>
       {paragraphs.map((html, i) => (
         <div key={i} className={styles.row}>
-          <img src="/assets/img/gradient-03.png" alt="" width={68} height={71} className={styles.bullet} loading="eager" data-anim="bullet" />
+          <img src="/assets/img/gota-verde.svg" alt="" width={68} height={71} className={styles.bullet} loading="eager" data-anim="bullet" />
           <p className={`t-h4 ${styles.text}`} data-anim="text" dangerouslySetInnerHTML={{ __html: html }} />
         </div>
       ))}

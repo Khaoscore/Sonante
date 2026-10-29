@@ -3,7 +3,7 @@
   margin-top: clamp(96px, 15.9vw, 229px);
   padding-left: var(--gutter);
   overflow: hidden;
-  color: var(--c-amarillo);
+  color: var(--c-blanco);
 }
 
 /* Línea única sin salto; GSAP la desplaza en X con el scroll */
