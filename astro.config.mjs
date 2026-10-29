@@ -27,4 +27,9 @@ export default defineConfig({
   build: {
     inlineStylesheets: "auto",
   },
+  vite: {
+    // GSAP se carga con import() dinámico: pre-empaquetarlo al arrancar evita
+    // que el servidor de desarrollo lo sirva desactualizado tras instalar paquetes.
+    optimizeDeps: { include: ["gsap", "gsap/ScrollTrigger", "motion/react"] },
+  },
 });

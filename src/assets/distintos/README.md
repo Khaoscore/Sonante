@@ -9,11 +9,9 @@ Recomendaciones:
 
 - Formato apaisado, alrededor de **640 × 420 px** (proporción 3:2 aprox.). Las fichas
   recortan la imagen para llenar su caja, así que centra el sujeto.
-- Peso moderado (menos de 200 KB por foto); son muchas fichas en pantalla.
-- El nombre del archivo, sin extensión, se usa como título de la ficha.
+- No hace falta reducirlas a mano: al compilar se convierten en .webp de 800 px.
+- El nombre del archivo, sin extensión, se usa como texto alternativo de la foto.
   Los guiones se convierten en espacios: `equipo-en-campana.jpg` → "equipo en campana".
+  Los nombres de cámara (`DSCF0043.jpg`) se cambian por "Equipo de Sonante".
 - El orden es alfabético; usa prefijos numéricos (`01-`, `02-`…) para controlarlo.
 - Entre 10 y 20 fotos funciona bien; con menos, el muro repite las mismas fichas.
-
-Los archivos `placeholder-XX.jpg` son recortes del collage del diseño en Figma y
-están para que la sección no se vea vacía: bórralos cuando pongas las fotos reales.

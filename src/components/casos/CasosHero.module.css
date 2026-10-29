@@ -59,6 +59,19 @@
   }
 }
 
+/* Mobile (frame 383:3277): más aire arriba y el párrafo alineado a la izquierda */
+@media (max-width: 560px) {
+  .hero {
+    min-height: 0;
+    padding-top: 230px;
+    padding-bottom: 150px;
+  }
+  .text {
+    text-align: left;
+    text-wrap: pretty;
+  }
+}
+
 /* ---------- Giro con el scroll ----------
    El hero queda fijo (sticky) mientras se recorre el espaciador que lo sigue y,
    durante ese tramo y su salida, la "S" gira. Ocupa al menos toda la pantalla

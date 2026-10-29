@@ -51,9 +51,17 @@
 }
 
 @media (max-width: 560px) {
+  /* Mobile (frame 383:3277): tarjetas del carrusel grandes y botón a todo el ancho */
   .hero {
-    --hs: 0.55;
+    --hs: 0.78;
     padding-top: 130px;
     padding-bottom: 40px;
+  }
+  .cta {
+    width: 100%;
+    padding-inline: var(--gutter);
+  }
+  .cta > * {
+    width: 100%;
   }
 }

@@ -26,7 +26,7 @@
 
 .text em {
   font-style: normal;
-  color: var(--c-coral);
+  color: #11bd36; /* Verde oscurecido a partir de --c-verde (#0bb730) */
 }
 
 @media (max-width: 720px) {
@@ -38,5 +38,24 @@
     width: 44px;
     height: 46px;
     margin-top: 0;
+  }
+}
+
+/* Mobile (frame 383:3277): párrafos a 16 px y gotas más pequeñas */
+@media (max-width: 560px) {
+  .intro {
+    gap: 24px;
+  }
+  .row {
+    grid-template-columns: 40px 1fr;
+    gap: 20px;
+  }
+  .bullet {
+    width: 40px;
+    height: 42px;
+  }
+  .text {
+    font-size: 1rem;
+    line-height: 1.3;
   }
 }

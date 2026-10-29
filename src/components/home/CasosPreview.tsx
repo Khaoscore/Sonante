@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import InstagramPost from "@/components/shared/InstagramPost";
-import OptionWheel from "@/components/ui/OptionWheel";
 import { home } from "@/data/home";
 import { pathFor, type Locale } from "@/i18n";
 import { ui } from "@/i18n/ui";
@@ -8,106 +7,144 @@ import styles from "./CasosPreview.module.css";
 
 type Props = { lang?: Locale };
 
-/** Caso destacado al cargar (Sergio Fajardo, como en el Figma) */
+/** Caso destacado al cargar (Sergio Fajardo, al centro) */
 const DEFAULT_CASE = 1;
 
-/** Equivale al clamp(2.25rem, 1rem + 3vw, 3.75rem) del diseño, en rem */
-const wheelFontSize = (viewportWidth: number) => Math.min(3.75, Math.max(2.25, 1 + (viewportWidth * 0.03) / 16));
+/** Distancia mínima (px) para que un arrastre cuente como deslizamiento */
+const SWIPE_MIN = 40;
 
 /**
- * Avance de "Casos de éxito" en el home (Wireframe 1, frames 35:786-788 y
- * 35:794): ruleta de nombres (React Bits OptionWheel) con el caso activo en
- * amarillo y los demás en verde oscuro, girados sobre la curva. Al girarla, el
- * post de Instagram del caso entra rodando en la misma dirección.
+ * "Casos de éxito" en el home: carrusel de tres posts de Instagram. El caso
+ * activo va al centro con su usuario y descripción encima; los vecinos se ven
+ * a los lados, atenuados, con flechas para avanzar. Es circular, responde a
+ * las flechas del teclado y al deslizamiento táctil.
  * Isla de React (`client:visible`); el HTML del servidor ya muestra a Fajardo.
  */
 export default function CasosPreview({ lang = "es" }: Props) {
   const c = home[lang].casosPreview;
   const casesPath = pathFor("cases", lang);
-  const names = useMemo(() => c.cases.map((caso) => caso.name), [c]);
+  const total = c.cases.length;
   const [active, setActive] = useState(DEFAULT_CASE);
-  // El scroll sobre la tarjeta también gira la ruleta
-  const postsRef = useRef<HTMLDivElement>(null);
-  const [fontSize, setFontSize] = useState(3.75);
-  // El arrastre solo con puntero fino: en táctil, el dedo desplaza la página
-  // y la rueda se gira tocando los nombres.
-  const [draggable, setDraggable] = useState(false);
+  const dragStart = useRef<number | null>(null);
 
-  useEffect(() => {
-    const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const sync = () => {
-      setFontSize(wheelFontSize(window.innerWidth));
-      setDraggable(fine.matches);
-    };
-    sync();
-    window.addEventListener("resize", sync);
-    fine.addEventListener("change", sync);
-    return () => {
-      window.removeEventListener("resize", sync);
-      fine.removeEventListener("change", sync);
-    };
-  }, []);
+  const go = (step: number) => setActive((i) => (i + step + total) % total);
+
+  /** Posición circular de cada post respecto al activo: -1, 0 o 1 */
+  const offsetOf = (i: number) => {
+    let d = i - active;
+    if (d > total / 2) d -= total;
+    if (d < -total / 2) d += total;
+    return d;
+  };
+
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      go(-1);
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      go(1);
+    }
+  };
+
+  const onPointerDown = (e: PointerEvent) => {
+    dragStart.current = e.clientX;
+  };
+  const onPointerUp = (e: PointerEvent) => {
+    if (dragStart.current === null) return;
+    const dx = e.clientX - dragStart.current;
+    dragStart.current = null;
+    if (Math.abs(dx) >= SWIPE_MIN) go(dx < 0 ? 1 : -1);
+  };
+
+  const current = c.cases[active];
 
   return (
     <section className={styles.section} aria-labelledby="casos-title">
-      <div className={`container ${styles.inner}`}>
-        <div className={styles.left}>
-          <h2 id="casos-title" className={`t-h2 ${styles.title}`}>
-            {c.title}
-          </h2>
-          <div className={styles.names}>
-            <OptionWheel
-              className={styles.wheel}
-              items={names}
-              defaultSelected={DEFAULT_CASE}
-              onChange={(index) => setActive(index)}
-              ariaLabel={c.wheelLabel}
-              textColor="var(--casos-muted)"
-              activeColor="var(--c-amarillo)"
-              side="left"
-              fontSize={fontSize}
-              spacing={1.6}
-              curve={3}
-              tilt={20}
-              scale={0.18}
-              blur={0.6}
-              fade={0.15}
-              minOpacity={0.2}
-              smoothing={200}
-              inset="20%"
-              draggable={draggable}
-              releaseScroll
-              wheelTarget={postsRef}
-            />
-          </div>
-        </div>
+      <div className="container">
+        <h2 id="casos-title" className={`t-h2 ${styles.title}`}>
+          {c.title}
+        </h2>
 
-        <div ref={postsRef} className={styles.posts}>
-          {c.cases.map((caso, i) => {
-            const offset = Math.sign(i - active);
-            return (
-              <a
+        <div
+          className={styles.carousel}
+          role="region"
+          aria-roledescription={lang === "en" ? "carousel" : "carrusel"}
+          aria-label={c.title}
+          tabIndex={0}
+          onKeyDown={onKeyDown}
+          onPointerDown={onPointerDown}
+          onPointerUp={onPointerUp}
+          onPointerCancel={() => (dragStart.current = null)}
+        >
+          {/* Usuario y descripción del caso activo, sobre el post */}
+          <div className={styles.headline} aria-live="polite">
+            <p key={current.id} className={styles.headlineInner}>
+              <span className={styles.handle}>@{current.handle}</span>
+              <span className={styles.desc}>{current.caption}</span>
+            </p>
+          </div>
+
+          <div className={styles.track}>
+            {c.cases.map((caso, i) => {
+              const offset = offsetOf(i);
+              return (
+                <a
+                  key={caso.id}
+                  href={`${casesPath}#${caso.id}`}
+                  className={styles.postLink}
+                  data-offset={offset}
+                  aria-label={`${c.viewCase} ${caso.name}`}
+                  aria-hidden={offset !== 0}
+                  tabIndex={offset === 0 ? 0 : -1}
+                  draggable={false}
+                  onClick={(e) => {
+                    // Un clic en un post lateral lo trae al centro
+                    if (offset !== 0) {
+                      e.preventDefault();
+                      go(offset);
+                    }
+                  }}
+                >
+                  <InstagramPost
+                    className={styles.post}
+                    size="lg"
+                    handle={caso.handle}
+                    avatar={caso.avatar}
+                    image={caso.image}
+                    imageAlt={caso.imageAlt}
+                    likedBy={caso.likedBy}
+                    caption={caso.caption}
+                    verifiedLabel={ui[lang].a11y.verified}
+                  />
+                </a>
+              );
+            })}
+
+            <button type="button" className={`${styles.arrow} ${styles.prev}`} onClick={() => go(-1)} aria-label={c.prevLabel}>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M15 6l-6 6 6 6" />
+              </svg>
+            </button>
+            <button type="button" className={`${styles.arrow} ${styles.next}`} onClick={() => go(1)} aria-label={c.nextLabel}>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9 6l6 6-6 6" />
+              </svg>
+            </button>
+          </div>
+
+          <div className={styles.dots}>
+            {c.cases.map((caso, i) => (
+              <button
                 key={caso.id}
-                href={`${casesPath}#${caso.id}`}
-                className={styles.postLink}
-                data-offset={offset}
-                aria-label={`${c.viewCase} ${caso.name}`}
-                inert={offset !== 0}
-              >
-                <InstagramPost
-                  className={styles.post}
-                  size="lg"
-                  handle={caso.handle}
-                  avatar={caso.avatar}
-                  image={caso.image}
-                  imageAlt={caso.imageAlt}
-                  likedBy={caso.likedBy}
-                  caption={caso.caption}
-                  verifiedLabel={ui[lang].a11y.verified}
-                />
-              </a>
-            );
-          })}
+                type="button"
+                className={styles.dot}
+                aria-label={caso.name}
+                aria-current={i === active}
+                onClick={() => setActive(i)}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

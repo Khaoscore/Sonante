@@ -22,6 +22,11 @@ export default function TeamRows({ lang = "es" }: Props) {
             <h2 className={`t-h3 ${styles.title}`} style={{ color: row.color }}>
               {row.title}
             </h2>
+            {row.role && (
+              <p className={styles.role} style={{ color: row.color }}>
+                {row.role}
+              </p>
+            )}
             <p className={`t-body ${styles.body}`} dangerouslySetInnerHTML={{ __html: row.body }} />
           </div>
         </article>

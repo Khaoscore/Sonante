@@ -4,7 +4,7 @@ import type { Locale } from "@/i18n";
 import styles from "./ContactSection.module.css";
 
 type Props = {
-  /** home: con título "¿Quieres que hablemos?"; page: variante de la página Contacto */
+  /** home: con título "Hablemos de tu proyecto"; page: variante de la página Contacto */
   variant?: "home" | "page";
   lang?: Locale;
   ariaLabel?: string;
@@ -24,7 +24,7 @@ export default function ContactSection({ variant = "home", lang = "es", ariaLabe
       aria-labelledby={variant === "home" ? "contacto-title" : undefined}
       aria-label={variant === "page" ? ariaLabel : undefined}
     >
-      <img src="/assets/img/gradient-11.png" alt="" className={styles.drop} width={1016} height={1068} loading="lazy" aria-hidden="true" />
+      <img src={variant === "home" ? "/assets/img/gota-verde-grande.svg" : "/assets/img/gradient-11.png"} alt="" className={styles.drop} width={1016} height={1068} loading="lazy" aria-hidden="true" />
       <div className={`container ${styles.inner}`}>
         {variant === "home" && (
           <h2 id="contacto-title" className={`t-h2 ${styles.title}`}>

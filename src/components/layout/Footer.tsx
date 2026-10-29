@@ -17,7 +17,7 @@ export default function Footer({ lang = "es" }: Props) {
       <div className={`container ${styles.inner}`}>
         <div className={styles.brand}>
           <a href={pathFor("home", lang)} aria-label={t.nav.logoLabel}>
-            <img src="/assets/icons/logo-sonante.svg" alt="Sonante" width={384} height={63} className={styles.wordmark} />
+            <span role="img" aria-label="Sonante" className={styles.wordmark} />
           </a>
           <p className={styles.legal}>
             © {site.legalName} &nbsp;-&nbsp; {site.nit} &nbsp;-&nbsp; {site.city}
@@ -51,7 +51,7 @@ export default function Footer({ lang = "es" }: Props) {
             {social.map((s) => (
               <li key={s.name}>
                 <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name} title={s.name}>
-                  <img src={s.icon} alt="" width={32} height={32} loading="lazy" />
+                    <span className={styles.socialIcon} style={{ WebkitMaskImage: `url(${s.icon})`, maskImage: `url(${s.icon})` }}/>
                 </a>
               </li>
             ))}
