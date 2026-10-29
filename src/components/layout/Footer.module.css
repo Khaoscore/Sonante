@@ -180,3 +180,25 @@
     white-space: normal;
   }
 }
+
+/* Mobile (frame 383:3277): logo a todo el ancho con la línea legal centrada,
+   y las redes sociales justo debajo, repartidas en todo el ancho */
+@media (max-width: 560px) {
+  .inner {
+    padding-block: 72px 48px;
+  }
+  .brand {
+    align-items: center;
+  }
+  .wordmark {
+    max-width: none;
+  }
+  .legal {
+    text-align: center;
+  }
+  .social {
+    order: -1;
+    justify-content: space-between;
+    gap: 0;
+  }
+}

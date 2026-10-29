@@ -12,6 +12,8 @@ import type { Locale } from "@/i18n";
 export type TeamRow = {
   id: string;
   title: string;
+  /** Cargo bajo el nombre (solo en las filas de los fundadores) */
+  role?: string;
   color: string;
   image: string;
   alt: string;
@@ -27,34 +29,36 @@ export type AboutContent = {
 };
 
 const visual = [
-  { id: "jessica", color: "#E94B24", image: "/assets/img/jessica-blanco.png", imagePosition: "center top" },
-  { id: "jose", color: "#FF9024", image: "/assets/img/jose-paz.png", imagePosition: "center top" },
-  { id: "dato-jessica", color: "#E94B24", image: "/assets/img/team-calibrando.png" },
+  { id: "jessica", color: "#E94B24", image: "/assets/img/Frame 9.png", imagePosition: "center 45%" },
+  { id: "jose", color: "#FF9024", image: "/assets/img/jose-paz.png", imagePosition: "center 45%" },
+  { id: "dato-jessica", color: "#E94B24", image: "/assets/img/Frame 47.jpg" },
   { id: "dato-jose", color: "#FF9024", image: "/assets/img/team-1595.png" },
   { id: "ruptura", color: "#E94B24", image: "/assets/img/team-1594.png" },
-  { id: "esto-es-sonante", color: "#FF9024", image: "/assets/img/team-image-4.png" },
+  { id: "esto-es-sonante", color: "#FF9024", image: "/assets/img/Frame 53.png" },
 ];
 
 const heroText = {
-  es: "Sonante nació de una convicción: la comunicación política es muy distinta a vender un producto. Cuando una institución, un gobierno o un liderazgo comunica bien, puede acercar servicios, explicar decisiones, hacer comprensibles temas complejos y ayudar a que más personas conozcan y ejerzan sus derechos. Por eso llegamos a este trabajo desde la política, con la responsabilidad de entender primero qué está en juego y para quién estamos comunicando.",
-  en: "Sonante was born from a conviction: political communication is very different from selling a product. When an institution, a government or a leader communicates well, they can bring services closer, explain decisions, make complex issues understandable and help more people know and exercise their rights. That's why we came to this work from politics, with the responsibility of first understanding what's at stake and who we're communicating for.",
+  es: "Venimos de la política y entendemos lo digital como una parte central de la comunicación de hoy. Sabemos que nuestro trabajo puede ayudar a explicar decisiones, acercar servicios y hacer comprensibles temas que muchas veces no son fáciles de contar. Por eso nos importa entender bien qué está en juego y encontrar la mejor manera de comunicarlo, con creatividad, criterio y responsabilidad.",
+  en: "We come from politics and see digital as a central part of communication today. We know our work can help explain decisions, bring services closer and make complex issues understandable, issues that are often not easy to explain. That's why we care about understanding what's at stake and finding the best way to communicate it, with creativity, judgment and responsibility.",
 };
 
 export { heroText as aboutHeroText };
 
-type Copy = Pick<TeamRow, "title" | "alt" | "body">;
+type Copy = Pick<TeamRow, "title" | "role" | "alt" | "body">;
 
 const copy: Record<Locale, Copy[]> = {
   es: [
     {
       title: "Jessica Blanco",
       alt: "Jessica Blanco, cofundadora de Sonante",
+      role: "Cofundadora de Sonante.",
       body:
-        "<strong>Es politóloga, estratega digital, consultora en comunicación política y creadora de contenido.</strong> Según el Panel de Opinión de Cifras &amp; Conceptos, fue reconocida como una de las creadoras de contenido <strong>más influyentes</strong> en temas políticos en Colombia en 2022 y 2023.",
+        "<strong>Politóloga, estratega digital y creadora de contenido.</strong> Ha construido su carrera entre la comunicación política y la creación digital, buscando nuevas maneras de hacer comprensibles y atractivos temas complejos. <strong>En 2022 y 2023 fue reconocida por el Panel de Opinión de Cifras &amp; Conceptos</strong> como una de las creadoras de contenido político más influyentes de Colombia.",
     },
     {
       title: "José Paz",
       alt: "José Paz, cofundador de Sonante",
+      role: "Cofundador de Sonante.",
       body:
         "<strong>Es politólogo e internacionalista, especialista en Política, Análisis de Redes y Big Data.</strong> Juntos creamos Sonante para unir dos capacidades que pocas veces aparecen en el mismo lugar: <strong>comprender el poder</strong>, las instituciones y el contexto, <strong>y saber convertir todo eso en contenidos</strong> que la gente quiera escuchar y pueda entender.",
     },
@@ -62,13 +66,13 @@ const copy: Record<Locale, Copy[]> = {
       title: "Dato Jessica Blanco",
       alt: "Equipo de Sonante grabando contenido",
       body:
-        "Jessica es una boyacense orgullosa que empezó a crear contenido durante la pandemia como una forma de expresar sus ideas, en un momento en el que salir a las calles o ir a la universidad no era posible.<br> Esa experiencia le permitió conocer de primera mano lo que implica exponerse, crear y construir una comunidad. En Sonante sabemos que detrás del proceso creativo no solo hay estrategia, también hay emociones e inseguridades, y por eso acompañamos cada proyecto entendiendo también esa parte del camino.",
+        "Jessica es una <strong>boyacense orgullosa</strong> que empezó a crear contenido durante la pandemia como una forma de expresar sus ideas, en un momento en el que salir a las calles o ir a la universidad no era posible.<br><br>Esa experiencia le permitió conocer de primera mano lo que implica exponerse, crear y construir una comunidad. En Sonante sabemos que detrás del proceso creativo no solo hay estrategia, también hay emociones e inseguridades, y <strong>por eso acompañamos cada proyecto entendiendo también esa parte del camino.</strong>",
     },
     {
       title: "Dato José Paz",
       alt: "Equipo de Sonante en sesión de producción",
       body:
-        "José es cruceño, aunque Bogotá ya lleva más de ocho años siendo su casa. Habla cuatro idiomas, le gusta mucho la fotografía y su formación en ciencia política y relaciones internacionales hace que conecte constantemente lo que pasa aquí con lo que ocurre en otros lugares del mundo. <br> Eso también se nota en Sonante. Muchas veces una conversación local termina cruzándose con referencias, tendencias o aprendizajes de América Latina y de otros contextos que nos ayudan a mirar los problemas desde más de un ángulo.",
+        "José es <strong>cruceño</strong>, aunque Bogotá ya lleva más de ocho años siendo su casa. Habla cuatro idiomas, le gusta mucho la fotografía y su formación en ciencia política y relaciones internacionales hace que conecte constantemente lo que pasa aquí con lo que ocurre en otros lugares del mundo.<br><br>Eso también se nota en Sonante. Muchas veces una conversación local termina cruzándose con referencias, tendencias o aprendizajes de América Latina y de otros contextos que <strong>nos ayudan a mirar los problemas desde más de un ángulo.</strong>",
     },
     {
       title: "También quisimos cerrar una ruptura muy común en la comunicación",
@@ -87,12 +91,14 @@ const copy: Record<Locale, Copy[]> = {
     {
       title: "Jessica Blanco",
       alt: "Jessica Blanco, co-founder of Sonante",
+      role: "Co-founder of Sonante.",
       body:
-        "<strong>She is a political scientist, digital strategist, political communication consultant and content creator.</strong> According to the Cifras &amp; Conceptos Opinion Panel, she was recognized as one of the <strong>most influential</strong> content creators on political issues in Colombia in 2022 and 2023.",
+        "<strong>Political scientist, digital strategist and content creator.</strong> She has built her career between political communication and digital creation, looking for new ways to make complex topics understandable and engaging. <strong>In 2022 and 2023 she was recognized by the Cifras &amp; Conceptos Opinion Panel</strong> as one of the most influential political content creators in Colombia.",
     },
     {
       title: "José Paz",
       alt: "José Paz, co-founder of Sonante",
+      role: "Co-founder of Sonante.",
       body:
         "<strong>He is a political scientist and internationalist, specializing in Politics, Network Analysis and Big Data.</strong> Together we created Sonante to bring together two abilities that rarely appear in the same place: <strong>understanding power</strong>, institutions and context, <strong>and knowing how to turn all of that into content</strong> people want to hear and can understand.",
     },
@@ -100,13 +106,13 @@ const copy: Record<Locale, Copy[]> = {
       title: "Fact: Jessica Blanco",
       alt: "Sonante team recording content",
       body:
-        "is a political scientist, digital strategist, political communication consultant and content creator. According to the Cifras &amp; Conceptos Opinion Panel, she was recognized as one of the most influential content creators on political issues in Colombia in 2022 and 2023.",
+        "Jessica is a <strong>proud Boyacá native</strong> who started creating content during the pandemic as a way to express her ideas, at a time when going out on the streets or to university was not possible.<br><br>That experience taught her first-hand what it means to put yourself out there, create and build a community. At Sonante we know that behind the creative process there is not only strategy but also emotions and insecurities, and <strong>that's why we support every project by understanding that part of the journey too.</strong>",
     },
     {
       title: "Fact: José Paz",
       alt: "Sonante team during a production session",
       body:
-        "is a political scientist, digital strategist, political communication consultant and content creator. According to the Cifras &amp; Conceptos Opinion Panel, she was recognized as one of the most influential content creators on political issues in Colombia in 2022 and 2023.",
+        "José is from <strong>Santa Cruz</strong>, although Bogotá has been his home for more than eight years. He speaks four languages, loves photography, and his background in political science and international relations means he constantly connects what happens here with what happens elsewhere in the world.<br><br>That shows at Sonante too. Often a local conversation ends up intersecting with references, trends or lessons from Latin America and other contexts that <strong>help us look at problems from more than one angle.</strong>",
     },
     {
       title: "We also wanted to close a very common gap in communication",

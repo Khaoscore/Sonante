@@ -41,7 +41,7 @@
 
 .title {
   max-width: 590px;
-  color: var(--c-coral);
+  color: #FFFFFF;
   text-wrap: balance;
 }
 
@@ -59,7 +59,7 @@
 }
 
 .itemTitle {
-  color: var(--c-amarillo);
+  color: #0BB730;
 }
 
 .itemBody {

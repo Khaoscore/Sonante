@@ -275,16 +275,23 @@
     width: 100%;
     padding: 14px 20px;
   }
-  .langMobile {
-    display: block;
-  }
-  .langMobile .lang {
-    width: 100%;
-    background: var(--nav-dark-hover, #004a43)
-    ;
-  }
+  /* Mobile (frame 383:3277): "ES" en un círculo junto al menú, del mismo tamaño */
   .langDesktop {
+    width: 57px;
+    height: 57px;
+    padding: 0;
+    border-radius: 50%;
+    transition:
+      background-color var(--t-fast) var(--ease),
+      width var(--t-med) var(--ease),
+      height var(--t-med) var(--ease);
+  }
+  .langDesktop svg {
     display: none;
+  }
+  .scrolled .langDesktop {
+    width: var(--logo-compact);
+    height: var(--logo-compact);
   }
   .burger {
     display: grid;

@@ -29,11 +29,12 @@ export type HomeContent = {
   distintos: { title: string; items: DistintoItem[] };
   casosPreview: {
     title: string;
-    /** Etiqueta accesible de la ruleta de nombres */
-    wheelLabel: string;
+    /** Etiquetas accesibles de las flechas del carrusel */
+    prevLabel: string;
+    nextLabel: string;
     /** Prefijo del enlace del post al caso: "Ver el caso de Sergio Fajardo" */
     viewCase: string;
-    /** Orden de la ruleta, de arriba abajo */
+    /** Orden del carrusel, de izquierda a derecha */
     cases: CasoPreview[];
   };
   contact: { title: string };
@@ -88,38 +89,39 @@ export const home: Record<Locale, HomeContent> = {
     intro: {
       ariaLabel: "Qué hacemos",
       paragraphs: [
-        "Ayudamos a <em>instituciones, gobiernos y liderazgos</em> a comunicar lo que hacen de forma que la gente lo entienda.",
-        "Analizamos el contexto, definimos a quién le hablamos y qué está en juego, y sobre esa base <em>construimos la estrategia, la narrativa y los canales</em>: en medios, en el territorio y en lo digital.",
+        "Entendemos lo que cada cliente necesita comunicar y <em>lo traducimos al lenguaje, los códigos y los formatos</em> con los que hoy las audiencias se informan, conversan y construyen opinión.",
+        "Hacemos simple lo complejo sin perder el fondo. <em>Porque para conectar con la gente, hay que hablar en el formato de la gente.</em>",
       ],
     },
     servicios: { heading: "Servicios" },
     distintos: {
-      title: "Lo que nos hace distintos",
+      title: "Así trabajamos",
       items: [
         {
-          title: "Especialización en comunicación política",
-          html: "Entendemos el poder, las instituciones, la opinión pública y el contexto antes de comunicar. Eso nos permite construir estrategias que no se quedan en el marketing, sino que <strong>acercan ideas, servicios y derechos a la gente.</strong>",
+          title: "Leemos lo que está pasando",
+          html: "Seguimos la conversación pública, las tendencias y el desempeño digital <strong>para detectar oportunidades y tomar decisiones con contexto.</strong>",
         },
         {
-          title: "De la estrategia a la publicación",
-          html: "<strong>Conectamos toda la cadena en un mismo equipo:</strong> diagnóstico, estrategia, concepto creativo, guion, producción, edición y publicación. Así, las ideas no se quedan en una presentación y los contenidos responden siempre a un objetivo.",
+          title: "De la estrategia a las redes",
+          html: "Desarrollamos conceptos, guiones y formatos y los llevamos a producción audiovisual <strong>para convertir la estrategia en contenidos pensados para funcionar en digital.</strong>",
         },
         {
-          title: "Profundidad con lenguaje digital",
-          html: "Convertimos propuestas, datos y temas complejos en contenidos claros, atractivos y fáciles de entender, <strong>sin volverlos superficiales.</strong>",
+          title: "Medimos para tomar mejores decisiones",
+          html: "Seguimos el rendimiento de los contenidos y los canales <strong>para entender qué funciona, reforzarlo y ajustar con rapidez cuando los resultados lo exigen.</strong>",
         },
       ],
     },
     casosPreview: {
       title: "Casos de éxito",
-      wheelLabel: "Elige un caso de éxito",
+      prevLabel: "Caso anterior",
+      nextLabel: "Caso siguiente",
       viewCase: "Ver el caso de",
       cases: [
         {
-          ...casosVisual.gomez,
+          ...casosVisual.pabon,
           likedBy: "Liked by sonanteagencia and others",
-          caption: "Construimos una voz que hoy es referente del análisis político en Colombia, sin perder el alcance y la agilidad de las redes.",
-          imageAlt: "Luis Ernesto Gómez en una publicación de Instagram",
+          caption: "Acompañamos la campaña regional y la gestión de la Prefectura de Pichincha, Ecuador.",
+          imageAlt: "Paola Pabón en una publicación de Instagram",
         },
         {
           ...casosVisual.fajardo,
@@ -128,14 +130,14 @@ export const home: Record<Locale, HomeContent> = {
           imageAlt: "Sergio Fajardo en una publicación de Instagram",
         },
         {
-          ...casosVisual.pabon,
+          ...casosVisual.gomez,
           likedBy: "Liked by sonanteagencia and others",
-          caption: "Acompañamos la campaña regional y la gestión de la Prefectura de Pichincha, Ecuador.",
-          imageAlt: "Paola Pabón en una publicación de Instagram",
+          caption: "Construimos una voz que hoy es referente del análisis político en Colombia, sin perder el alcance y la agilidad de las redes.",
+          imageAlt: "Luis Ernesto Gómez en una publicación de Instagram",
         },
       ],
     },
-    contact: { title: "¿Quieres que hablemos?" },
+    contact: { title: "Hablemos de tu proyecto" },
   },
   en: {
     meta: {
@@ -156,38 +158,39 @@ export const home: Record<Locale, HomeContent> = {
     intro: {
       ariaLabel: "What we do",
       paragraphs: [
-        "We help <em>institutions, governments and leaders</em> communicate what they do in a way people understand.",
-        "We analyze the context, define who we're talking to and what's at stake, and on that basis <em>we build the strategy, the narrative and the channels</em>: in the media, on the ground and online.",
+        "We understand what each client needs to communicate and <em>translate it into the language, codes and formats</em> that audiences use today to get informed, talk and form opinions.",
+        "We make the complex simple without losing the substance. <em>Because to connect with people, you have to speak in their format.</em>",
       ],
     },
     servicios: { heading: "Services" },
     distintos: {
-      title: "What makes us different",
+      title: "How we work",
       items: [
         {
-          title: "Specialists in political communication",
-          html: "We understand power, institutions, public opinion and context before we communicate. That lets us build strategies that go beyond marketing and <strong>bring ideas, services and rights closer to people.</strong>",
+          title: "We read what's happening",
+          html: "We follow the public conversation, trends and digital performance <strong>to spot opportunities and make decisions with context.</strong>",
         },
         {
-          title: "From strategy to publishing",
-          html: "<strong>We connect the whole chain within one team:</strong> diagnosis, strategy, creative concept, script, production, editing and publishing. That way ideas don't get stuck in a slide deck, and every piece of content serves a goal.",
+          title: "From strategy to social media",
+          html: "We develop concepts, scripts and formats and take them to audiovisual production <strong>to turn strategy into content designed to work in digital.</strong>",
         },
         {
-          title: "Depth in a digital language",
-          html: "We turn proposals, data and complex issues into clear, engaging, easy-to-understand content <strong>without making them shallow.</strong>",
+          title: "We measure to make better decisions",
+          html: "We track the performance of content and channels <strong>to understand what works, strengthen it and adjust quickly when results demand it.</strong>",
         },
       ],
     },
     casosPreview: {
       title: "Success stories",
-      wheelLabel: "Choose a success story",
+      prevLabel: "Previous story",
+      nextLabel: "Next story",
       viewCase: "See the case of",
       cases: [
         {
-          ...casosVisual.gomez,
+          ...casosVisual.pabon,
           likedBy: "Liked by sonanteagencia and others",
-          caption: "We built a voice that is now a benchmark for political analysis in Colombia, without losing the reach and agility of social media.",
-          imageAlt: "Luis Ernesto Gómez in an Instagram post",
+          caption: "We supported the regional campaign and the administration of the Prefecture of Pichincha, Ecuador.",
+          imageAlt: "Paola Pabón in an Instagram post",
         },
         {
           ...casosVisual.fajardo,
@@ -196,13 +199,13 @@ export const home: Record<Locale, HomeContent> = {
           imageAlt: "Sergio Fajardo in an Instagram post",
         },
         {
-          ...casosVisual.pabon,
+          ...casosVisual.gomez,
           likedBy: "Liked by sonanteagencia and others",
-          caption: "We supported the regional campaign and the administration of the Prefecture of Pichincha, Ecuador.",
-          imageAlt: "Paola Pabón in an Instagram post",
+          caption: "We built a voice that is now a benchmark for political analysis in Colombia, without losing the reach and agility of social media.",
+          imageAlt: "Luis Ernesto Gómez in an Instagram post",
         },
       ],
     },
-    contact: { title: "Want to talk?" },
+    contact: { title: "Let's talk about your project" },
   },
 };

@@ -126,7 +126,7 @@ export default function ContactForm({ lang = "es" }: Props) {
       </span>
 
       <div className={styles.actions}>
-        <Button type="submit" variant="white" disabled={status === "sending"}>
+        <Button type="submit" variant="primary" disabled={status === "sending"}>
           {status === "sending" ? f.sending : f.send}
         </Button>
         <p className={styles.status} role="status" aria-live="polite">
