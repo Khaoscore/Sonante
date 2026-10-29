@@ -26,7 +26,7 @@ export type UiStrings = {
   footer: {
     ariaLabel: string;
     whatWeDo: string;
-    book: string;
+    writeUs: string;
     socialLabel: string;
     copyright: string;
     poweredBy: string;
@@ -121,7 +121,7 @@ export const ui: Record<Locale, UiStrings> = {
   es: {
     skipLink: "Ir al contenido",
     siteTitle: "Sonante",
-    tagline: "Transformamos las redes de políticos, empresas y marcas personales en referentes digitales.",
+    tagline: "Estrategia y comunicación digital para líderes, campañas, gobiernos e instituciones.",
     description:
       "Sonante es una agencia de comunicación política. Ayudamos a instituciones, gobiernos y liderazgos a comunicar lo que hacen de forma que la gente lo entienda.",
     nav: {
@@ -141,7 +141,7 @@ export const ui: Record<Locale, UiStrings> = {
     footer: {
       ariaLabel: "Pie de página",
       whatWeDo: "¿Qué hacemos?",
-      book: "Agenda una cita",
+      writeUs: "Escríbenos:",
       socialLabel: "Redes sociales",
       copyright: "Copyright",
       poweredBy: "Powered by",
@@ -191,7 +191,7 @@ export const ui: Record<Locale, UiStrings> = {
   en: {
     skipLink: "Skip to content",
     siteTitle: "Sonante",
-    tagline: "We turn politicians, companies and personal brands into leading voices on social media.",
+    tagline: "Digital strategy and communication for leaders, campaigns, governments and institutions.",
     description:
       "Sonante is a political communication agency. We help institutions, governments and leaders communicate what they do in a way people understand.",
     nav: {
@@ -211,7 +211,7 @@ export const ui: Record<Locale, UiStrings> = {
     footer: {
       ariaLabel: "Footer",
       whatWeDo: "What we do",
-      book: "Book a meeting",
+      writeUs: "Write to us:",
       socialLabel: "Social media",
       copyright: "Copyright",
       poweredBy: "Powered by",

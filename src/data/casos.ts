@@ -144,11 +144,11 @@ export const casosContent: Record<Locale, CasosContent> = {
     statsBand: [
       { value: "3", label: "Campañas presidenciales" },
       { value: "2", label: "Campañas al Congreso de la República" },
-      { value: "4", label: "Campañas a gobiernos locales" },
+      { value: "3", label: "Campañas a gobiernos locales" },
     ],
     bigStats: [
       { value: "+84.000.000", label: "de vistas en Instagram en un mes" },
-      { value: "+14.000.000", label: "Campañas a gobiernos locales" },
+      { value: "+2.800.000", label: "votos en las elecciones en las que hemos trabajado" },
     ],
     testimonios: [
       {
@@ -195,11 +195,11 @@ export const casosContent: Record<Locale, CasosContent> = {
     statsBand: [
       { value: "3", label: "Presidential campaigns" },
       { value: "2", label: "Campaigns for the Congress of the Republic" },
-      { value: "4", label: "Local government campaigns" },
+      { value: "3", label: "Local government campaigns" },
     ],
     bigStats: [
       { value: "+84,000,000", label: "Instagram views in a single month" },
-      { value: "+14,000,000", label: "Local government campaigns" },
+      { value: "+2,800,000", label: "votes in the elections we have worked on" },
     ],
     testimonios: [
       {

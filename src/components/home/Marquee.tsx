@@ -6,8 +6,8 @@ type Props = { lang?: Locale };
 
 /**
  * Cinta de título bajo el hero. No se mueve sola: su desplazamiento horizontal
- * lo controla IntroSequence con GSAP ligado al scroll (empieza en "Somos" y
- * avanza hasta que se ha visto la frase completa).
+ * lo controla IntroSequence con GSAP ligado al scroll (empieza al inicio de la
+ * frase y avanza hasta que se ha visto la frase completa).
  */
 export default function Marquee({ lang = "es" }: Props) {
   const { ariaLabel, phrases } = home[lang].marquee;

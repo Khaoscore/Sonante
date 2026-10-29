@@ -60,7 +60,7 @@
   transition: color var(--t-fast) var(--ease);
 }
 .link:hover .title {
-  color: var(--c-amarillo);
+  color: var(--c-naranja);
 }
 
 .tags {

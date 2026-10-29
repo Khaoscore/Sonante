@@ -19,7 +19,7 @@ const MIN_PIN = 1;
 /**
  * Secuencia con GSAP + ScrollTrigger ligada al scroll (scrub) y fijada en pantalla:
  *  - al llegar la sección al centro de la ventana se fija (pin) centrada;
- *  - el título arranca en "Somos" y se desplaza hacia la izquierda con el scroll
+ *  - el título arranca en el inicio de la frase y se desplaza hacia la izquierda con el scroll
  *    hasta que se ha visto la frase completa; entonces la sección se libera;
  *  - al empezar el scroll fijado, las palabras de los párrafos aparecen con un
  *    desenfoque que se aclara, y después las gotas entran en diagonal como meteoros.
@@ -105,7 +105,7 @@ export default function IntroSequence({ lang = "es" }: Props) {
           },
         });
 
-        // Título: de "Somos" (x = 0) hasta el final de la frase, a ritmo del scroll
+        // Título: del inicio de la frase (x = 0) hasta el final de la frase, a ritmo del scroll
         tl.to(line, { x: () => -travel(), ease: "none", duration: 1 }, 0);
 
         // Párrafos: las palabras aparecen de la nada, pasando de desenfocadas a nítidas

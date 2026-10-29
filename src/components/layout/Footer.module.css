@@ -101,29 +101,17 @@
   justify-content: space-between;
   width: 245px;
 }
+/* Iconos de redes animados (SocialIcon): toman el color del enlace */
 .social a {
   display: block;
   width: 32px;
   height: 32px;
+  color: var(--footer-social, var(--c-blanco));
   transition: transform var(--t-fast) var(--ease), opacity var(--t-fast) var(--ease);
 }
 .social a:hover {
   transform: translateY(-2px);
   opacity: 0.85;
-}
-
-/* Iconos de redes como máscara */
-.socialIcon {
-  display: block;
-  width: 32px;
-  height: 32px;
-  background-color: var(--footer-social, var(--c-blanco));
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
 }
 
 .copyright {
@@ -138,8 +126,16 @@
   text-align: center;
 }
 .copyright a {
+  display: inline-block;
   text-decoration: underline;
   text-underline-position: from-font;
+  transform-origin: left center;
+  transition: transform var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.copyright a:hover,
+.copyright a:focus-visible {
+  transform: scale(1.1);
+  color: var(--footer-strip-hover, var(--c-blanco));
 }
 
 /* ---------- Responsive ---------- */

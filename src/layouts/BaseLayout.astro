@@ -5,7 +5,7 @@ import Footer from "@/components/layout/Footer";
 import CursorTrail from "@/components/effects/CursorTrail";
 import { site } from "@/data/site";
 import { ui } from "@/i18n/ui";
-import { defaultLocale, locales, ogLocale, routeKeyFromPath, routes, type Locale } from "@/i18n";
+import { defaultLocale, locales, ogLocale, routeKeyFromPath, routes, sectionKeyFromPath, type Locale } from "@/i18n";
 
 interface Props {
   title: string;
@@ -32,7 +32,10 @@ const alternates = routeKey ? locales.map((l) => ({ lang: l, href: abs(routes[ro
 const fullTitle = title === site.name ? title : `${title} · ${site.name}`;
 const ogImage = image ? abs(image) : undefined;
 
-const page = Astro.url.pathname.split("/").filter(Boolean)[0] ?? "home";
+// Nombre de la sección con su slug en español en los dos idiomas, para que los
+// colores por página de global.css (body[data-page="nuestros-tips"]…) sirvan también en /en/
+const section = sectionKeyFromPath(currentPath);
+const page = (section ? routes[section].es : currentPath).split("/").filter(Boolean)[0] ?? "home";
 ---
 
 <!doctype html>

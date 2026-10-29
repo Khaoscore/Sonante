@@ -13,7 +13,7 @@
 
 .heading {
   margin-bottom: 14px;
-  color: var(--c-amarillo);
+  color: var(--c-magenta);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -21,7 +21,7 @@
 .toc ol {
   display: flex;
   flex-direction: column;
-  border-left: 2px solid var(--c-verde-oscuro);
+  border-left: 2px solid rgba(0, 56, 51, 0.14);
 }
 
 .tocLink {
@@ -29,14 +29,14 @@
   margin-left: -2px;
   padding: 7px 0 7px 16px;
   border-left: 2px solid transparent;
-  color: rgba(248, 255, 229, 0.78);
+  color: rgba(0, 33, 29, 0.72);
   font-size: var(--fs-body-sm);
   line-height: 1.35;
   transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
 }
 .tocLink:hover {
-  color: var(--c-amarillo);
-  border-left-color: var(--c-amarillo);
+  color: var(--c-magenta);
+  border-left-color: var(--c-magenta);
 }
 
 .tags,
@@ -58,20 +58,20 @@
   display: inline-flex;
   padding: 7px 14px;
   border-radius: 32px;
-  border: 1px solid var(--c-verde);
-  color: var(--c-bitter-lime-50);
+  border: 1px solid var(--c-magenta);
+  color: var(--c-magenta);
   transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
 }
 .shareLink:hover {
-  background: var(--c-verde);
-  color: var(--c-casi-negro);
+  background: var(--c-magenta);
+  color: var(--c-amarillo);
 }
 
 @media (max-width: 1060px) {
   .sticky {
     position: static;
     padding-top: 40px;
-    border-top: 1px solid var(--c-verde-oscuro);
+    border-top: 1px solid rgba(0, 56, 51, 0.14);
   }
   .toc {
     display: none;
