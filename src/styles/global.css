@@ -222,6 +222,13 @@ button {
   top: 16px;
 }
 
+/* Inicio: footer verde oscuro con acentos en verde */
+body[data-page="home"] {
+  --footer-accent: var(--c-verde);          /* "© Sonante SAS...", enlaces del menú, hover del correo */
+  --footer-strip-bg: var(--c-verde);        /* franja de abajo */
+  --footer-strip-text: var(--c-verde-oscuro); /* texto de la franja */
+}
+
 
 
 body[data-page="quienes-somos"] {

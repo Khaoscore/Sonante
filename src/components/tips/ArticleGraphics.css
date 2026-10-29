@@ -431,16 +431,16 @@ figure.g-photo figcaption {
 }
 figure.g-photo .g-photo__caption {
   font-size: 0.9375rem;
-  color: var(--c-bitter-lime-50);
+  color: var(--c-verde-oscuro);
 }
 figure.g-photo .g-photo__credit {
   font-size: var(--fs-note);
-  color: rgba(248, 255, 229, 0.72);
+  color: rgba(0, 33, 29, 0.64);
 }
 figure.g-photo .g-photo__credit a {
   color: inherit;
   text-decoration-thickness: 1px;
 }
 figure.g-photo .g-photo__credit a:hover {
-  color: var(--c-amarillo);
+  color: var(--c-magenta);
 }

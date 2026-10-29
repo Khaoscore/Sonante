@@ -1,6 +1,7 @@
 import { site, social } from "@/data/site";
 import { pathFor, type Locale } from "@/i18n";
 import { ui } from "@/i18n/ui";
+import SocialIcon from "./SocialIcon";
 import styles from "./Footer.module.css";
 
 type Props = { lang?: Locale };
@@ -20,7 +21,7 @@ export default function Footer({ lang = "es" }: Props) {
             <span role="img" aria-label="Sonante" className={styles.wordmark} />
           </a>
           <p className={styles.legal}>
-            © {site.legalName} &nbsp;-&nbsp; {site.nit} &nbsp;-&nbsp; {site.city}
+            © {site.legalName} &nbsp;-&nbsp; {site.city}
           </p>
         </div>
 
@@ -29,7 +30,7 @@ export default function Footer({ lang = "es" }: Props) {
             <h2 className={styles.aboutTitle}>{t.footer.whatWeDo}</h2>
             <p>{t.tagline}</p>
             <p>
-              {t.footer.book}
+              {t.footer.writeUs}
               <br />
               <a href={`mailto:${site.email}`} className={styles.mail}>
                 {site.email}
@@ -51,7 +52,7 @@ export default function Footer({ lang = "es" }: Props) {
             {social.map((s) => (
               <li key={s.name}>
                 <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name} title={s.name}>
-                    <span className={styles.socialIcon} style={{ WebkitMaskImage: `url(${s.icon})`, maskImage: `url(${s.icon})` }}/>
+                  <SocialIcon id={s.id} />
                 </a>
               </li>
             ))}

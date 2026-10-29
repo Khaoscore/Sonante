@@ -1,7 +1,7 @@
 .section {
   padding-top: clamp(64px, 8vw, 112px);
   padding-bottom: clamp(80px, 10vw, 140px);
-  border-top: 1px solid var(--c-verde-oscuro);
+  border-top: 1px solid rgba(0, 56, 51, 0.14);
 }
 
 .head {
@@ -14,7 +14,16 @@
 }
 
 .title {
+  color: var(--c-magenta);
+}
+
+/* "Ver todos los tips" con los colores de la página */
+.head .all {
+  background: var(--c-magenta);
   color: var(--c-amarillo);
+}
+.head .all:hover {
+  background: #9a0d63;
 }
 
 .row {

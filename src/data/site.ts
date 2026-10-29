@@ -17,17 +17,20 @@ export const site = {
   copyrightYear: 2026,
 } as const;
 
+/** Redes con icono animado en src/components/layout/SocialIcon.tsx */
+export type SocialId = "whatsapp" | "tiktok" | "instagram" | "linkedin" | "threads" | "facebook";
+
 export type SocialLink = {
+  id: SocialId;
   name: string;
   href: string;
-  icon: string;
 };
 
 export const social: SocialLink[] = [
-  { name: "WhatsApp", href: "https://wa.me/", icon: "/assets/icons/icon-whatsapp.svg" },
-  { name: "TikTok", href: "https://www.tiktok.com/@sonanteagencia", icon: "/assets/icons/icon-tiktok.svg" },
-  { name: "Instagram", href: "https://www.instagram.com/sonanteagencia", icon: "/assets/icons/icon-instagram.svg" },
-  { name: "LinkedIn", href: "https://www.linkedin.com/company/sonante", icon: "/assets/icons/icon-linkedin.svg" },
-  { name: "Threads", href: "https://www.threads.net/@sonanteagencia", icon: "/assets/icons/icon-threads.svg" },
-  { name: "Facebook", href: "https://www.facebook.com/sonanteagencia", icon: "/assets/icons/icon-facebook.svg" },
+  { id: "whatsapp", name: "WhatsApp", href: "https://wa.me/" },
+  { id: "tiktok", name: "TikTok", href: "https://www.tiktok.com/@sonanteagencia" },
+  { id: "instagram", name: "Instagram", href: "https://www.instagram.com/sonanteagencia" },
+  { id: "linkedin", name: "LinkedIn", href: "https://www.linkedin.com/company/sonante" },
+  { id: "threads", name: "Threads", href: "https://www.threads.net/@sonanteagencia" },
+  { id: "facebook", name: "Facebook", href: "https://www.facebook.com/sonanteagencia" },
 ];

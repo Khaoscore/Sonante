@@ -1,5 +1,4 @@
 import type { Locale } from "@/i18n";
-import { aboutHeroText } from "./team";
 
 /**
  * Contenido de "Nuestros tips" (Wireframe 7 del diseño), por idioma.
@@ -53,10 +52,16 @@ export type TipsContent = {
   follow: SocialWallContent;
 };
 
+/** Texto del hero (frame 45:1853), también usado como meta description */
+const heroText: Record<Locale, string> = {
+  es: "Consejos para quienes están construyendo su presencia digital, aprendizajes de campañas y análisis de estrategias que ya funcionaron para entender qué puedes aplicar en la tuya.",
+  en: "Advice for anyone building their digital presence, lessons from our campaigns and breakdowns of strategies that already worked, so you can see what to apply to yours.",
+};
+
 export const tipsContent: Record<Locale, TipsContent> = {
   es: {
-    meta: { title: "Nuestros tips", description: aboutHeroText.es.slice(0, 155) },
-    hero: { title: "Nuestros tips", text: aboutHeroText.es },
+    meta: { title: "Nuestros tips", description: heroText.es },
+    hero: { title: "Todo lo que nos hubiera gustado saber antes de empezar", text: heroText.es },
     gridLabel: "Artículos y tips",
     article: {
       back: "Nuestros tips",
@@ -100,8 +105,8 @@ export const tipsContent: Record<Locale, TipsContent> = {
     },
   },
   en: {
-    meta: { title: "Our tips", description: aboutHeroText.en.slice(0, 155) },
-    hero: { title: "Our tips", text: aboutHeroText.en },
+    meta: { title: "Our tips", description: heroText.en },
+    hero: { title: "Everything we wish we'd known before we started", text: heroText.en },
     gridLabel: "Articles and tips",
     gridNote: "Our articles are currently published in Spanish.",
     article: {

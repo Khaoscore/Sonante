@@ -20,7 +20,7 @@ export default function RelatedTips({ title, tips, allHref, allLabel, tagsLabel 
         <h2 id="related-title" className={`t-h3 ${styles.title}`}>
           {title}
         </h2>
-        <Button href={allHref} variant="outline">
+        <Button href={allHref} variant="outline" className={styles.all}>
           {allLabel}
         </Button>
       </div>

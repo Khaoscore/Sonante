@@ -7,7 +7,7 @@
 
 .note {
   margin-bottom: calc(-1 * clamp(32px, 5vw, 80px));
-  color: var(--c-amarillo);
+  color: var(--c-verde-oscuro);
 }
 
 .row {

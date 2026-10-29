@@ -105,9 +105,9 @@ export const home: Record<Locale, HomeContent> = {
       },
     },
     marquee: {
-      ariaLabel: "Quiénes somos en una frase",
+      ariaLabel: "Lo que creemos en una frase",
       phrases: [
-        "Somos personas que construyen comunidades",
+        "Una buena idea no basta. Hay que saber cómo contarla.",
       ],
     },
     intro: {
@@ -181,9 +181,9 @@ export const home: Record<Locale, HomeContent> = {
       },
     },
     marquee: {
-      ariaLabel: "Who we are in one sentence",
+      ariaLabel: "What we believe in one sentence",
       phrases: [
-        "We are people who build communities",
+        "A good idea isn't enough. You have to know how to tell it.",
       ],
     },
     intro: {
