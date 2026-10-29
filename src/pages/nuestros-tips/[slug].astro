@@ -1,0 +1,26 @@
+---
+import { render } from "astro:content";
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+import { getArticles, type Article } from "@/lib/blog";
+
+/** Una página por artículo de blog-sonante/articulos: /nuestros-tips/<slug>/ */
+export async function getStaticPaths() {
+  const articles = await getArticles();
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article, articles },
+  }));
+}
+
+interface Props {
+  article: Article;
+  articles: Article[];
+}
+
+const { article, articles } = Astro.props;
+const { Content, headings } = await render(article);
+---
+
+<ArticleLayout article={article} articles={articles} headings={headings}>
+  <Content />
+</ArticleLayout>

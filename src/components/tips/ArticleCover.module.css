@@ -1,0 +1,50 @@
+.cover {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  container-type: size;
+  background:
+    radial-gradient(circle at var(--g1x) var(--g1y), color-mix(in srgb, var(--glow1) 90%, transparent) 0%, transparent 62%),
+    radial-gradient(circle at var(--g2x) var(--g2y), color-mix(in srgb, var(--glow2) 55%, transparent) 0%, transparent 55%),
+    linear-gradient(135deg, #03130f 0%, var(--c-casi-negro) 60%, #021713 100%);
+}
+
+/* Círculo con el símbolo, siempre centrado y proporcional al lado menor */
+.disc {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: clamp(64px, 54cqmin, 300px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--disc);
+  box-shadow: 0 1.5cqmin 6cqmin rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+  transition: transform var(--t-med) var(--ease);
+}
+
+.symbol {
+  width: 40%;
+  height: auto;
+}
+
+.spark {
+  position: absolute;
+  left: var(--spark-x);
+  top: var(--spark-y);
+  width: clamp(14px, 8cqmin, 40px);
+  height: auto;
+  transform: translate(-50%, -50%) rotate(var(--spark-rotate));
+  transition: transform var(--t-slow) var(--ease);
+}
+
+/* Al pasar por la tarjeta (enlace que la contiene) */
+:global(a:hover) .disc {
+  transform: translate(-50%, -50%) scale(1.06);
+}
+:global(a:hover) .spark {
+  transform: translate(-50%, -50%) rotate(calc(var(--spark-rotate) + 90deg)) scale(1.15);
+}

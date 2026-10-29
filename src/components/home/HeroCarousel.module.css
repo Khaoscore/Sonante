@@ -19,7 +19,8 @@
   cursor: grab;
 }
 
-.grabbing {
+.grabbing,
+.grabbing * {
   cursor: grabbing;
 }
 
@@ -40,11 +41,193 @@
   visibility: hidden;
 }
 
-.card img {
+.card > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   pointer-events: none;
+}
+
+/* ---------- Reels ---------- */
+
+/* Toda la pieza enlaza a la publicación */
+.link {
+  position: absolute;
+  inset: 0;
+  display: block;
+  color: inherit;
+  -webkit-user-drag: none;
+}
+
+.link:focus-visible {
+  outline: none;
+}
+
+/* El foco se dibuja por dentro: la pista recorta lo que sobresale arriba y abajo */
+.card:has(.link:focus-visible) {
+  outline: 3px solid var(--c-amarillo);
+  outline-offset: -3px;
+}
+
+/* El scale tapa el borde que el blur deja transparente */
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  transition:
+    filter var(--t-med) var(--ease),
+    transform var(--t-med) var(--ease);
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(12px * var(--hs));
+  padding: 16px;
+  background: rgba(0, 56, 51, 0.55); /* verde oscuro al 55 % */
+  color: var(--c-blanco);
+  font-family: var(--font-body);
+  font-size: max(13px, calc(18px * var(--hs)));
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-med) var(--ease);
+}
+
+.veil img {
+  width: max(24px, calc(38px * var(--hs)));
+  height: auto;
+}
+
+@media (hover: hover) {
+  .link:hover .veil {
+    opacity: 1;
+  }
+  .link:hover .video {
+    filter: blur(6px);
+    transform: scale(1.08);
+  }
+}
+
+.link:focus-visible .veil {
+  opacity: 1;
+}
+.link:focus-visible .video {
+  filter: blur(6px);
+  transform: scale(1.08);
+}
+
+/* Visualizaciones y me gusta, apilados arriba a la izquierda */
+.stats {
+  position: absolute;
+  top: calc(12px * var(--hs));
+  left: calc(12px * var(--hs));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3em;
+  font-family: var(--font-body);
+  font-size: max(12px, calc(16px * var(--hs)));
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.4em 0.75em 0.4em 0.6em;
+  border-radius: var(--r-pill);
+  background: rgba(0, 33, 29, 0.68); /* casi negro */
+  color: var(--c-blanco);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.stat svg {
+  width: 0.95em;
+  height: 0.95em;
+}
+
+.iconViews {
+  color: var(--c-verde);
+}
+
+.iconLikes {
+  color: var(--c-coral);
+}
+
+/* Botón de sonido, abajo a la derecha */
+.sound {
+  position: absolute;
+  right: calc(12px * var(--hs));
+  bottom: calc(12px * var(--hs));
+  display: grid;
+  place-items: center;
+  width: max(34px, calc(44px * var(--hs)));
+  height: max(34px, calc(44px * var(--hs)));
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--c-verde);
+  color: var(--c-blanco);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition:
+    background-color var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease),
+    transform var(--t-fast) var(--ease);
+}
+
+.sound:hover {
+  transform: scale(1.08);
+}
+
+.sound:focus-visible {
+  outline: 3px solid var(--c-amarillo);
+  outline-offset: 2px;
+}
+
+.sound svg {
+  width: 50%;
+  height: 50%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sound svg path:first-child {
+  fill: currentColor;
+}
+
+/* Con sonido el botón se invierte */
+.hasSound .sound {
+  background: var(--c-blanco);
+  color: var(--c-verde-oscuro);
+}
+
+.sound[aria-pressed="true"] .iconMuted,
+.sound[aria-pressed="false"] .iconSound {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video,
+  .veil,
+  .sound {
+    transition: none;
+  }
 }
 
 @media (max-width: 560px) {

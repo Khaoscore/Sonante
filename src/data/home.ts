@@ -22,7 +22,24 @@ export type CasoPreview = {
 
 export type HomeContent = {
   meta: { title: string; description: string };
-  hero: { title: string; subtitle: string; cta: string };
+  hero: {
+    title: string;
+    subtitle: string;
+    cta: string;
+    /** Textos del carrusel de reels del hero */
+    reels: {
+      /** Etiqueta accesible del carrusel */
+      label: string;
+      /** "Ver en" + Instagram / TikTok */
+      watchOn: string;
+      /** "1,2 M" + "visualizaciones" (lectores de pantalla) */
+      views: string;
+      /** "98 k" + "me gusta" (lectores de pantalla) */
+      likes: string;
+      /** Botón de sonido (alterna con aria-pressed) */
+      sound: string;
+    };
+  };
   marquee: { ariaLabel: string; phrases: string[] };
   intro: { ariaLabel: string; paragraphs: string[] };
   servicios: { heading: string };
@@ -79,6 +96,13 @@ export const home: Record<Locale, HomeContent> = {
       title: "Sabemos de redes porque no conocemos un mundo sin ellas",
       subtitle: "Transformamos las redes de políticos, empresas y marcas personales en referentes digitales.",
       cta: "Escríbenos",
+      reels: {
+        label: "Videos que hemos creado",
+        watchOn: "Ver en",
+        views: "visualizaciones",
+        likes: "me gusta",
+        sound: "Sonido",
+      },
     },
     marquee: {
       ariaLabel: "Quiénes somos en una frase",
@@ -148,6 +172,13 @@ export const home: Record<Locale, HomeContent> = {
       title: "We know social media because we've never known a world without it",
       subtitle: "We turn politicians, companies and personal brands into leading voices on social media.",
       cta: "Write to us",
+      reels: {
+        label: "Videos we've made",
+        watchOn: "Watch on",
+        views: "views",
+        likes: "likes",
+        sound: "Sound",
+      },
     },
     marquee: {
       ariaLabel: "Who we are in one sentence",

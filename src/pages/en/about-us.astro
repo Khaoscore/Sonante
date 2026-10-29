@@ -9,6 +9,6 @@ const { meta, hero } = aboutContent[lang];
 ---
 
 <BaseLayout title={meta.title} description={meta.description} lang={lang}>
-  <PageHero color="naranja" kicker={hero.kicker} text={hero.text} />
+  <PageHero client:load color="naranja" kicker={hero.kicker} text={hero.text} />
   <TeamRows lang={lang} />
 </BaseLayout>

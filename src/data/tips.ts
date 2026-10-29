@@ -3,18 +3,35 @@ import { aboutHeroText } from "./team";
 
 /**
  * Contenido de "Nuestros tips" (Wireframe 7 del diseño), por idioma.
- * Las tarjetas del wireframe son marcadores de posición: título y etiquetas
- * genéricas y un bloque amarillo en lugar de imagen.
+ * Las tarjetas salen de los artículos del blog (blog-sonante/articulos/*.md),
+ * que se cargan en src/content.config.ts; aquí quedan los textos de la página.
  */
 
 export type Tip = {
   id: string;
   title: string;
+  /** Categoría del artículo: primera píldora de la tarjeta, resaltada */
+  category?: string;
   tags: string[];
   href: string;
   /** Imagen opcional; si no hay, se muestra el bloque amarillo del diseño */
   image?: string;
   featured?: boolean;
+};
+
+/** Textos de la plantilla de artículo */
+export type ArticleLabels = {
+  back: string;
+  by: string;
+  readingTime: (min: number) => string;
+  photo: string;
+  toc: string;
+  tags: string;
+  share: string;
+  shareOn: (network: string) => string;
+  related: string;
+  allTips: string;
+  draft: string;
 };
 
 export type SocialWallContent = {
@@ -30,23 +47,30 @@ export type TipsContent = {
   meta: { title: string; description: string };
   hero: { title: string; text: string };
   gridLabel: string;
-  tips: Tip[];
+  /** Aviso opcional sobre la rejilla (p. ej. artículos solo en español) */
+  gridNote?: string;
+  article: ArticleLabels;
   follow: SocialWallContent;
 };
-
-const makeTips = (title: string, tags: string[]): Tip[] => [
-  { id: "tip-destacado", title, tags, href: "#", featured: true },
-  { id: "tip-1", title, tags, href: "#" },
-  { id: "tip-2", title, tags, href: "#" },
-  { id: "tip-3", title, tags, href: "#" },
-];
 
 export const tipsContent: Record<Locale, TipsContent> = {
   es: {
     meta: { title: "Nuestros tips", description: aboutHeroText.es.slice(0, 155) },
     hero: { title: "Nuestros tips", text: aboutHeroText.es },
     gridLabel: "Artículos y tips",
-    tips: makeTips("Tips sobre algo súper importante en COM política", ["Etiqueta", "Etiqueta 2", "Etiqueta 3"]),
+    article: {
+      back: "Nuestros tips",
+      by: "Por",
+      readingTime: (min) => `${min} min de lectura`,
+      photo: "Foto",
+      toc: "En este artículo",
+      tags: "Etiquetas",
+      share: "Compartir",
+      shareOn: (network) => `Compartir en ${network}`,
+      related: "Sigue leyendo",
+      allTips: "Ver todos los tips",
+      draft: "Borrador: este artículo está marcado como incompleto y no se publica en producción.",
+    },
     follow: {
       title: "No te pierdas de nada",
       kicker: "Síguenos",
@@ -79,7 +103,20 @@ export const tipsContent: Record<Locale, TipsContent> = {
     meta: { title: "Our tips", description: aboutHeroText.en.slice(0, 155) },
     hero: { title: "Our tips", text: aboutHeroText.en },
     gridLabel: "Articles and tips",
-    tips: makeTips("Tips on something super important in political communication", ["Tag", "Tag 2", "Tag 3"]),
+    gridNote: "Our articles are currently published in Spanish.",
+    article: {
+      back: "Our tips",
+      by: "By",
+      readingTime: (min) => `${min} min read`,
+      photo: "Photo",
+      toc: "In this article",
+      tags: "Tags",
+      share: "Share",
+      shareOn: (network) => `Share on ${network}`,
+      related: "Keep reading",
+      allTips: "See all tips",
+      draft: "Draft: this article is marked as incomplete and is not published in production.",
+    },
     follow: {
       title: "Don't miss a thing",
       kicker: "Follow us",

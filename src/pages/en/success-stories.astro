@@ -12,7 +12,7 @@ const { meta, casos } = casosContent[lang];
 ---
 
 <BaseLayout title={meta.title} description={meta.description} lang={lang}>
-  <CasosHero lang={lang} />
+  <CasosHero client:load lang={lang} />
   {casos.map((caso) => <CaseSection client:visible={{ rootMargin: "400px" }} caso={caso} lang={lang} />)}
   <StatsBand lang={lang} />
   <Testimonials client:visible lang={lang} />

@@ -11,7 +11,8 @@
   isolation: isolate;
 }
 
-/* Elemento 1550×2048 centrado en (51.4 %, 54.4 %) y rotado −23.07° */
+/* Elemento 1550×2048 centrado en (51.4 %, 54.4 %) y rotado −23.07°.
+   --spin (grados, sin unidad) es el giro extra que añade el scroll desde CasosHero.tsx */
 .s {
   position: absolute;
   left: 51.4%;
@@ -19,9 +20,13 @@
   width: 107.6%;
   max-width: none;
   height: auto;
-  transform: translate(-50%, -50%) rotate(-23.07deg);
+  transform: translate(-50%, -50%) rotate(calc(-23.07deg + var(--spin, 0) * 1deg));
   z-index: -1;
   pointer-events: none;
+}
+
+.spacer {
+  display: none;
 }
 
 .inner {
@@ -64,5 +69,26 @@
   .text {
     text-align: left;
     text-wrap: pretty;
+  }
+}
+
+/* ---------- Giro con el scroll ----------
+   El hero queda fijo (sticky) mientras se recorre el espaciador que lo sigue y,
+   durante ese tramo y su salida, la "S" gira. Ocupa al menos toda la pantalla
+   para que no asome el espaciador vacío por debajo. Va después del bloque
+   móvil para sobrescribir su `min-height: 0`. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero {
+    position: sticky;
+    top: 0;
+    min-height: max(var(--hero-h), 100lvh);
+  }
+  .s {
+    will-change: transform;
+  }
+  .spacer {
+    display: block;
+    /* Scroll extra con el hero fijo (el giro sigue durante la salida) */
+    height: 100lvh;
   }
 }

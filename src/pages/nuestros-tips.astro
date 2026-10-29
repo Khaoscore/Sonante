@@ -4,13 +4,17 @@ import PageHero from "@/components/shared/PageHero";
 import TipsGrid from "@/components/tips/TipsGrid";
 import SocialWall from "@/components/tips/SocialWall";
 import { tipsContent } from "@/data/tips";
+import { getArticles, toTip } from "@/lib/blog";
 
 const lang = "es";
 const { meta, hero } = tipsContent[lang];
+
+// Artículos del blog (blog-sonante/articulos): el primero va como tarjeta destacada
+const tips = (await getArticles()).map((article, i) => toTip(article, i === 0));
 ---
 
 <BaseLayout title={meta.title} description={meta.description} lang={lang}>
-  <PageHero color="magenta" title={hero.title} text={hero.text} />
-  <TipsGrid lang={lang} />
+  <PageHero client:load color="magenta" title={hero.title} text={hero.text} />
+  <TipsGrid tips={tips} lang={lang} />
   <SocialWall lang={lang} />
 </BaseLayout>
