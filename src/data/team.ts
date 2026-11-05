@@ -7,6 +7,11 @@ import type { Locale } from "@/i18n";
  * El wireframe repite la misma foto de equipo en las seis filas; aquí se usan
  * los retratos de Jessica y José (del component set "Component 1" del archivo)
  * y las fotos de equipo disponibles para el resto.
+ *
+ * Todas las filas van en la sección con tarjeta fija y cortina
+ * (components/nosotros/TeamScroll.tsx), en este orden, cada una con su foto.
+ * Las fotos salen de `npm run team:img` (scripts/team-images.mjs): recortadas
+ * a la proporción de la tarjeta (100/137) y en WebP, en /assets/img/equipo/.
  */
 
 export type TeamRow = {
@@ -15,7 +20,10 @@ export type TeamRow = {
   /** Cargo bajo el nombre (solo en las filas de los fundadores) */
   role?: string;
   color: string;
+  /** Foto (o póster del video, si hay `video`) */
   image: string;
+  /** Video vertical opcional para la tarjeta (se reproduce en silencio y en bucle) */
+  video?: string;
   alt: string;
   imagePosition?: string;
   body: string;
@@ -25,16 +33,20 @@ export type AboutContent = {
   meta: { title: string; description: string };
   hero: { kicker: string; text: string };
   teamLabel: string;
+  /** Filas del equipo, en orden de aparición */
   rows: TeamRow[];
 };
 
-const visual = [
-  { id: "jessica", color: "#E94B24", image: "/assets/img/Frame 9.png", imagePosition: "center 45%" },
-  { id: "jose", color: "#FF9024", image: "/assets/img/jose-paz.png", imagePosition: "center 45%" },
-  { id: "dato-jessica", color: "#E94B24", image: "/assets/img/Frame 47.jpg" },
-  { id: "dato-jose", color: "#FF9024", image: "/assets/img/team-1595.png" },
-  { id: "ruptura", color: "#E94B24", image: "/assets/img/team-1594.png" },
-  { id: "esto-es-sonante", color: "#FF9024", image: "/assets/img/Frame 53.png" },
+/** Foto ya recortada por scripts/team-images.mjs (mismo id) */
+const photo = (id: string) => `/assets/img/equipo/${id}.webp`;
+
+const visual: Pick<TeamRow, "id" | "color" | "image" | "video" | "imagePosition">[] = [
+  { id: "jessica", color: "#E94B24", image: photo("jessica") },
+  { id: "jose", color: "#FF9024", image: photo("jose") },
+  { id: "dato-jessica", color: "#E94B24", image: photo("dato-jessica") },
+  { id: "dato-jose", color: "#FF9024", image: photo("dato-jose") },
+  { id: "ruptura", color: "#E94B24", image: photo("ruptura") },
+  { id: "esto-es-sonante", color: "#FF9024", image: photo("esto-es-sonante") },
 ];
 
 const heroText = {
@@ -50,39 +62,39 @@ const copy: Record<Locale, Copy[]> = {
   es: [
     {
       title: "Jessica Blanco",
-      alt: "Jessica Blanco, cofundadora de Sonante",
+      alt: "Jessica Blanco, cofundadora de Sonante, de brazos cruzados frente a un muro de plantas",
       role: "Cofundadora de Sonante.",
       body:
         "<strong>Politóloga, estratega digital y creadora de contenido.</strong> Ha construido su carrera entre la comunicación política y la creación digital, buscando nuevas maneras de hacer comprensibles y atractivos temas complejos. <strong>En 2022 y 2023 fue reconocida por el Panel de Opinión de Cifras &amp; Conceptos</strong> como una de las creadoras de contenido político más influyentes de Colombia.",
     },
     {
       title: "José Paz",
-      alt: "José Paz, cofundador de Sonante",
+      alt: "José Paz, cofundador de Sonante, frente a la fachada de un edificio con luz de tarde",
       role: "Cofundador de Sonante.",
       body:
         "<strong>Es politólogo e internacionalista, especialista en Política, Análisis de Redes y Big Data.</strong> Juntos creamos Sonante para unir dos capacidades que pocas veces aparecen en el mismo lugar: <strong>comprender el poder</strong>, las instituciones y el contexto, <strong>y saber convertir todo eso en contenidos</strong> que la gente quiera escuchar y pueda entender.",
     },
     {
-      title: "Dato Jessica Blanco",
-      alt: "Equipo de Sonante grabando contenido",
+      title: "¿Quién es Jessica Blanco?",
+      alt: "Jessica Blanco sonriendo en casa, frente a una biblioteca",
       body:
         "Jessica es una <strong>boyacense orgullosa</strong> que empezó a crear contenido durante la pandemia como una forma de expresar sus ideas, en un momento en el que salir a las calles o ir a la universidad no era posible.<br><br>Esa experiencia le permitió conocer de primera mano lo que implica exponerse, crear y construir una comunidad. En Sonante sabemos que detrás del proceso creativo no solo hay estrategia, también hay emociones e inseguridades, y <strong>por eso acompañamos cada proyecto entendiendo también esa parte del camino.</strong>",
     },
     {
-      title: "Dato José Paz",
-      alt: "Equipo de Sonante en sesión de producción",
+      title: "¿Quién es José Paz?",
+      alt: "José Paz grabándose con un celular en un trípode",
       body:
         "José es <strong>cruceño</strong>, aunque Bogotá ya lleva más de ocho años siendo su casa. Habla cuatro idiomas, le gusta mucho la fotografía y su formación en ciencia política y relaciones internacionales hace que conecte constantemente lo que pasa aquí con lo que ocurre en otros lugares del mundo.<br><br>Eso también se nota en Sonante. Muchas veces una conversación local termina cruzándose con referencias, tendencias o aprendizajes de América Latina y de otros contextos que <strong>nos ayudan a mirar los problemas desde más de un ángulo.</strong>",
     },
     {
       title: "También quisimos cerrar una ruptura muy común en la comunicación",
-      alt: "Equipo de Sonante trabajando",
+      alt: "Jessica Blanco y José Paz de pie en unas escaleras, vistos desde arriba",
       body:
         "Por un lado están <strong>quienes diseñan estrategias que nunca llegan bien a la pantalla</strong> y, por otro, <strong>quienes producen contenidos sin comprender del todo la estrategia que los sostiene.</strong> En Sonante conectamos ambos procesos. Pensamos el camino, construimos la narrativa y sabemos convertirla en piezas, formatos y conversaciones capaces de moverse en internet.",
     },
     {
       title: "Esto es Sonante",
-      alt: "Integrante del equipo de Sonante",
+      alt: "José Paz y Jessica Blanco conversando, sentados frente a una biblioteca",
       body:
         "Esa forma de trabajar nos ha permitido <strong>liderar y acompañar estrategias presidenciales, legislativas y regionales en Colombia y Ecuador</strong>, junto a figuras como Sergio Fajardo, Francia Márquez, Gustavo Bolívar, Paola Pabón, Mauricio Toro y Luis Ernesto Gómez. <strong>Nuestra experiencia combina análisis político, estrategia digital y creación de contenido,</strong> porque creemos que las mejores ideas necesitan profundidad para construirse y creatividad para llegar a la gente.",
     },
@@ -90,39 +102,39 @@ const copy: Record<Locale, Copy[]> = {
   en: [
     {
       title: "Jessica Blanco",
-      alt: "Jessica Blanco, co-founder of Sonante",
+      alt: "Jessica Blanco, co-founder of Sonante, arms crossed in front of a wall of plants",
       role: "Co-founder of Sonante.",
       body:
         "<strong>Political scientist, digital strategist and content creator.</strong> She has built her career between political communication and digital creation, looking for new ways to make complex topics understandable and engaging. <strong>In 2022 and 2023 she was recognized by the Cifras &amp; Conceptos Opinion Panel</strong> as one of the most influential political content creators in Colombia.",
     },
     {
       title: "José Paz",
-      alt: "José Paz, co-founder of Sonante",
+      alt: "José Paz, co-founder of Sonante, in front of a building facade in late-afternoon light",
       role: "Co-founder of Sonante.",
       body:
         "<strong>He is a political scientist and internationalist, specializing in Politics, Network Analysis and Big Data.</strong> Together we created Sonante to bring together two abilities that rarely appear in the same place: <strong>understanding power</strong>, institutions and context, <strong>and knowing how to turn all of that into content</strong> people want to hear and can understand.",
     },
     {
       title: "Fact: Jessica Blanco",
-      alt: "Sonante team recording content",
+      alt: "Jessica Blanco smiling at home, in front of a bookcase",
       body:
         "Jessica is a <strong>proud Boyacá native</strong> who started creating content during the pandemic as a way to express her ideas, at a time when going out on the streets or to university was not possible.<br><br>That experience taught her first-hand what it means to put yourself out there, create and build a community. At Sonante we know that behind the creative process there is not only strategy but also emotions and insecurities, and <strong>that's why we support every project by understanding that part of the journey too.</strong>",
     },
     {
       title: "Fact: José Paz",
-      alt: "Sonante team during a production session",
+      alt: "José Paz filming himself with a phone on a tripod",
       body:
         "José is from <strong>Santa Cruz</strong>, although Bogotá has been his home for more than eight years. He speaks four languages, loves photography, and his background in political science and international relations means he constantly connects what happens here with what happens elsewhere in the world.<br><br>That shows at Sonante too. Often a local conversation ends up intersecting with references, trends or lessons from Latin America and other contexts that <strong>help us look at problems from more than one angle.</strong>",
     },
     {
       title: "We also wanted to close a very common gap in communication",
-      alt: "Sonante team at work",
+      alt: "Jessica Blanco and José Paz standing on a staircase, seen from above",
       body:
         "On one side are <strong>those who design strategies that never quite make it to the screen</strong>, and on the other, <strong>those who produce content without fully understanding the strategy behind it.</strong> At Sonante we connect both processes. We think through the path, build the narrative and know how to turn it into pieces, formats and conversations that can travel across the internet.",
     },
     {
       title: "This is Sonante",
-      alt: "Member of the Sonante team",
+      alt: "José Paz and Jessica Blanco talking, sitting in front of a bookcase",
       body:
         "That way of working has allowed us to <strong>lead and support presidential, legislative and regional strategies in Colombia and Ecuador</strong>, alongside figures such as Sergio Fajardo, Francia Márquez, Gustavo Bolívar, Paola Pabón, Mauricio Toro and Luis Ernesto Gómez. <strong>Our experience combines political analysis, digital strategy and content creation,</strong> because we believe the best ideas need depth to be built and creativity to reach people.",
     },
