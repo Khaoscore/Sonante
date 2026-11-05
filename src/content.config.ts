@@ -87,4 +87,22 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+/**
+ * Documentos legales (política de privacidad, términos de uso, tratamiento de datos).
+ * Se leen de legal-sonante/documentos/*.md; el nombre del archivo es la URL: /<archivo>/.
+ * Los campos {{clave}} del texto se llenan con legal-sonante/datos.json (ver src/lib/legal.ts).
+ */
+const legal = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./legal-sonante/documentos" }),
+  schema: z.object({
+    titulo: z.string(),
+    /** Nombre corto para las pestañas entre documentos (si falta, se usa el título) */
+    corto: z.string().optional(),
+    descripcion: z.string(),
+    /** Orden en el menú lateral y número del archivo de Word */
+    orden: z.number().int(),
+    version: z.string(),
+  }),
+});
+
+export const collections = { blog, legal };

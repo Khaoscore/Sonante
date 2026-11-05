@@ -1,0 +1,91 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding-top: clamp(150px, 13vw, 190px);
+  padding-bottom: clamp(56px, 7vw, 96px);
+  background: var(--c-verde-oscuro);
+  color: var(--c-blanco);
+}
+
+/* Gota verde: el círculo queda abajo a la derecha, recortado por el borde */
+.drop {
+  position: absolute;
+  right: -10%;
+  bottom: -62%;
+  width: min(68vw, 820px);
+  height: auto;
+  opacity: 0.5;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.kicker {
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  background: var(--c-amarillo);
+  color: var(--c-verde-oscuro);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.title {
+  max-width: 900px;
+  text-wrap: balance;
+}
+
+.text {
+  max-width: 640px;
+  font-size: var(--fs-medium);
+  line-height: 1.45;
+  color: rgba(248, 255, 229, 0.86);
+  text-wrap: pretty;
+}
+
+.meta {
+  margin-top: 4px;
+  color: var(--c-amarillo);
+}
+
+.docs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.doc {
+  display: block;
+  padding: 9px 18px;
+  border: 1px solid rgba(248, 255, 229, 0.35);
+  border-radius: var(--r-pill);
+  color: var(--c-bitter-lime-50);
+  font-size: var(--fs-body-sm);
+  font-weight: 700;
+  transition: background-color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.doc:hover {
+  border-color: var(--c-amarillo);
+  color: var(--c-amarillo);
+}
+.doc[aria-current="page"] {
+  border-color: var(--c-amarillo);
+  background: var(--c-amarillo);
+  color: var(--c-verde-oscuro);
+}
+
+@media (max-width: 560px) {
+  .drop {
+    right: -40%;
+    bottom: -30%;
+    width: 120vw;
+    opacity: 0.4;
+  }
+}

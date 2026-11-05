@@ -1,5 +1,5 @@
 import { site, social } from "@/data/site";
-import { pathFor, type Locale } from "@/i18n";
+import { legalPaths, pathFor, type Locale } from "@/i18n";
 import { ui } from "@/i18n/ui";
 import SocialIcon from "./SocialIcon";
 import styles from "./Footer.module.css";
@@ -8,7 +8,7 @@ type Props = { lang?: Locale };
 
 /**
  * Componente "Footer" del diseño: bloque verde oscuro con logotipo, columnas de
- * información y redes, más barra amarilla de copyright.
+ * información y redes, más barra amarilla de copyright y enlaces a los documentos legales.
  */
 export default function Footer({ lang = "es" }: Props) {
   const t = ui[lang];
@@ -67,6 +67,21 @@ export default function Footer({ lang = "es" }: Props) {
             {site.poweredBy.label}
           </a>
         </p>
+        <nav aria-label={t.footer.legalLabel}>
+          <ul className={styles.legalLinks}>
+            {t.footer.legal.map((item) => (
+              <li key={item.key}>
+                <a
+                  href={legalPaths[item.key]}
+                  hrefLang={lang === "es" ? undefined : "es"}
+                  title={t.footer.legalLangNote}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </footer>
   );

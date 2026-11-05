@@ -13,6 +13,8 @@ npm run dev        # servidor de desarrollo → http://localhost:4321
 npm run build      # build estático en ./dist
 npm run preview    # sirve ./dist
 npm run check      # comprobación de tipos (astro check)
+npm run legal:docx # Word de los documentos legales para el cliente (legal-sonante/para-el-cliente)
+npm run social     # 3 últimas publicaciones de Instagram para el muro de Nuestros tips
 ```
 
 ## Estructura
@@ -27,20 +29,24 @@ src/
   styles/global.css  reset, @font-face, utilidades tipográficas
   layouts/BaseLayout.astro
   layouts/ArticleLayout.astro  plantilla de artículo del blog
-  content.config.ts  colección `blog` (lee blog-sonante/articulos/*.md)
+  layouts/LegalLayout.astro    plantilla de los documentos legales
+  content.config.ts  colecciones `blog` (blog-sonante/articulos) y `legal` (legal-sonante/documentos)
   lib/blog.ts        orden, portadas y relacionados de los artículos
+  lib/legal.ts       llena los campos {{clave}} de los documentos legales
   data/              contenido editable (site, servicios, casos, team, tips)
   components/
     ui/              Button, Icons
     layout/          Nav (isla React), Footer
     home/            HomeHero, Marquee, Intro, Servicios (isla), Distintos, CasosPreview
     shared/          PageHero, InstagramPost, ContactForm (isla), ContactSection
-    nosotros/        TeamRows
+    nosotros/        TeamScroll (isla: tarjeta fija + cortina, scramble, Lenis)
     casos/           CasosHero, CaseSection, StatsBand, Testimonials (isla), BigStats
-    tips/            ProjectCard, TipsGrid, SocialWall, XPost, TweetCard,
+    tips/            ProjectCard, TipsGrid, SocialWall,
                      ArticleHero, ArticleAside, RelatedTips, ArticleBody.module.css
+    legal/           LegalHero, LegalAside, LegalBody.module.css
   pages/             index, quienes-somos, casos-de-exito, nuestros-tips, contacto,
-                     nuestros-tips/[slug] (una página por artículo)
+                     nuestros-tips/[slug] (una página por artículo),
+                     [legal] (política de privacidad, términos de uso, tratamiento de datos)
 ```
 
 Los componentes React se renderizan en el servidor; solo se hidratan los que
@@ -53,7 +59,7 @@ las custom properties de `tokens.css`.
 | Ruta               | Frame en Figma  | Contenido                                                     |
 | ------------------ | --------------- | ------------------------------------------------------------- |
 | `/`                | Wireframe - 1   | Hero con carrusel, cinta, intro, Servicios, diferenciales, casos, contacto |
-| `/quienes-somos/`  | Wireframe - 5   | Hero naranja "Somos SONANTE" + filas del equipo               |
+| `/quienes-somos/`  | Wireframe - 5   | Hero naranja "Somos SONANTE" + equipo con tarjeta fija, cortina y títulos con scramble |
 | `/casos-de-exito/` | Wireframe - 6   | Hero amarillo, 3 casos, cifras, testimonios, cifras grandes    |
 | `/nuestros-tips/`  | Wireframe - 7   | Hero magenta, tarjetas de tips, muro de redes                  |
 | `/contacto/`       | Wireframe - 8   | Formulario con gota degradada                                  |
@@ -139,6 +145,80 @@ en WebM (VP9 a dos pasadas + Opus, ~40 % más liviano que el MP4 equivalente):
 - El script marca `"ready": true` los videos procesados; el carrusel sólo muestra esos.
 - Mientras la lista esté vacía, el carrusel muestra las capturas fijas de
   `public/assets/img/hero/`.
+
+## Publicaciones de Instagram en Nuestros tips
+
+El muro "No te pierdas de nada" de `/nuestros-tips/` muestra las **3 últimas publicaciones** de
+[@sonanteagencia](https://www.instagram.com/sonanteagencia) con el diseño de las tarjetas de
+Instagram (foto 4:5, me gusta, texto recortado y fecha), cada una enlazada a su publicación. En
+escritorio van en tres columnas iguales; en tablet y móvil, en una fila que se desliza de lado.
+
+- `npm run social` (`scripts/social-feed.mjs`) baja las publicaciones, guarda los datos en
+  `src/data/social-feed.json` y las fotos en `public/assets/social/` (WebP; las URL de Instagram
+  caducan, por eso se copian al sitio).
+- La tarea programada `.github/workflows/social-feed.yml` lo corre **a las 7:00 y a las 19:00
+  (Bogotá)** y, si hay publicaciones nuevas, hace commit en el repo; el hosting republica el sitio
+  con ese push. También se puede lanzar a mano: **Actions → Publicaciones de Instagram → Run
+  workflow**. La tarea corre sobre la rama principal; el hosting debe publicar con cada push a
+  `main` (Vercel, Netlify y Cloudflare Pages lo hacen por defecto).
+- Sin datos (`"instagram": null`), el muro muestra las maquetas del diseño
+  (`follow.placeholders` en `src/data/tips.ts`), enlazadas al perfil.
+- Si la descarga falla, se conservan las publicaciones anteriores, la tarea termina en rojo y
+  GitHub avisa por correo.
+- La insignia azul se controla con `follow.verified` en `src/data/tips.ts` (Instagram no la informa).
+
+### Por qué hay que conectar la cuenta una vez
+
+Instagram no deja leer "las últimas publicaciones" de una cuenta sin su autorización. Sin
+conectarla solo se puede incrustar una publicación concreta pegando su enlace, y habría que
+cambiarlo a mano cada vez. Por eso alguien tiene que **iniciar sesión con @sonanteagencia una
+sola vez** en una de estas dos opciones (la cuenta debe ser profesional: empresa o creador). Si
+se configuran las dos, se usa Behold.
+
+### Opción A (recomendada): Behold, sin Meta for Developers
+
+[Behold](https://behold.so) se conecta a Instagram con un botón y mantiene el acceso renovado. Su
+plan gratis alcanza: hasta 6 publicaciones, actualización cada 24 horas y 1.200 vistas al mes (aquí
+solo lo consulta la tarea programada, unas 60 veces al mes).
+
+1. Crear una cuenta en behold.so (puede ser con el correo de la agencia).
+2. Agregar una fuente de **Instagram** e iniciar sesión con @sonanteagencia. Lo puede hacer el
+   cliente en un par de minutos, o ustedes junto a él en una llamada.
+3. Crear un feed de tipo **JSON** y copiar su URL (`https://feeds.behold.so/...`).
+4. En GitHub: *Settings → Secrets and variables → Actions → New repository secret* →
+   `BEHOLD_FEED_URL` con esa URL.
+5. *Actions → Publicaciones de Instagram → Run workflow*.
+
+Si cambian la contraseña de Instagram, hay que reconectar la cuenta en Behold.
+
+### Opción B: API de Meta, sin servicios externos
+
+Es la opción elegida. La guía paso a paso para el cliente está en
+`guias-sonante/Conectar Instagram al sitio web.docx` (y `.pdf`): el cliente crea la app y nos envía
+el token. También puede crearla quien mantiene el sitio en su propia cuenta de
+[Meta for Developers](https://developers.facebook.com/); el cliente solo tiene que iniciar sesión
+con Instagram cuando se le pida. La app puede quedarse en modo de desarrollo (no necesita revisión
+de Meta porque solo lee la cuenta propia). Los nombres de los menús de Meta cambian a veces:
+
+1. *Mis apps → Crear app*, con el caso de uso de **Instagram** ("Administrar mensajes y contenido
+   en Instagram").
+2. *Instagram → Configuración de la API con inicio de sesión para empresas de Instagram →
+   Generar tokens de acceso → Agregar cuenta* e iniciar sesión con @sonanteagencia. Si lo pide,
+   agregar la cuenta como evaluadora de Instagram en *Roles de la app* y aceptar la invitación
+   desde Instagram (*Configuración → Apps y sitios web*).
+3. Copiar el token (dura 60 días; la tarea lo renueva). Si es de 1 hora, ponerlo en `.env` como
+   `INSTAGRAM_TOKEN` junto con `INSTAGRAM_APP_SECRET` (*Configuración de la app → Básica*) y correr
+   `npm run social -- --exchange`, que imprime el de 60 días.
+4. Secretos en GitHub: `INSTAGRAM_TOKEN` y, recomendado, `SOCIAL_SECRETS_PAT`: un
+   [token personal *fine-grained*](https://github.com/settings/personal-access-tokens) con acceso
+   solo a este repositorio y el permiso **Secrets: Read and write**, para guardar el token renovado
+   si Meta devuelve uno distinto.
+5. *Actions → Publicaciones de Instagram → Run workflow*.
+
+Si la tarea falla con "Error validating access token" o "Session has expired", el token venció
+(más de 60 días sin renovarse): generar uno nuevo y reemplazar el secreto.
+
+En local basta con poner `BEHOLD_FEED_URL` o `INSTAGRAM_TOKEN` en `.env` y correr `npm run social`.
 
 ## Muro de fotos de "Lo que nos hace distintos" (DriftWall)
 
@@ -227,6 +307,19 @@ mensaje prellenado hacia `sonanteagencia@gmail.com`. Para enviar a un servicio
 (Formspree, Getform, webhook de n8n…), copia `.env.example` a `.env` y define
 `PUBLIC_FORM_ENDPOINT` con la URL del endpoint que acepte `multipart/form-data`.
 
+La casilla "Autorizo a Sonante a usar mis datos…" es obligatoria (Ley 1581 de 2012)
+y cada mensaje lleva la constancia en el campo `autorizacion_datos`. La idea es
+conectar el formulario a una hoja de Google Sheets con aviso por correo.
+
+## Documentos legales
+
+`/politica-de-privacidad/`, `/terminos-de-uso/` y `/tratamiento-de-datos/` se
+generan desde `legal-sonante/documentos/*.md`, con los datos de la empresa en
+`legal-sonante/datos.json`. Mientras falte algún dato, la página muestra el aviso de
+borrador y no se indexa. Los enlaces están en la franja inferior del pie de página.
+`npm run legal:docx` genera los mismos textos en Word para el cliente. Detalles y
+flujo en [legal-sonante/README.md](legal-sonante/README.md).
+
 ## Blog ("Nuestros tips")
 
 Los artículos viven en `blog-sonante/articulos/*.md` (una carpeta fuera de `src/`
@@ -249,8 +342,9 @@ Cómo se publica:
   `npm run dev` (con un aviso de borrador) y no entra en el build.
 - **Portadas**: sin foto, cada artículo tiene una portada generada
   (`src/components/tips/ArticleCover.tsx` + `src/lib/cover.ts`): fondo oscuro con
-  brillos de la paleta de su categoría, el símbolo "S" en un círculo y un destello;
-  la variación sale del slug, así que es estable. La misma portada se renderiza como
+  brillos de la paleta de su categoría y el símbolo "S" en un círculo; la variación
+  sale del slug, así que es estable. El botón de flecha de cada tarjeta toma el
+  color del círculo de su categoría. La misma portada se renderiza como
   imagen para redes en `/og/<slug>.jpg` (endpoint con sharp). Para usar una foto,
   exportarla a `public/images/blog/<slug>.jpg` (también sirve `.webp`, `.png` o
   `.avif`) y reemplaza a la generada. El campo `cover.credit` se publica como pie de

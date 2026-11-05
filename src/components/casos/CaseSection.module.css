@@ -31,21 +31,15 @@
   }
 }
 
-/* ---------- Contenido: sube sobre la foto ya abierta ----------
-   Se superpone a la última pantalla de la pista de ScrollExpand. */
+/* ---------- Contenido: aparece sobre la foto ya abierta ----------
+   Es el overlay de ScrollExpand; arriba deja sitio al menú fijo. */
+.overlay {
+  padding: clamp(96px, 8vw, 120px) 0 clamp(48px, 5vw, 72px);
+}
+
 .body {
-  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  min-height: 100svh;
-  margin-top: -100svh;
-  padding-block: clamp(96px, 8vw, 120px) clamp(48px, 5vw, 72px);
-  /* Velo casi negro al 50 % sobre la foto, ambos fijos a la ventana: igual
-     encuadre que la foto abierta de ScrollExpand, así no se nota el cambio */
-  background:
-    linear-gradient(var(--ov-casi-negro-50), var(--ov-casi-negro-50)) fixed,
-    var(--case-bg) var(--case-bg-pos) / cover no-repeat fixed;
 }
 
 /* Etiqueta arriba a la derecha, en el flujo: nunca tapa el nombre */
@@ -124,6 +118,18 @@
   justify-content: center;
 }
 
+/* Cifras sin iconos: valor grande y texto debajo */
+.figures {
+  align-items: flex-start;
+}
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 0 1 300px;
+  text-align: left;
+}
+
 .closing {
   max-width: 722px;
 }
@@ -150,15 +156,21 @@
     text-align: center;
     justify-content: center;
   }
+  .figures {
+    align-items: center;
+  }
+  .figure {
+    flex: 0 0 auto;
+    align-items: center;
+    max-width: 420px;
+    text-align: center;
+  }
 }
 
 /* Mobile (frame 383:3277) */
 @media (max-width: 560px) {
-  /* La etiqueta va arriba a la derecha, en el flujo, para no taparse con el título */
-  .body {
-    flex-direction: column;
-    align-items: stretch;
-    padding-block: 88px 48px;
+  .overlay {
+    padding-block: 88px 40px;
   }
   .tag {
     padding: 6px 16px;
@@ -211,5 +223,22 @@
   .stat img {
     width: 20px;
     height: 20px;
+  }
+  /* Cifras sin iconos: la del medio arriba a todo el ancho, las otras dos debajo */
+  .figure {
+    gap: 2px;
+    max-width: none;
+  }
+  .figure:nth-child(2) {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+  .figure :global(.t-h4) {
+    font-size: 1.125rem;
+    line-height: 1.2;
+  }
+  .figure :global(.t-medium) {
+    font-size: 0.875rem;
+    line-height: 1.3;
   }
 }

@@ -12,18 +12,27 @@ export type InstagramPostProps = {
   /** Texto alternativo de la insignia de verificación */
   verifiedLabel?: string;
   likedBy?: string;
+  /** Avatares de "les gusta a…" junto a likedBy (solo en las maquetas) */
+  likedAvatars?: boolean;
   caption?: ReactNode;
+  /** Recorta el caption a dos líneas (captions reales, que pueden ser largos) */
+  clampCaption?: boolean;
   date?: string;
-  /** Formato del medio: cuadrado (post) o vertical (reel) */
-  aspect?: "square" | "reel";
+  /** Formato del medio: cuadrado (post), vertical del diseño (reel) o 4:5 (feed actual de Instagram) */
+  aspect?: "square" | "reel" | "portrait";
   /** lg = 508 px de referencia (home); md = 387 px (tips) */
   size?: "lg" | "md";
+  /** Enlace a la publicación: toda la tarjeta se vuelve clicable */
+  href?: string;
+  /** Nombre accesible del enlace (p. ej. "Ver publicación en Instagram") */
+  linkLabel?: string;
   className?: string;
 };
 
 /**
- * Maqueta de publicación de Instagram usada como pieza gráfica en el home y en
- * "Nuestros tips". Es decorativa: no se conecta con la API de Instagram.
+ * Publicación de Instagram con el diseño de la librería. En el home es una pieza
+ * gráfica; en "Nuestros tips" muestra los posts reales de src/data/social-feed.json
+ * (con `href` a la publicación) o, sin datos, la maqueta del diseño.
  */
 export default function InstagramPost({
   handle,
@@ -34,16 +43,20 @@ export default function InstagramPost({
   verified = true,
   verifiedLabel = "Verificado",
   likedBy,
+  likedAvatars = true,
   caption,
+  clampCaption = false,
   date,
   aspect = "square",
   size = "lg",
+  href,
+  linkLabel,
   className = "",
 }: InstagramPostProps) {
   const style = { "--s": size === "lg" ? 1 : 0.7616 } as CSSProperties;
 
   return (
-    <figure className={`${styles.post} ${className}`} style={style}>
+    <figure className={`${styles.post} ${href ? styles.linked : ""} ${className}`} style={style}>
       <header className={styles.header}>
         <img src={avatar} alt="" className={styles.avatar} width={46} height={46} loading="lazy" />
         <div className={styles.meta}>
@@ -61,7 +74,7 @@ export default function InstagramPost({
         <img src="/assets/icons/icon-more.svg" alt="" className={styles.more} />
       </header>
 
-      <div className={`${styles.media} ${aspect === "reel" ? styles.reel : ""}`}>
+      <div className={`${styles.media} ${aspect !== "square" ? styles[aspect] : ""}`}>
         <img src={image} alt={imageAlt} loading="lazy" decoding="async" />
         <img src="/assets/icons/icon-tagged.svg" alt="" className={styles.tagged} />
         <img src="/assets/icons/icon-volume.svg" alt="" className={styles.volume} />
@@ -80,16 +93,18 @@ export default function InstagramPost({
         <figcaption className={styles.body}>
           {likedBy && (
             <p className={styles.liked}>
-              <span className={styles.likedAvatars}>
-                <img src="/assets/img/ig-liked-1.png" alt="" />
-                <img src="/assets/img/ig-liked-2.png" alt="" />
-                <img src="/assets/img/ig-liked-3.png" alt="" />
-              </span>
+              {likedAvatars && (
+                <span className={styles.likedAvatars}>
+                  <img src="/assets/img/ig-liked-1.png" alt="" />
+                  <img src="/assets/img/ig-liked-2.png" alt="" />
+                  <img src="/assets/img/ig-liked-3.png" alt="" />
+                </span>
+              )}
               <strong>{likedBy}</strong>
             </p>
           )}
           {caption && (
-            <p className={styles.caption}>
+            <p className={`${styles.caption} ${clampCaption ? styles.clamp : ""}`}>
               <strong>{handle}</strong>
               <br />
               {caption}
@@ -97,6 +112,10 @@ export default function InstagramPost({
           )}
           {date && <p className={styles.date}>{date}</p>}
         </figcaption>
+      )}
+
+      {href && (
+        <a className={styles.stretched} href={href} target="_blank" rel="noopener noreferrer" aria-label={linkLabel} />
       )}
     </figure>
   );

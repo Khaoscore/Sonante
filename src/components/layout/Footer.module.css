@@ -116,8 +116,10 @@
 
 .copyright {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  gap: 6px 28px;
   padding: 10px var(--gutter);
   background: var(--footer-strip-bg, var(--c-amarillo));
   color: var(--footer-strip-text, var(--c-verde-oscuro));
@@ -136,6 +138,29 @@
 .copyright a:focus-visible {
   transform: scale(1.1);
   color: var(--footer-strip-hover, var(--c-blanco));
+}
+
+/* Documentos legales: en la misma franja, separados por puntos */
+.legalLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 0;
+}
+.legalLinks li + li::before {
+  content: "·";
+  margin-inline: 10px;
+  opacity: 0.6;
+}
+.copyright .legalLinks a {
+  transform: none;
+  text-decoration-color: transparent;
+  transition: color var(--t-fast) var(--ease), text-decoration-color var(--t-fast) var(--ease);
+}
+.copyright .legalLinks a:hover,
+.copyright .legalLinks a:focus-visible {
+  transform: none;
+  text-decoration-color: currentColor;
 }
 
 /* ---------- Responsive ---------- */

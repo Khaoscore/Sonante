@@ -1,4 +1,4 @@
-import type { Locale, RouteKey } from "./index";
+import type { LegalKey, Locale, RouteKey } from "./index";
 
 /**
  * Textos de interfaz (navegación, footer, formulario, etiquetas de accesibilidad).
@@ -31,6 +31,11 @@ export type UiStrings = {
     copyright: string;
     poweredBy: string;
     menu: { key: RouteKey; label: string }[];
+    /** Enlaces a los documentos legales (franja inferior) */
+    legalLabel: string;
+    legal: { key: LegalKey; label: string }[];
+    /** Aviso en los enlaces legales cuando la página no está en español */
+    legalLangNote?: string;
   };
   form: {
     aboutYou: string;
@@ -52,6 +57,16 @@ export type UiStrings = {
     mailSubject: string;
     mailFields: { name: string; phone: string; country: string; city: string; email: string };
     countries: CountryOption[];
+    /** Casilla de autorización de datos personales (Ley 1581 de 2012) */
+    consent: {
+      before: string;
+      data: string;
+      and: string;
+      privacy: string;
+      after: string;
+      /** Línea que se añade al mensaje como constancia de la autorización */
+      record: string;
+    };
   };
   a11y: {
     previous: string;
@@ -60,12 +75,6 @@ export type UiStrings = {
     tags: string;
     instagram: string;
     tiktok: string;
-    xPostAlt: string;
-    xComments: string;
-    xReposts: string;
-    xLikes: string;
-    xBookmarks: string;
-    xShare: string;
   };
 };
 
@@ -151,6 +160,12 @@ export const ui: Record<Locale, UiStrings> = {
         { key: "tips", label: "Nuestros tips" },
         { key: "contact", label: "¿Conversamos?" },
       ],
+      legalLabel: "Documentos legales",
+      legal: [
+        { key: "privacy", label: "Política de privacidad" },
+        { key: "terms", label: "Términos de uso" },
+        { key: "data", label: "Tratamiento de datos" },
+      ],
     },
     form: {
       aboutYou: "Cuéntanos qué necesitas y encontraremos la mejor manera de trabajarlo juntos.",
@@ -172,6 +187,14 @@ export const ui: Record<Locale, UiStrings> = {
       mailSubject: "Contacto desde la web",
       mailFields: { name: "Nombre", phone: "Teléfono", country: "País", city: "Ciudad", email: "Correo" },
       countries: countriesEs,
+      consent: {
+        before: "Autorizo a Sonante a usar mis datos para responder mi mensaje, según su ",
+        data: "Política de tratamiento de datos personales",
+        and: " y su ",
+        privacy: "Política de privacidad",
+        after: ".",
+        record: "Autorización de datos personales: Sí (Política de tratamiento de datos personales)",
+      },
     },
     a11y: {
       previous: "Testimonio anterior",
@@ -180,12 +203,6 @@ export const ui: Record<Locale, UiStrings> = {
       tags: "Etiquetas",
       instagram: "Instagram",
       tiktok: "TikTok",
-      xPostAlt: "Publicación de Sonante en X",
-      xComments: "Comentarios",
-      xReposts: "Reposts",
-      xLikes: "Me gusta",
-      xBookmarks: "Guardados",
-      xShare: "Compartir",
     },
   },
   en: {
@@ -221,6 +238,13 @@ export const ui: Record<Locale, UiStrings> = {
         { key: "tips", label: "Our tips" },
         { key: "contact", label: "Let's talk" },
       ],
+      legalLabel: "Legal documents",
+      legal: [
+        { key: "privacy", label: "Privacy policy" },
+        { key: "terms", label: "Terms of use" },
+        { key: "data", label: "Personal data policy" },
+      ],
+      legalLangNote: "Document in Spanish",
     },
     form: {
       aboutYou: "Tell us what you need and we'll find the best way to work on it together.",
@@ -242,6 +266,14 @@ export const ui: Record<Locale, UiStrings> = {
       mailSubject: "Website contact",
       mailFields: { name: "Name", phone: "Phone", country: "Country", city: "City", email: "Email" },
       countries: countriesEn,
+      consent: {
+        before: "I authorize Sonante to use my data to answer my message, under its ",
+        data: "Personal data policy",
+        and: " and ",
+        privacy: "Privacy policy",
+        after: " (in Spanish).",
+        record: "Personal data authorization: Yes (Personal data policy)",
+      },
     },
     a11y: {
       previous: "Previous testimonial",
@@ -250,12 +282,6 @@ export const ui: Record<Locale, UiStrings> = {
       tags: "Tags",
       instagram: "Instagram",
       tiktok: "TikTok",
-      xPostAlt: "Sonante post on X",
-      xComments: "Comments",
-      xReposts: "Reposts",
-      xLikes: "Likes",
-      xBookmarks: "Bookmarks",
-      xShare: "Share",
     },
   },
 };

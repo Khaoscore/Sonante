@@ -29,7 +29,8 @@
   border-radius: inherit;
 }
 
-/* Botón circular verde (50 px, borde 4 px casi negro) rotado 60° en la esquina inferior izquierda */
+/* Botón circular (50 px, borde 4 px casi negro) rotado 60° en la esquina inferior
+   izquierda. Color de la categoría vía --arrow-bg / --arrow-fg; verde por defecto. */
 .arrow {
   position: absolute;
   left: -16px;
@@ -40,15 +41,15 @@
   height: 50px;
   border-radius: 50%;
   border: 4px solid var(--c-casi-negro);
-  background: var(--c-verde);
-  color: var(--c-casi-negro);
+  background: var(--arrow-bg, var(--c-verde));
+  color: var(--arrow-fg, var(--c-casi-negro));
   transform: rotate(60deg);
   transition: transform var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
 }
 
 .link:hover .arrow {
   transform: rotate(60deg) scale(1.08);
-  background: #14c93a;
+  background: color-mix(in srgb, var(--arrow-bg, var(--c-verde)) 85%, #ffffff);
 }
 
 .link:hover .media img {
@@ -95,8 +96,18 @@
   max-width: 560px;
 }
 
+/* Máximo dos líneas; si el título es más largo se corta con "…".
+   El padding (compensado con margen negativo) evita que el recorte se coma
+   las letras que bajan de la línea (y, p, g, ¿) en la fuente del destacado. */
 .title {
   text-wrap: pretty;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
 }
 
 @media (max-width: 560px) {

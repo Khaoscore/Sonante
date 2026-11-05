@@ -1,0 +1,80 @@
+---
+/**
+ * Plantilla de los documentos legales (legal-sonante/documentos/*.md).
+ * Llena los campos {{clave}} con legal-sonante/datos.json; mientras falte alguno,
+ * muestra el aviso de borrador y pide a los buscadores no indexar la página.
+ */
+import type { MarkdownHeading } from "astro";
+import BaseLayout from "./BaseLayout.astro";
+import LegalHero from "@/components/legal/LegalHero";
+import LegalAside from "@/components/legal/LegalAside";
+import styles from "@/components/legal/LegalBody.module.css";
+import { legalPath, llenarCampos, valorCampo, type LegalDoc } from "@/lib/legal";
+
+interface Props {
+  doc: LegalDoc;
+  /** Todos los documentos legales, para el menú lateral */
+  docs: LegalDoc[];
+}
+
+const { doc, docs } = Astro.props;
+const { data } = doc;
+
+const { html, pendientes } = llenarCampos(doc.rendered?.html ?? "");
+const borrador = pendientes.length > 0;
+const vigencia = valorCampo("fecha_vigencia");
+const meta = vigencia
+  ? `Versión ${data.version} · Vigente desde el ${vigencia}`
+  : `Versión ${data.version} · Borrador en revisión`;
+
+const headings = (doc.rendered?.metadata?.headings ?? []) as MarkdownHeading[];
+const toc = headings
+  .filter((h) => h.depth === 2)
+  .map(({ slug, text }) => ({ slug, text }));
+const links = docs.map((d) => ({ href: legalPath(d.id), label: d.data.corto ?? d.data.titulo, current: d.id === doc.id }));
+---
+
+<BaseLayout title={data.titulo} description={data.descripcion} lang="es" mainClass={styles.main}>
+  {borrador && <meta slot="head" name="robots" content="noindex" />}
+
+  <LegalHero
+    kicker="Legal"
+    title={data.titulo}
+    text={data.descripcion}
+    meta={meta}
+    docsLabel="Documentos legales"
+    docs={links}
+  />
+
+  <div class={`container ${styles.layout}`}>
+    <div class={styles.content}>
+      {
+        borrador && (
+          <p class={styles.draft}>
+            <strong>Borrador en revisión.</strong> Los datos resaltados están pendientes de confirmación por parte de
+            Sonante.
+          </p>
+        )
+      }
+
+      {
+        toc.length > 1 && (
+          <details class={styles.mobileToc}>
+            <summary>Contenido del documento</summary>
+            <ol>
+              {toc.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`}>{h.text}</a>
+                </li>
+              ))}
+            </ol>
+          </details>
+        )
+      }
+
+      <div class={styles.prose} set:html={html} />
+    </div>
+
+    <LegalAside title="En esta página" toc={toc} />
+  </div>
+</BaseLayout>

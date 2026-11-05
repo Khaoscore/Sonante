@@ -41,3 +41,6 @@ public/fonts/*.woff
 public/fonts/*.woff2
 public/fonts/*.otf
 public/fonts/*.ttf
+
+# Word lock files (documentos abiertos, p. ej. legal-sonante/para-el-cliente)
+~$*

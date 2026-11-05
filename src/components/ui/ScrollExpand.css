@@ -73,11 +73,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* Si el contenido no cabe, arranca arriba (no se corta por los dos lados) */
+  justify-content: safe center;
   text-align: center;
   padding: 6%;
   opacity: 0;
   will-change: opacity, transform;
+}
+
+.scroll-expand__content {
+  width: 100%;
+  will-change: transform;
 }
 
 .scroll-expand__title {

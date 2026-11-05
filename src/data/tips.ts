@@ -33,13 +33,26 @@ export type ArticleLabels = {
   draft: string;
 };
 
+/**
+ * Muro "No te pierdas de nada": las 3 últimas publicaciones de Instagram, tomadas
+ * de src/data/social-feed.json (npm run social). Las maquetas de `placeholders`
+ * solo se ven mientras ese archivo no tenga publicaciones.
+ */
 export type SocialWallContent = {
   title: string;
   kicker: string;
-  igPost: { handle: string; subtitle: string; likedBy: string; caption: string; date: string; imageAlt: string };
-  igReel: { handle: string; subtitle: string; imageAlt: string };
-  xPost: { name: string; handle: string; subscribe: string; text: string; time: string; date: string; views: string };
-  tweet: { name: string; handle: string; text: string };
+  /** Usuario que se muestra mientras no haya datos reales */
+  handle: string;
+  /** La cuenta tiene la insignia azul (la API no lo informa) */
+  verified: boolean;
+  placeholders: { image: string; caption: string }[];
+  labels: {
+    /** "345 Me gusta" */
+    likes: (count: string) => string;
+    imageAlt: string;
+    viewPost: string;
+    seeProfile: string;
+  };
 };
 
 export type TipsContent = {
@@ -79,28 +92,18 @@ export const tipsContent: Record<Locale, TipsContent> = {
     follow: {
       title: "No te pierdas de nada",
       kicker: "Síguenos",
-      igPost: {
-        handle: "sonanteagencia",
-        subtitle: "Ram Sanap • Soulful Company",
-        likedBy: "Liked by khaoscore_____ and 345 others",
-        caption: "Profesor, administrador y muy pronto...",
-        date: "Septiembre 23",
+      handle: "sonanteagencia",
+      verified: true,
+      placeholders: [
+        { image: "/assets/img/ig-post-1.png", caption: "¿Cómo es trabajar con Sergio Fajardo?" },
+        { image: "/assets/img/ig-post-2.png", caption: "Sí, asesoramos a Sergio Fajardo en su estrategia de redes." },
+        { image: "/assets/img/x-media.png", caption: "Hoy más que nunca: Colombia, ¡Adelante! 🇨🇴" },
+      ],
+      labels: {
+        likes: (count) => `${count} Me gusta`,
         imageAlt: "Publicación de Sonante en Instagram",
-      },
-      igReel: { handle: "sonanteagencia", subtitle: "Ram Sanap • Soulful Company", imageAlt: "Reel de Sonante en Instagram" },
-      xPost: {
-        name: "sonanteagencia",
-        handle: "@sonante_agencia",
-        subscribe: "Suscribirse",
-        text: "Hoy más que nunca: Colombia, ¡Adelante! 🇨🇴",
-        time: "12:00 PM",
-        date: "14 oct 2023",
-        views: "200.1K vistas",
-      },
-      tweet: {
-        name: "sonanteagencia",
-        handle: "@sonante_agencia",
-        text: "Transformamos las redes de políticos, empresas y marcas personales en referentes digitales.",
+        viewPost: "Ver publicación en Instagram",
+        seeProfile: "Seguir a Sonante en Instagram",
       },
     },
   },
@@ -125,28 +128,18 @@ export const tipsContent: Record<Locale, TipsContent> = {
     follow: {
       title: "Don't miss a thing",
       kicker: "Follow us",
-      igPost: {
-        handle: "sonanteagencia",
-        subtitle: "Ram Sanap • Soulful Company",
-        likedBy: "Liked by khaoscore_____ and 345 others",
-        caption: "Professor, administrator and very soon...",
-        date: "September 23",
+      handle: "sonanteagencia",
+      verified: true,
+      placeholders: [
+        { image: "/assets/img/ig-post-1.png", caption: "What is it like to work with Sergio Fajardo?" },
+        { image: "/assets/img/ig-post-2.png", caption: "Yes, we advise Sergio Fajardo on his social media strategy." },
+        { image: "/assets/img/x-media.png", caption: "Now more than ever: Colombia, onward! 🇨🇴" },
+      ],
+      labels: {
+        likes: (count) => `${count} likes`,
         imageAlt: "Sonante post on Instagram",
-      },
-      igReel: { handle: "sonanteagencia", subtitle: "Ram Sanap • Soulful Company", imageAlt: "Sonante reel on Instagram" },
-      xPost: {
-        name: "sonanteagencia",
-        handle: "@sonante_agencia",
-        subscribe: "Subscribe",
-        text: "Now more than ever: Colombia, onward! 🇨🇴",
-        time: "12:00 PM",
-        date: "Oct 14, 2023",
-        views: "200.1K Views",
-      },
-      tweet: {
-        name: "sonanteagencia",
-        handle: "@sonante_agencia",
-        text: "We turn politicians, companies and personal brands into leading voices on social media.",
+        viewPost: "View post on Instagram",
+        seeProfile: "Follow Sonante on Instagram",
       },
     },
   },

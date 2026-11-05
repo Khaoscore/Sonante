@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { site } from "@/data/site";
-import type { Locale } from "@/i18n";
+import { legalPaths, type Locale } from "@/i18n";
 import { ui } from "@/i18n/ui";
 import Button from "@/components/ui/Button";
 import { ChevronDown, Globe, Mail, Pen, Phone, User } from "@/components/ui/Icons";
@@ -14,6 +14,9 @@ type Props = { lang?: Locale };
  * Formulario de contacto (frame 43:977 del diseño). Si existe la variable
  * PUBLIC_FORM_ENDPOINT se envía por POST (Formspree, Getform, n8n, etc.);
  * si no, abre el cliente de correo con el mensaje prellenado.
+ *
+ * La casilla de autorización es obligatoria (Ley 1581 de 2012: autorización previa,
+ * expresa e informada) y su constancia viaja con cada mensaje.
  */
 export default function ContactForm({ lang = "es" }: Props) {
   const f = ui[lang].form;
@@ -27,6 +30,7 @@ export default function ContactForm({ lang = "es" }: Props) {
     const form = e.currentTarget;
     const data = new FormData(form);
     data.set("idioma", lang);
+    data.set("autorizacion_datos", f.consent.record);
     setStatus("sending");
 
     if (endpoint) {
@@ -50,6 +54,8 @@ export default function ContactForm({ lang = "es" }: Props) {
       `${f.mailFields.email}: ${data.get("correo")}`,
       "",
       String(data.get("mensaje") ?? ""),
+      "",
+      f.consent.record,
     ];
     const subject = encodeURIComponent(`${f.mailSubject} — ${data.get("nombre")}`);
     const body = encodeURIComponent(lines.join("\n"));
@@ -124,6 +130,21 @@ export default function ContactForm({ lang = "es" }: Props) {
         <Pen className={styles.icon} />
         <textarea id="mensaje" name="mensaje" placeholder={f.messagePlaceholder} rows={6} required />
       </span>
+
+      <label className={styles.consent}>
+        <input type="checkbox" name="autorizacion_datos" required />
+        <span>
+          {f.consent.before}
+          <a href={legalPaths.data} target="_blank" rel="noopener" hrefLang="es">
+            {f.consent.data}
+          </a>
+          {f.consent.and}
+          <a href={legalPaths.privacy} target="_blank" rel="noopener" hrefLang="es">
+            {f.consent.privacy}
+          </a>
+          {f.consent.after}
+        </span>
+      </label>
 
       <div className={styles.actions}>
         <Button type="submit" variant="primary" disabled={status === "sending"}>
