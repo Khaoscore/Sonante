@@ -10,9 +10,11 @@
  *   BEHOLD_FEED_URL        feed JSON de behold.so (https://feeds.behold.so/...). Lo más
  *                          sencillo: se conecta Instagram una vez en behold.so y Behold
  *                          mantiene el acceso; no hace falta Meta for Developers.
- *   INSTAGRAM_TOKEN        token de la API de Instagram (inicio de sesión de Instagram),
- *                          creado en una app de Meta for Developers. Dura 60 días y la
- *                          tarea programada lo renueva.
+ *   INSTAGRAM_TOKEN        token creado en una app de Meta for Developers. Sirven dos tipos:
+ *                          - inicio de sesión de Instagram (empieza por IG): dura 60 días
+ *                            y la tarea programada lo renueva;
+ *                          - inicio de sesión unificado (empieza por EAA): token de usuario
+ *                            del sistema que no caduca. Lee la cuenta por su id (ACCOUNT_ID).
  *   INSTAGRAM_APP_SECRET   solo para --exchange
  *   REFRESHED_TOKENS_FILE  (Actions) archivo .env donde se deja el token renovado cuando
  *                          Meta devuelve uno distinto, para guardarlo como secreto
@@ -32,6 +34,18 @@ const IMG_DIR = path.join(root, "public/assets/social");
 const IMG_URL = "/assets/social";
 
 const IG_API = "https://graph.instagram.com";
+// Sin versión: Meta usa la de la app y la sube sola cuando la vieja deja de existir
+const FB_API = "https://graph.facebook.com";
+
+/**
+ * Id de @sonanteagencia en la API de Meta, para los tokens de Facebook (se ve en Meta for
+ * Developers → Instagram → API setup → Generar tokens de acceso, debajo del nombre de la cuenta).
+ * El token del inicio de sesión unificado lee la cuenta por su id, aunque no la liste como asignada.
+ */
+const ACCOUNT_ID = "17841467725523157";
+
+/** Los tokens de Facebook (inicio de sesión unificado) empiezan por EAA; los de Instagram, por IG */
+const isFacebookToken = (token) => token.startsWith("EAA");
 
 /** Publicaciones que muestra el muro */
 const POSTS = 3;
@@ -77,7 +91,8 @@ async function main() {
     if (beholdUrl) {
       account = await fromBehold(beholdUrl);
     } else {
-      if (args.has("--refresh")) token = await refreshToken(token);
+      // Los tokens de usuario del sistema no caducan: no hay nada que renovar
+      if (args.has("--refresh") && !isFacebookToken(token)) token = await refreshToken(token);
       account = await fromMeta(token);
     }
     next.instagram = await saveAccount(account);
@@ -149,9 +164,19 @@ const IG_FIELDS =
   "id,caption,media_type,media_product_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count";
 
 async function fromMeta(token) {
-  const me = await api(`${IG_API}/me`, { fields: "user_id,username,profile_picture_url", access_token: token });
-  const { data = [] } = await api(`${IG_API}/me/media`, { fields: IG_FIELDS, limit: "12", access_token: token });
+  if (!isFacebookToken(token)) {
+    const me = await api(`${IG_API}/me`, { fields: "user_id,username,profile_picture_url", access_token: token });
+    const { data = [] } = await api(`${IG_API}/me/media`, { fields: IG_FIELDS, limit: "12", access_token: token });
+    return { username: me.username, avatarUrl: me.profile_picture_url ?? null, posts: await toPosts(data, IG_API, token) };
+  }
 
+  const account = await api(`${FB_API}/${ACCOUNT_ID}`, { fields: "username,profile_picture_url", access_token: token });
+  const { data = [] } = await api(`${FB_API}/${ACCOUNT_ID}/media`, { fields: IG_FIELDS, limit: "12", access_token: token });
+  return { username: account.username, avatarUrl: account.profile_picture_url ?? null, posts: await toPosts(data, FB_API, token) };
+}
+
+/** Publicaciones de la API → formato común. `base` es el dominio de la API que corresponde al token */
+async function toPosts(data, base, token) {
   const posts = [];
   for (const m of data) {
     const isVideo = m.media_type === "VIDEO";
@@ -174,7 +199,7 @@ async function fromMeta(token) {
     .sort((a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp))
     .slice(0, POSTS + 2);
   for (const p of shown.filter((p) => p.carousel)) {
-    const { data: children = [] } = await api(`${IG_API}/${p.id}/children`, {
+    const { data: children = [] } = await api(`${base}/${p.id}/children`, {
       fields: "media_type,media_url,thumbnail_url",
       access_token: token,
     });
@@ -182,7 +207,7 @@ async function fromMeta(token) {
     if (child) p.imageUrls = [child.media_type === "VIDEO" ? child.thumbnail_url : child.media_url].filter(Boolean);
   }
 
-  return { username: me.username, avatarUrl: me.profile_picture_url ?? null, posts: latest(shown) };
+  return latest(shown);
 }
 
 /**

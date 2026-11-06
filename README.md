@@ -202,13 +202,22 @@ de Meta porque solo lee la cuenta propia). Los nombres de los menús de Meta cam
 
 1. *Mis apps → Crear app*, con el caso de uso de **Instagram** ("Administrar mensajes y contenido
    en Instagram").
-2. *Instagram → Configuración de la API con inicio de sesión para empresas de Instagram →
-   Generar tokens de acceso → Agregar cuenta* e iniciar sesión con @sonanteagencia. Si lo pide,
-   agregar la cuenta como evaluadora de Instagram en *Roles de la app* y aceptar la invitación
-   desde Instagram (*Configuración → Apps y sitios web*).
-3. Copiar el token (dura 60 días; la tarea lo renueva). Si es de 1 hora, ponerlo en `.env` como
-   `INSTAGRAM_TOKEN` junto con `INSTAGRAM_APP_SECRET` (*Configuración de la app → Básica*) y correr
-   `npm run social -- --exchange`, que imprime el de 60 días.
+2. Agregar @sonanteagencia como evaluadora: *Roles de la app → Agregar personas → Evaluador de
+   Instagram* con el usuario `sonanteagencia`, y aceptar la invitación desde Instagram
+   (instagram.com/accounts/manage_access → *Invitaciones de evaluador*).
+3. Generar el token. El script acepta los dos tipos que da Meta:
+   - **Inicio de sesión de Instagram** (*Instagram → Configuración de la API con inicio de sesión
+     de Instagram → Generar tokens de acceso → Agregar cuenta*). Empieza por `IG` y dura 60 días;
+     la tarea lo renueva. Si es de 1 hora, ponerlo en `.env` como `INSTAGRAM_TOKEN` junto con
+     `INSTAGRAM_APP_SECRET` (*Configuración de la app → Básica*) y correr
+     `npm run social -- --exchange`, que imprime el de 60 días.
+   - **Inicio de sesión unificado** (*Instagram → API setup with Unified login*). Es el que Meta
+     asigna a las apps creadas desde octubre de 2026 y **el que se usa hoy**. Se crea una
+     configuración desde la plantilla (basta el permiso `instagram_basic`) y en *Generar tokens de
+     acceso* se pulsa *Generar token* junto a la cuenta. Empieza por `EAA`, es de un "usuario del
+     sistema" y no caduca. El script lee la cuenta por su id (`ACCOUNT_ID` en
+     `scripts/social-feed.mjs`, el número que Meta muestra debajo del nombre de la cuenta); si
+     algún día se conecta otra cuenta, hay que cambiarlo ahí.
 4. Secretos en GitHub: `INSTAGRAM_TOKEN` y, recomendado, `SOCIAL_SECRETS_PAT`: un
    [token personal *fine-grained*](https://github.com/settings/personal-access-tokens) con acceso
    solo a este repositorio y el permiso **Secrets: Read and write**, para guardar el token renovado
@@ -216,7 +225,9 @@ de Meta porque solo lee la cuenta propia). Los nombres de los menús de Meta cam
 5. *Actions → Publicaciones de Instagram → Run workflow*.
 
 Si la tarea falla con "Error validating access token" o "Session has expired", el token venció
-(más de 60 días sin renovarse): generar uno nuevo y reemplazar el secreto.
+(más de 60 días sin renovarse) o se revocó el acceso: generar uno nuevo y reemplazar el secreto.
+`SOCIAL_SECRETS_PAT` solo hace falta con el token de Instagram (`IG`); el de usuario del sistema
+(`EAA`) no se renueva.
 
 En local basta con poner `BEHOLD_FEED_URL` o `INSTAGRAM_TOKEN` en `.env` y correr `npm run social`.
 
