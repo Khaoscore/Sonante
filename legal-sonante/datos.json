@@ -1,0 +1,114 @@
+{
+  "_info": "Datos que llenan los campos {{clave}} de legal-sonante/documentos/*.md. 'valor' vacío = pendiente (se ve resaltado en la web y en amarillo en Word). 'confirmado': false = dato que el cliente debe confirmar (verde en Word). 'responde' indica quién debe darlo. Después de cambiar algo aquí, regenerar los Word con: npm run legal:docx",
+  "campos": {
+    "razon_social": {
+      "etiqueta": "Razón social",
+      "ayuda": "Nombre legal exacto, como aparece en el certificado de existencia y representación legal de la Cámara de Comercio.",
+      "valor": "Sonante S.A.S.",
+      "confirmado": true,
+      "responde": "Sonante"
+    },
+    "nit": {
+      "etiqueta": "NIT",
+      "ayuda": "NIT con dígito de verificación, como aparece en el RUT. El dígito de verificación (-5) lo calculamos a partir del NIT que teníamos: confírmenlo.",
+      "valor": "901.821.689-5",
+      "confirmado": true,
+      "responde": "Sonante"
+    },
+    "ciudad": {
+      "etiqueta": "Ciudad del domicilio",
+      "ayuda": "Ciudad del domicilio principal, según la Cámara de Comercio. También define los jueces competentes en los Términos de uso.",
+      "valor": "Bogotá D.C.",
+      "confirmado": true,
+      "responde": "Sonante"
+    },
+    "direccion": {
+      "etiqueta": "Dirección de notificaciones",
+      "ayuda": "Dirección física donde reciben correspondencia: la del certificado de Cámara de Comercio u otra que prefieran.",
+      "valor": "Calle 8 #8-27 Apto. 503",
+      "confirmado": true,
+      "responde": "Sonante"
+    },
+    "telefono": {
+      "etiqueta": "Teléfono de contacto",
+      "ayuda": "Teléfono fijo, celular o WhatsApp para atender temas de datos personales, con indicativo (+57).",
+      "valor": "+57 324 647 3220",
+      "confirmado": true,
+      "responde": "Sonante",
+      "tipo": "telefono"
+    },
+    "correo_contacto": {
+      "etiqueta": "Correo general de contacto",
+      "ayuda": "Correo general de la empresa (el que aparece en el sitio web).",
+      "valor": "sonanteagencia@gmail.com",
+      "confirmado": true,
+      "responde": "Sonante",
+      "tipo": "correo"
+    },
+    "correo_datos": {
+      "etiqueta": "Correo para datos personales",
+      "ayuda": "Correo donde las personas envían consultas y reclamos sobre sus datos. Por ahora pusimos el correo general; recomendamos uno propio del dominio, por ejemplo datos@sonante.co.",
+      "valor": "sonanteagencia@gmail.com",
+      "confirmado": true,
+      "responde": "Sonante",
+      "tipo": "correo"
+    },
+    "sitio_web": {
+      "etiqueta": "Sitio web",
+      "ayuda": "Dominio del sitio web.",
+      "valor": "sonante.co",
+      "confirmado": true,
+      "responde": "Sonante",
+      "tipo": "web"
+    },
+    "area_responsable": {
+      "etiqueta": "Área o cargo responsable de los datos",
+      "ayuda": "Área o cargo que responde las consultas y reclamos sobre datos personales (por ejemplo, Dirección Administrativa o Gerencia). Se publica el cargo; no hace falta el nombre de la persona.",
+      "valor": "Gerencia",
+      "confirmado": true,
+      "responde": "Sonante"
+    },
+    "representante_legal": {
+      "etiqueta": "Representante legal",
+      "ayuda": "Nombre completo del representante legal, que aprueba la Política de tratamiento de datos personales.",
+      "valor": "José Carlos Paz Vaca",
+      "confirmado": true,
+      "responde": "Sonante"
+    },
+    "plazo_contactos": {
+      "etiqueta": "Tiempo de conservación de los contactos",
+      "ayuda": "Cuánto tiempo guardan los datos de quienes escriben por la web o por redes y no se vuelven clientes. Proponemos dos años desde el último contacto.",
+      "valor": "dos (2) años contados desde el último contacto",
+      "confirmado": true,
+      "responde": "Sonante"
+    },
+    "proveedor_correo": {
+      "etiqueta": "Proveedor de correo electrónico",
+      "ayuda": "Servicio de correo de la empresa. Hoy es Gmail; si usan Google Workspace, Microsoft 365 u otro, indíquenlo.",
+      "valor": "Google LLC (Gmail), Estados Unidos",
+      "confirmado": true,
+      "responde": "Sonante"
+    },
+    "proveedor_hosting": {
+      "etiqueta": "Proveedor de alojamiento del sitio",
+      "ayuda": "Empresa y país donde se aloja el sitio web.",
+      "valor": "Vercel Inc., Estados Unidos",
+      "confirmado": true,
+      "responde": "Khaos Core"
+    },
+    "proveedor_formulario": {
+      "etiqueta": "Servicio que recibe los mensajes del formulario",
+      "ayuda": "Servicio donde quedan guardados los mensajes del formulario de contacto (Google Sheets, con aviso por correo).",
+      "valor": "Google Sheets (Google LLC), Estados Unidos",
+      "confirmado": true,
+      "responde": "Khaos Core"
+    },
+    "fecha_vigencia": {
+      "etiqueta": "Fecha de entrada en vigencia",
+      "ayuda": "Día en que se publican los documentos en el sitio, escrito en letras (por ejemplo, 15 de noviembre de 2026).",
+      "valor": "2 de noviembre de 2026",
+      "confirmado": true,
+      "responde": "Khaos Core"
+    }
+  }
+}

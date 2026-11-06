@@ -1,0 +1,47 @@
+.aside {
+  min-width: 0;
+}
+
+/* Deja libre el alto del menú fijo; si el índice no cabe, hace scroll propio */
+.sticky {
+  position: sticky;
+  top: 120px;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.heading {
+  margin-bottom: 14px;
+  color: var(--c-verde-oscuro);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.toc {
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid rgba(0, 56, 51, 0.14);
+}
+
+.tocLink {
+  display: block;
+  margin-left: -2px;
+  padding: 6px 0 6px 16px;
+  border-left: 2px solid transparent;
+  color: rgba(0, 33, 29, 0.72);
+  font-size: var(--fs-body-sm);
+  line-height: 1.35;
+  transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+}
+.tocLink:hover {
+  color: var(--c-verde-oscuro);
+  border-left-color: var(--c-verde);
+}
+
+@media (max-width: 1060px) {
+  .aside {
+    display: none;
+  }
+}

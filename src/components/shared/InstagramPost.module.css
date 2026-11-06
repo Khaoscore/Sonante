@@ -1,6 +1,7 @@
 /* Todas las medidas se escalan con --s (1 = 508 px de ancho de referencia) */
 .post {
   --s: 1;
+  position: relative;
   width: 100%;
   max-width: calc(508px * var(--s));
   padding-block: calc(8px * var(--s));
@@ -39,10 +40,15 @@
   gap: calc(7px * var(--s));
   font-weight: 700;
   white-space: nowrap;
+}
+/* Se recorta el usuario, no la insignia */
+.handle span {
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .verified {
+  flex-shrink: 0;
   width: calc(15.5px * var(--s));
   height: calc(15px * var(--s));
 }
@@ -76,6 +82,9 @@
 }
 .reel {
   aspect-ratio: 386.8 / 490.6;
+}
+.portrait {
+  aspect-ratio: 4 / 5;
 }
 .media > img:first-child {
   width: 100%;
@@ -158,4 +167,46 @@
   padding-block: calc(4px * var(--s));
   color: #4a5a58;
   font-size: calc(13px * var(--s));
+}
+
+/* Recorte del caption real: usuario + dos líneas. El espacio va como margen:
+   con padding asomaría la línea siguiente */
+.clamp {
+  padding-block: 0;
+  margin-block: calc(7px * var(--s));
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+/* Tarjeta enlazada a la publicación: el enlace cubre toda la tarjeta */
+.linked {
+  transition:
+    transform 0.35s var(--ease),
+    box-shadow 0.35s var(--ease);
+}
+.linked:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2);
+}
+.linked:has(.stretched:focus-visible) {
+  outline: 3px solid var(--c-azul);
+  outline-offset: 4px;
+}
+.stretched {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+.stretched:focus-visible {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .linked:hover {
+    transform: none;
+  }
 }

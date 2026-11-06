@@ -25,28 +25,39 @@
   color: var(--c-naranja);
 }
 
+/* Tres tarjetas iguales: misma altura aunque cambie el largo del texto */
 .wall {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: start;
+  align-items: stretch;
+  justify-items: center;
   gap: 19px;
 }
 
-.column {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.post {
+  height: 100%;
 }
 
+/* Tablet y móvil: fila que se desliza de lado, con la siguiente tarjeta asomando */
 @media (max-width: 1000px) {
   .wall {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(340px, 80vw);
+    justify-items: stretch;
+    gap: 16px;
+    margin-inline: calc(-1 * var(--gutter));
+    padding: 8px var(--gutter) 32px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
   }
-}
-
-@media (max-width: 680px) {
-  .wall {
-    grid-template-columns: 1fr;
-    justify-items: center;
+  .wall::-webkit-scrollbar {
+    display: none;
+  }
+  .post {
+    scroll-snap-align: start;
   }
 }

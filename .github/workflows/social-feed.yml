@@ -1,0 +1,71 @@
+# Baja las 3 últimas publicaciones de Instagram para el muro de "Nuestros tips"
+# (npm run social) y las guarda en el repo. El hosting (Vercel, Netlify o
+# Cloudflare) republica el sitio con cada push.
+# Configuración: README, sección "Publicaciones de Instagram en Nuestros tips".
+name: Publicaciones de Instagram
+
+on:
+  schedule:
+    # 7:00 y 19:00 en Bogotá (UTC-5)
+    - cron: "0 0,12 * * *"
+  # Botón "Run workflow" en la pestaña Actions
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: social-feed
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # Termina con error si la descarga falla (p. ej. acceso vencido): GitHub avisa por correo
+      - name: Bajar las últimas publicaciones
+        id: feed
+        run: npm run social -- --refresh
+        env:
+          # Basta uno de los dos: el feed de Behold o el token de Meta
+          BEHOLD_FEED_URL: ${{ secrets.BEHOLD_FEED_URL }}
+          INSTAGRAM_TOKEN: ${{ secrets.INSTAGRAM_TOKEN }}
+          REFRESHED_TOKENS_FILE: ${{ runner.temp }}/social-tokens.env
+
+      # Solo con token de Meta: si al renovarlo Meta devolvió uno distinto, se guarda como secreto
+      - name: Guardar el token renovado
+        if: ${{ !cancelled() && steps.feed.outcome != 'skipped' }}
+        env:
+          GH_TOKEN: ${{ secrets.SOCIAL_SECRETS_PAT }}
+          GH_REPO: ${{ github.repository }}
+          TOKENS_FILE: ${{ runner.temp }}/social-tokens.env
+        run: |
+          if [ ! -s "$TOKENS_FILE" ]; then echo "El token no cambió (o se usa Behold)."; exit 0; fi
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::warning::Meta devolvió un token nuevo y no hay SOCIAL_SECRETS_PAT para guardarlo. Actualiza INSTAGRAM_TOKEN a mano antes de 60 días."
+            exit 0
+          fi
+          gh secret set --env-file "$TOKENS_FILE"
+          rm -f "$TOKENS_FILE"
+
+      - name: Guardar las publicaciones en el repo
+        if: ${{ !cancelled() && steps.feed.outcome != 'skipped' }}
+        run: |
+          mkdir -p public/assets/social
+          git add -A -- src/data/social-feed.json public/assets/social
+          if git diff --cached --quiet; then echo "Sin cambios en las publicaciones."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Actualiza las publicaciones de Instagram del muro de tips"
+          git pull --rebase
+          git push

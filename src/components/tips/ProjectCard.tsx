@@ -1,5 +1,7 @@
+import type { CSSProperties } from "react";
 import type { Tip } from "@/data/tips";
 import { ArrowUp } from "@/components/ui/Icons";
+import { categoryPalette } from "@/lib/cover";
 import ArticleCover from "./ArticleCover";
 import styles from "./ProjectCard.module.css";
 
@@ -9,13 +11,18 @@ type Props = { tip: Tip; tagsLabel?: string };
 const capitalize = (s: string) => s.charAt(0).toLocaleUpperCase("es") + s.slice(1);
 
 /**
- * Componente "Project card" del diseño: imagen, botón circular verde con flecha,
- * título y etiquetas. Sin foto, los artículos usan su portada generada y el
- * resto de tarjetas el bloque amarillo del diseño.
+ * Componente "Project card" del diseño: imagen, botón circular con flecha,
+ * título (máximo dos líneas) y etiquetas. Sin foto, los artículos usan su
+ * portada generada y el resto de tarjetas el bloque amarillo del diseño.
+ * El botón toma el color de la categoría (verde si no tiene).
  * La categoría, si existe, va como primera píldora con el color invertido.
  */
 export default function ProjectCard({ tip, tagsLabel = "Etiquetas" }: Props) {
   const Title = tip.featured ? "h2" : "h3";
+  const palette = tip.category ? categoryPalette(tip.category) : null;
+  const arrowStyle = palette
+    ? ({ "--arrow-bg": palette.disc, "--arrow-fg": palette.symbol } as CSSProperties)
+    : undefined;
   return (
     <article className={`${styles.card} ${tip.featured ? styles.featured : ""}`}>
       <a href={tip.href} className={styles.link}>
@@ -25,7 +32,7 @@ export default function ProjectCard({ tip, tagsLabel = "Etiquetas" }: Props) {
           ) : (
             tip.category && <ArticleCover slug={tip.id} category={tip.category} />
           )}
-          <span className={styles.arrow} aria-hidden="true">
+          <span className={styles.arrow} style={arrowStyle} aria-hidden="true">
             <ArrowUp size={28} />
           </span>
         </div>

@@ -28,6 +28,18 @@ export const routes: Record<RouteKey, Record<Locale, string>> = {
   contact: { es: "/contacto/", en: "/en/contact/" },
 };
 
+/**
+ * Documentos legales: solo en español, porque rigen por la ley colombiana.
+ * Cada ruta es el nombre de su archivo en legal-sonante/documentos/ (src/pages/[legal].astro).
+ */
+export const legalPaths = {
+  privacy: "/politica-de-privacidad/",
+  terms: "/terminos-de-uso/",
+  data: "/tratamiento-de-datos/",
+} as const;
+
+export type LegalKey = keyof typeof legalPaths;
+
 const normalize = (p: string) => {
   const withSlash = p.endsWith("/") ? p : `${p}/`;
   return withSlash.startsWith("/") ? withSlash : `/${withSlash}`;

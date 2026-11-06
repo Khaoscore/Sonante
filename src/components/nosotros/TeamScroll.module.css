@@ -1,0 +1,265 @@
+/* =========================================================
+   Equipo ("¿Quiénes somos?"): tarjeta fija + cortina.
+   Desktop: valores de la referencia a 1440 px, escalados con
+   el viewport mediante --u (1 px de diseño a 1440).
+   ========================================================= */
+
+.section {
+  --text: #0b1f1a;
+  /* Texto atenuado (en la referencia, blanco al 30 % sobre #121212); aquí
+     sobre blanco, con contraste AA */
+  --muted: rgba(11, 31, 26, 0.64);
+  position: relative;
+  color: var(--text);
+  padding-block: 64px 80px;
+}
+
+/* ---------- Bloques de texto ---------- */
+.block {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 2.25rem;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--c-naranja);
+  text-wrap: balance;
+}
+
+/* El nombre espera oculto al scramble (solo con JS; sin JS se ve normal) */
+:global(html.js) .name {
+  opacity: 0;
+}
+
+/* Cargo: mismo estilo que el resto de "¿Quiénes somos?" */
+.role {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 1rem + 0.5vw, 1.4rem);
+  line-height: 1.25;
+}
+
+.bio {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.28;
+  color: var(--muted);
+}
+
+.bio strong {
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ---------- Fotos ---------- */
+.picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.mediaEl {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+
+/* ---------- Tarjeta fija y capas ---------- */
+.card {
+  position: relative;
+  aspect-ratio: 100 / 137;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--c-verde-oscuro);
+}
+
+.layer,
+.layerInner {
+  position: absolute;
+  inset: 0;
+}
+
+.layer {
+  overflow: hidden;
+}
+
+/* Estado inicial de las capas 2..n antes de que GSAP tome el control: la capa
+   abajo (fuera de la tarjeta) y su contenido compensado, así no hay salto */
+:global(html.js) .layer + .layer {
+  transform: translateY(100%);
+}
+:global(html.js) .layer + .layer > .layerInner {
+  transform: translateY(-100%);
+}
+
+/* ======================= Desktop ======================= */
+@media (min-width: 1024px) {
+  .section {
+    --u: calc(100vw / 1440);
+    /* El menú fijo compacto termina a 79 px: la tarjeta se fija debajo de él */
+    --nav-clear: 80px;
+    --sticky-top: calc(var(--nav-clear) + 20 * var(--u));
+    padding-block: calc(120 * var(--u));
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: calc(20 * var(--u));
+    padding-inline: calc(20 * var(--u));
+  }
+
+  .aside {
+    grid-column: 1 / 5;
+    grid-row: 1;
+    align-self: start;
+    position: sticky;
+    top: var(--sticky-top);
+  }
+
+  .card {
+    /* En pantallas anchas y bajas, la tarjeta + etiqueta no pasan del alto visible */
+    width: min(100%, calc((100vh - var(--sticky-top) - 30 * var(--u) - 16px) * 100 / 137));
+    border-radius: calc(10 * var(--u));
+    will-change: transform;
+  }
+
+  .layer,
+  .layerInner {
+    will-change: transform;
+  }
+
+  .label {
+    margin: calc(10 * var(--u)) 0 0;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: max(10px, calc(10 * var(--u)));
+    line-height: 1.2;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .list {
+    grid-column: 6 / 11;
+    grid-row: 1;
+  }
+
+  .block {
+    justify-content: center;
+    gap: calc(20 * var(--u));
+    padding-block: calc(120 * var(--u));
+  }
+
+  .blockMedia {
+    display: none;
+  }
+
+  .name {
+    font-size: max(2rem, calc(48 * var(--u)));
+  }
+
+  .bio {
+    font-size: max(0.875rem, calc(14 * var(--u)));
+  }
+
+  .spacer {
+    height: calc(200 * var(--u));
+  }
+}
+
+@media (min-width: 1280px) {
+  .list {
+    grid-column: 6 / 10;
+  }
+  .block {
+    padding-block: calc(150 * var(--u));
+  }
+  .spacer {
+    height: calc(350 * var(--u));
+  }
+}
+
+/* ======================= Mobile / tablet ======================= */
+@media (max-width: 1023.98px) {
+  .aside,
+  .spacer {
+    display: none;
+  }
+
+  /* Carrusel horizontal sangrado hasta los bordes, con snap al centro */
+  .list {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-inline: 9.5%; /* (100 % − 81 %) / 2: el primero y el último quedan centrados */
+    scrollbar-width: none;
+  }
+  .list::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* El padding del carrusel deja libre justo el ancho de un bloque (81 % de la
+     pantalla; 46 % en tablet): cada bloque ocupa el 100 % de ese hueco */
+  .block {
+    flex: 0 0 100%;
+    min-width: 0;
+    gap: 12px;
+    scroll-snap-align: center;
+  }
+
+  .blockMedia {
+    aspect-ratio: 100 / 137;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--c-verde-oscuro);
+  }
+
+  .bio {
+    font-size: 0.875rem;
+  }
+}
+
+/* Tablet: dos bloques a la vista */
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .list {
+    gap: 20px;
+    padding-inline: 27%; /* (100 % − 46 %) / 2: el primero y el último quedan centrados */
+  }
+  .name {
+    font-size: 2.5rem;
+  }
+}
+
+/* ======================= Movimiento reducido ======================= */
+@media (prefers-reduced-motion: reduce) {
+  :global(html.js) .name {
+    opacity: 1;
+  }
+  /* Sin cortina: la tarjeta cambia con un fundido */
+  :global(html.js) .layer + .layer,
+  :global(html.js) .layer + .layer > .layerInner {
+    transform: none;
+  }
+  :global(html.js) .layer + .layer {
+    opacity: 0;
+  }
+  .layer,
+  .layerInner,
+  .card {
+    will-change: auto;
+  }
+}

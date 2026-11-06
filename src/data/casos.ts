@@ -2,11 +2,14 @@ import type { Locale } from "@/i18n";
 
 /**
  * Contenido de la página "Casos de éxito" (Wireframe 6 del diseño), por idioma.
- *
- * NOTA: en el diseño, el bloque de Paola Pabón reutiliza los textos y cifras de
- * Sergio Fajardo como relleno. Se conservan tal cual para ser fieles al Figma;
- * deben reemplazarse con la información real antes de publicar.
  */
+
+/** Cifras con iconos: crecimiento en Instagram, seguidores y crecimiento en TikTok */
+export type SocialStats = {
+  instagram: string;
+  followers: string;
+  tiktok: string;
+};
 
 export type Caso = {
   id: string;
@@ -20,13 +23,12 @@ export type Caso = {
   imagePosition?: string;
   /** Desplazamiento vertical (%) de la foto en el marco cerrado de la animación */
   frameShiftY?: number;
+  /** Punto de la foto (0 izquierda – 1 derecha) que se centra en el marco cerrado */
+  frameFocusX?: number;
   objetivo: string;
   hicimos: string;
-  stats: {
-    instagram: string;
-    followers: string;
-    tiktok: string;
-  };
+  /** Cifras de redes con iconos, o cifras libres (valor + texto) sin iconos */
+  stats: SocialStats | Stat[];
   closing: string;
 };
 
@@ -83,6 +85,7 @@ const visual = {
     name: "Paola Pabón",
     image: "/assets/img/caso-pabon.jpg",
     imagePosition: "center 25%",
+    frameFocusX: 0.36,
   },
 };
 
@@ -138,8 +141,22 @@ export const casosContent: Record<Locale, CasosContent> = {
         },
         closing: "Luis Ernesto es hoy un referente de opinión en Colombia",
       },
-      // Texto de relleno heredado del diseño (ver nota superior).
-      { ...visual.pabon, tag: "Campaña regional y acompañamiento en gestión", role: "Prefecta de Pichincha, Ecuador", ...fajardoEs },
+      {
+        ...visual.pabon,
+        tag: "Campaña de reelección y comunicación de gestión",
+        role: "Prefecta de Pichincha, Ecuador",
+        objetivo:
+          "Acompañar una reelección competitiva y construir una comunicación digital capaz de sostenerse también durante la gestión.",
+        hicimos:
+          "Trabajamos en la estrategia digital de su campaña de reelección y, desde entonces, acompañamos la comunicación de su gestión, sus resultados y proyectos insignia de la Prefectura.",
+        stats: [
+          { value: "+4 años", label: "de trabajo conjunto" },
+          { value: "297.100 seguidores", label: "en Instagram, TikTok y Facebook" },
+          { value: "Reelección 2023", label: "acompañamiento de campaña y gestión" },
+        ],
+        closing:
+          "Más de cuatro años de trabajo conjunto, desde una campaña de reelección hasta la comunicación cotidiana de gobierno.",
+      },
     ],
     statsBand: [
       { value: "3", label: "Campañas presidenciales" },
@@ -189,8 +206,22 @@ export const casosContent: Record<Locale, CasosContent> = {
         },
         closing: "Luis Ernesto is now a leading opinion voice in Colombia.",
       },
-      // Placeholder copy inherited from the design (see note above).
-      { ...visual.pabon, tag: "Regional campaign and governance support", role: "Prefect of Pichincha, Ecuador", ...fajardoEn },
+      {
+        ...visual.pabon,
+        tag: "Re-election campaign and government communication",
+        role: "Prefect of Pichincha, Ecuador",
+        objetivo:
+          "Support a competitive re-election and build a digital communication strategy that could also hold up throughout her time in office.",
+        hicimos:
+          "We worked on the digital strategy for her re-election campaign and, since then, we have supported the communication of her administration, its results and the Prefecture's flagship projects.",
+        stats: [
+          { value: "4+ years", label: "working together" },
+          { value: "297,100 followers", label: "on Instagram, TikTok and Facebook" },
+          { value: "2023 re-election", label: "campaign and government support" },
+        ],
+        closing:
+          "More than four years working together, from a re-election campaign to the day-to-day communication of government.",
+      },
     ],
     statsBand: [
       { value: "3", label: "Presidential campaigns" },

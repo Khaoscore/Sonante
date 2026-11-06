@@ -1,8 +1,8 @@
 /**
  * Portadas generadas de los artículos: fondo oscuro con dos brillos de color de la
- * marca, el símbolo "S" en un círculo y un destello. La paleta depende de la
- * categoría y la posición de los brillos se deriva del slug, así cada artículo
- * tiene una portada propia y estable.
+ * marca y el símbolo "S" en un círculo. La paleta depende de la categoría y la
+ * posición de los brillos se deriva del slug, así cada artículo tiene una portada
+ * propia y estable.
  *
  * La usan el componente ArticleCover (tarjetas y cabecera, en CSS) y el endpoint
  * /og/<slug>.png (imagen para compartir, en SVG renderizado con sharp).
@@ -12,30 +12,33 @@ export type CoverPalette = {
   /** Brillo principal y secundario */
   glow1: string;
   glow2: string;
-  /** Círculo del símbolo */
+  /** Círculo del símbolo (también el botón de flecha de la tarjeta) */
   disc: string;
   /** Trazo inferior y superior de la "S" */
   symbol: string;
   accent: string;
-  /** Destello de cuatro puntas */
-  spark: string;
 };
 
 const PALETTES: Record<string, CoverPalette> = {
-  "Estrategia electoral": { glow1: "#b61075", glow2: "#ffd148", disc: "#b61075", symbol: "#ffffff", accent: "#ffd148", spark: "#ffd148" },
-  "Comunicación digital": { glow1: "#5180e2", glow2: "#0bb730", disc: "#0bb730", symbol: "#00211d", accent: "#f8ffe5", spark: "#0bb730" },
-  "Comunicación pública": { glow1: "#e94b24", glow2: "#ff9024", disc: "#e94b24", symbol: "#ffffff", accent: "#ffd148", spark: "#ff9024" },
-  Oficio: { glow1: "#72beb0", glow2: "#ffd148", disc: "#ffd148", symbol: "#00211d", accent: "#b61075", spark: "#72beb0" },
+  "Estrategia electoral": { glow1: "#b61075", glow2: "#ffd148", disc: "#b61075", symbol: "#ffffff", accent: "#ffd148" },
+  "Comunicación digital": { glow1: "#5180e2", glow2: "#0bb730", disc: "#0bb730", symbol: "#00211d", accent: "#f8ffe5" },
+  "Comunicación pública": { glow1: "#e94b24", glow2: "#ff9024", disc: "#e94b24", symbol: "#ffffff", accent: "#ffd148" },
+  Oficio: { glow1: "#72beb0", glow2: "#ffd148", disc: "#ffd148", symbol: "#00211d", accent: "#b61075" },
 };
 
 const FALLBACK = PALETTES["Estrategia electoral"];
 
-/** Brillos en esquinas opuestas; el destello, cerca del brillo principal */
+/** Paleta de una categoría (la de "Estrategia electoral" si no se reconoce) */
+export function categoryPalette(category: string): CoverPalette {
+  return PALETTES[category] ?? FALLBACK;
+}
+
+/** Brillos en esquinas opuestas */
 const LAYOUTS = [
-  { g1: [16, 14], g2: [88, 96], spark: [74, 18] },
-  { g1: [84, 12], g2: [10, 94], spark: [24, 20] },
-  { g1: [14, 90], g2: [90, 8], spark: [78, 80] },
-  { g1: [86, 88], g2: [12, 10], spark: [22, 78] },
+  { g1: [16, 14], g2: [88, 96] },
+  { g1: [84, 12], g2: [10, 94] },
+  { g1: [14, 90], g2: [90, 8] },
+  { g1: [86, 88], g2: [12, 10] },
 ] as const;
 
 /** FNV-1a: número estable a partir del slug */
@@ -53,9 +56,6 @@ export type CoverSpec = {
   /** Posiciones en % del ancho y alto */
   g1: [number, number];
   g2: [number, number];
-  spark: [number, number];
-  /** Giro del destello en grados */
-  sparkRotate: number;
 };
 
 export function coverSpec(slug: string, category: string): CoverSpec {
@@ -64,17 +64,11 @@ export function coverSpec(slug: string, category: string): CoverSpec {
   // Pequeño desplazamiento propio de cada artículo (±6 %)
   const jitter = (shift: number) => (((h >>> shift) & 0xff) / 255) * 12 - 6;
   return {
-    palette: PALETTES[category] ?? FALLBACK,
+    palette: categoryPalette(category),
     g1: [layout.g1[0] + jitter(4), layout.g1[1] + jitter(12)],
     g2: [layout.g2[0] + jitter(20), layout.g2[1] + jitter(8)],
-    spark: [layout.spark[0] + jitter(16), layout.spark[1] + jitter(24)],
-    sparkRotate: ((h >>> 9) % 4) * 11,
   };
 }
-
-/** Destello de cuatro puntas (viewBox 0 0 24 24) */
-export const SPARK_PATH =
-  "M12 0C12.8 6.5 17.5 11.2 24 12C17.5 12.8 12.8 17.5 12 24C11.2 17.5 6.5 12.8 0 12C6.5 11.2 11.2 6.5 12 0Z";
 
 /** Trazos del símbolo "S" (viewBox 0 0 75.058 99.23): inferior y superior */
 export const SYMBOL_PATHS = {
@@ -88,16 +82,14 @@ export const SYMBOL_PATHS = {
  * redes (1200×630). Sin texto, para no depender de fuentes al renderizar.
  */
 export function coverSvg(slug: string, category: string, width = 1200, height = 630) {
-  const { palette: p, g1, g2, spark, sparkRotate } = coverSpec(slug, category);
+  const { palette: p, g1, g2 } = coverSpec(slug, category);
   const px = ([x, y]: [number, number]) => [(x / 100) * width, (y / 100) * height] as const;
   const [g1x, g1y] = px(g1);
   const [g2x, g2y] = px(g2);
-  const [sx, sy] = px(spark);
   const diag = Math.hypot(width, height);
   const r = height * 0.27;
   const symH = r * 1.08;
   const symScale = symH / 99.23;
-  const sparkSize = height * 0.075;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
@@ -120,9 +112,6 @@ export function coverSvg(slug: string, category: string, width = 1200, height = 
   <g transform="translate(${width / 2 - (75.058 * symScale) / 2} ${height / 2 - symH / 2}) scale(${symScale})">
     <path d="${SYMBOL_PATHS.bottom}" fill="${p.symbol}"/>
     <path d="${SYMBOL_PATHS.top}" fill="${p.accent}"/>
-  </g>
-  <g transform="translate(${sx - sparkSize / 2} ${sy - sparkSize / 2}) rotate(${sparkRotate} ${sparkSize / 2} ${sparkSize / 2}) scale(${sparkSize / 24})">
-    <path d="${SPARK_PATH}" fill="${p.spark}"/>
   </g>
 </svg>`;
 }

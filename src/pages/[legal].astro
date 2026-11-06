@@ -1,0 +1,24 @@
+---
+import LegalLayout from "@/layouts/LegalLayout.astro";
+import { getLegalDocs, type LegalDoc } from "@/lib/legal";
+
+/**
+ * Documentos legales en la raíz del sitio: /politica-de-privacidad/,
+ * /terminos-de-uso/ y /tratamiento-de-datos/ (uno por archivo de
+ * legal-sonante/documentos). Las páginas fijas de src/pages tienen prioridad
+ * sobre esta ruta, así que no hay choque con el resto del sitio.
+ */
+export async function getStaticPaths() {
+  const docs = await getLegalDocs();
+  return docs.map((doc) => ({ params: { legal: doc.id }, props: { doc, docs } }));
+}
+
+interface Props {
+  doc: LegalDoc;
+  docs: LegalDoc[];
+}
+
+const { doc, docs } = Astro.props;
+---
+
+<LegalLayout doc={doc} docs={docs} />

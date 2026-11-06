@@ -295,6 +295,7 @@ body[data-page="nuestros-tips"] {
 
 body[data-page="quienes-somos"] {
   /* ...lo que ya tienes del menú... */
+  background: #ffffff;           /* fondo de la página (antes en TeamRows.module.css) */
   --footer-bg: #E94B24;          /* bloque grande */
   --footer-text: #FFFFFF;        /* texto "¿Qué hacemos?" y párrafo */
   --footer-accent: #FFD148;      /* "© Sonante SAS...", enlaces del menú, hover del correo */

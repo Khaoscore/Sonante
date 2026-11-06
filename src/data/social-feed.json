@@ -1,0 +1,51 @@
+{
+  "updatedAt": "2026-11-05T20:19:13.643Z",
+  "instagram": {
+    "username": "sonanteagencia",
+    "avatar": "/assets/social/instagram-avatar.webp",
+    "posts": [
+      {
+        "id": "18453837640124801",
+        "permalink": "https://www.instagram.com/reel/DfVrkQ5Mx6z/",
+        "kind": "reel",
+        "caption": "La ola azul en las elecciones de Estados Unidos se puede explicar por muchas razones, pero sin lugar a dudas, la estrategia de comunicación de los candidatos demócratas es una de ellas.",
+        "timestamp": "2026-11-04T23:59:09.000Z",
+        "likes": 651,
+        "comments": 6,
+        "image": {
+          "src": "/assets/social/instagram-18453837640124801.webp",
+          "width": 720,
+          "height": 1280
+        }
+      },
+      {
+        "id": "18136048513708899",
+        "permalink": "https://www.instagram.com/reel/DfSfL6RAM8g/",
+        "kind": "reel",
+        "caption": "¿Hoy veremos una ola azul en Estados Unidos? 👀👀\n\nLos demócratas podrían recuperar el control del Senado y la Cámara y parte de eso tiene que ver con la reconexión con audiencias jóvenes. \n\nAcá les contamos un poco de la estrategia digital del partido.",
+        "timestamp": "2026-11-03T18:09:19.000Z",
+        "likes": 191,
+        "comments": 2,
+        "image": {
+          "src": "/assets/social/instagram-18136048513708899.webp",
+          "width": 800,
+          "height": 1422
+        }
+      },
+      {
+        "id": "18148978642566498",
+        "permalink": "https://www.instagram.com/p/DfQVpd8FLXP/",
+        "kind": "carousel",
+        "caption": "¿Cómo están usando los republicanos la influencia de la cultura pop de cara a las elecciones de medio término en Estados Unidos? El encuentro entre Donald Trump y Nicki Minaj  muestra algunos puntos",
+        "timestamp": "2026-11-02T22:04:55.000Z",
+        "likes": 24,
+        "comments": 2,
+        "image": {
+          "src": "/assets/social/instagram-18148978642566498.webp",
+          "width": 800,
+          "height": 1000
+        }
+      }
+    ]
+  }
+}

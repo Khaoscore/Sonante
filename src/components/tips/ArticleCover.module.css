@@ -31,20 +31,7 @@
   height: auto;
 }
 
-.spark {
-  position: absolute;
-  left: var(--spark-x);
-  top: var(--spark-y);
-  width: clamp(14px, 8cqmin, 40px);
-  height: auto;
-  transform: translate(-50%, -50%) rotate(var(--spark-rotate));
-  transition: transform var(--t-slow) var(--ease);
-}
-
 /* Al pasar por la tarjeta (enlace que la contiene) */
 :global(a:hover) .disc {
   transform: translate(-50%, -50%) scale(1.06);
-}
-:global(a:hover) .spark {
-  transform: translate(-50%, -50%) rotate(calc(var(--spark-rotate) + 90deg)) scale(1.15);
 }
