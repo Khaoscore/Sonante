@@ -313,14 +313,23 @@ licencia. Colócalas en `public/fonts/` con los nombres indicados en
 
 ## Formulario de contacto
 
-Sin configuración, el botón "Enviar mensaje" abre el cliente de correo con el
-mensaje prellenado hacia `sonanteagencia@gmail.com`. Para enviar a un servicio
-(Formspree, Getform, webhook de n8n…), copia `.env.example` a `.env` y define
-`PUBLIC_FORM_ENDPOINT` con la URL del endpoint que acepte `multipart/form-data`.
+El formulario (home, `/contacto/` y versiones en inglés) envía cada mensaje a un
+Apps Script que lo guarda en Google Sheets, avisa al equipo de Sonante y le manda a
+la persona una confirmación con sus datos en su idioma. El código y la guía de
+instalación están en [`apps-script/formulario-contacto/`](apps-script/formulario-contacto/LEEME.md).
+
+- `PUBLIC_FORM_ENDPOINT`: URL `/exec` de la aplicación web. El formulario envía
+  `application/x-www-form-urlencoded` y espera `{ "ok": true }`. Sin esta variable,
+  el botón abre el cliente de correo con el mensaje prellenado hacia
+  `sonanteagencia@gmail.com`.
+- `PUBLIC_TURNSTILE_SITE_KEY` (opcional): activa Cloudflare Turnstile contra robots.
+  También hay un campo trampa oculto y un tiempo mínimo de llenado.
 
 La casilla "Autorizo a Sonante a usar mis datos…" es obligatoria (Ley 1581 de 2012)
-y cada mensaje lleva la constancia en el campo `autorizacion_datos`. La idea es
-conectar el formulario a una hoja de Google Sheets con aviso por correo.
+y cada mensaje lleva la constancia en el campo `autorizacion_datos`.
+
+El logo de los correos se sirve desde `public/assets/email/logo-sonante.png`, así que
+solo se ve cuando el sitio está publicado en sonante.co.
 
 ## Documentos legales
 
