@@ -83,6 +83,13 @@ en inglés; la correspondencia está en `src/i18n/index.ts`:
 - El botón **ES / EN** del menú enlaza a la misma página en el otro idioma. El layout emite `<html lang>`, `hreflang` alternos y `og:locale`.
 - Para añadir un idioma: sumarlo a `locales` y `routes` en `src/i18n/index.ts`, añadir sus textos en `ui.ts` y en cada archivo de `src/data/`, y crear la carpeta de páginas correspondiente.
 
+## Vista previa al compartir
+
+- **Dominio**: `site` en `astro.config.mjs` (y `url` en `src/data/site.ts`) es `https://sonanteagencia.com`. De ahí salen el `canonical`, `og:url`, los `hreflang` y la URL absoluta de `og:image`.
+- **Imagen general** (`/og-image.jpg`, 1200×630): logotipo y "S" del hero, generada en el build por `src/pages/og-image.jpg.ts` con sharp. La usan todas las páginas salvo los artículos, que tienen la suya (`/og/<slug>.jpg`). Una página puede pasar otra con la prop `image` de `BaseLayout`.
+- **Icono de iPhone** (`/apple-touch-icon.png`, 180×180): `src/pages/apple-touch-icon.png.ts`, mismo diseño que `favicon.svg`. Es el que aparece en el menú de compartir de iOS.
+- WhatsApp, iMessage y Facebook guardan la vista previa en caché: tras cambiarla, en Facebook se refresca con el [Sharing Debugger](https://developers.facebook.com/tools/debug/); en WhatsApp e iMessage se actualiza sola con el tiempo (para probar al instante, compartir la URL con un parámetro, p. ej. `?v=2`).
+
 ## Carrusel del hero
 
 `src/components/home/HeroCarousel.tsx` (isla con `client:load`, insertada como hijo de
@@ -313,14 +320,23 @@ licencia. Colócalas en `public/fonts/` con los nombres indicados en
 
 ## Formulario de contacto
 
-Sin configuración, el botón "Enviar mensaje" abre el cliente de correo con el
-mensaje prellenado hacia `sonanteagencia@gmail.com`. Para enviar a un servicio
-(Formspree, Getform, webhook de n8n…), copia `.env.example` a `.env` y define
-`PUBLIC_FORM_ENDPOINT` con la URL del endpoint que acepte `multipart/form-data`.
+El formulario (home, `/contacto/` y versiones en inglés) envía cada mensaje a un
+Apps Script que lo guarda en Google Sheets, avisa al equipo de Sonante y le manda a
+la persona una confirmación con sus datos en su idioma. El código y la guía de
+instalación están en [`apps-script/formulario-contacto/`](apps-script/formulario-contacto/LEEME.md).
+
+- `PUBLIC_FORM_ENDPOINT`: URL `/exec` de la aplicación web. El formulario envía
+  `application/x-www-form-urlencoded` y espera `{ "ok": true }`. Sin esta variable,
+  el botón abre el cliente de correo con el mensaje prellenado hacia
+  `sonanteagencia@gmail.com`.
+- `PUBLIC_TURNSTILE_SITE_KEY` (opcional): activa Cloudflare Turnstile contra robots.
+  También hay un campo trampa oculto y un tiempo mínimo de llenado.
 
 La casilla "Autorizo a Sonante a usar mis datos…" es obligatoria (Ley 1581 de 2012)
-y cada mensaje lleva la constancia en el campo `autorizacion_datos`. La idea es
-conectar el formulario a una hoja de Google Sheets con aviso por correo.
+y cada mensaje lleva la constancia en el campo `autorizacion_datos`.
+
+El logo de los correos se sirve desde `public/assets/email/logo-sonante.png`, así que
+solo se ve cuando el sitio está publicado en sonanteagencia.com.
 
 ## Documentos legales
 

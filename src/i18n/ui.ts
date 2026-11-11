@@ -54,6 +54,8 @@ export type UiStrings = {
     sending: string;
     success: string;
     error: string;
+    /** Turnstile no pudo confirmar que es una persona */
+    verify: string;
     mailSubject: string;
     mailFields: { name: string; phone: string; country: string; city: string; email: string };
     countries: CountryOption[];
@@ -184,6 +186,7 @@ export const ui: Record<Locale, UiStrings> = {
       sending: "Enviando…",
       success: "¡Gracias! Te escribiremos muy pronto.",
       error: "No pudimos enviar el mensaje. Inténtalo de nuevo o escríbenos a",
+      verify: "No pudimos confirmar que no eres un robot. Completa la verificación y vuelve a enviar.",
       mailSubject: "Contacto desde la web",
       mailFields: { name: "Nombre", phone: "Teléfono", country: "País", city: "Ciudad", email: "Correo" },
       countries: countriesEs,
@@ -263,6 +266,7 @@ export const ui: Record<Locale, UiStrings> = {
       sending: "Sending…",
       success: "Thank you! We'll get back to you very soon.",
       error: "We couldn't send your message. Please try again or write to us at",
+      verify: "We couldn't confirm you're not a robot. Complete the check and send it again.",
       mailSubject: "Website contact",
       mailFields: { name: "Name", phone: "Phone", country: "Country", city: "City", email: "Email" },
       countries: countriesEn,

@@ -33,11 +33,11 @@ Si les resulta más fácil, pueden llenar solo la tabla de este documento: nosot
 ## 2. Recomendaciones
 
 - Que su abogado o asesor legal revise los tres documentos antes de publicarlos. Están preparados según la ley colombiana vigente, pero no reemplazan una revisión legal de su caso.
-- Usar un correo propio del dominio para los temas de datos personales (por ejemplo, datos@sonante.co) en lugar del Gmail general.
+- Usar un correo propio del dominio para los temas de datos personales (por ejemplo, datos@sonanteagencia.com) en lugar del Gmail general.
 
 ## 3. Qué sigue
 
 1. Nos devuelven este documento con la tabla completa, junto con los otros tres si les hicieron ajustes.
-2. Actualizamos los textos y los publicamos en el sitio: sonante.co/politica-de-privacidad, sonante.co/terminos-de-uso y sonante.co/tratamiento-de-datos.
+2. Actualizamos los textos y los publicamos en el sitio: sonanteagencia.com/politica-de-privacidad, sonanteagencia.com/terminos-de-uso y sonanteagencia.com/tratamiento-de-datos.
 3. Los mensajes del formulario de contacto quedarán en una hoja de Google Sheets, con aviso por correo, junto con la aceptación de la política de cada persona.
 4. Si más adelante cambia algún dato (correo, dirección, proveedores), nos avisan y actualizamos los tres documentos a la vez.

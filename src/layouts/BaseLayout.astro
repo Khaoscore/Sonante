@@ -16,9 +16,12 @@ interface Props {
   mainClass?: string;
   /** Tipo Open Graph: "article" en las páginas de artículo */
   ogType?: "website" | "article";
-  /** Imagen para compartir (ruta de /public o URL absoluta) */
+  /** Imagen para compartir (ruta de /public o URL absoluta); por defecto, /og-image.jpg con el logo */
   image?: string;
 }
+
+/** Imagen general para compartir (src/pages/og-image.jpg.ts) */
+const DEFAULT_IMAGE = { src: "/og-image.jpg", width: 1200, height: 630 };
 
 const { title, lang = defaultLocale, mainClass, ogType = "website", image } = Astro.props;
 const t = ui[lang];
@@ -30,7 +33,7 @@ const canonical = abs(currentPath);
 const routeKey = routeKeyFromPath(currentPath);
 const alternates = routeKey ? locales.map((l) => ({ lang: l, href: abs(routes[routeKey][l]) })) : [];
 const fullTitle = title === site.name ? title : `${title} · ${site.name}`;
-const ogImage = image ? abs(image) : undefined;
+const ogImage = abs(image ?? DEFAULT_IMAGE.src);
 
 // Nombre de la sección con su slug en español en los dos idiomas, para que los
 // colores por página de global.css (body[data-page="nuestros-tips"]…) sirvan también en /en/
@@ -49,6 +52,7 @@ const page = (section ? routes[section].es : currentPath).split("/").filter(Bool
     {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
     {routeKey && <link rel="alternate" hreflang="x-default" href={abs(routes[routeKey][defaultLocale])} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#00211d" />
     <script is:inline>
       document.documentElement.classList.add("js");
@@ -61,8 +65,18 @@ const page = (section ? routes[section].es : currentPath).split("/").filter(Bool
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={ogLocale[lang]} />
-    {ogImage && <meta property="og:image" content={ogImage} />}
-    <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+    <meta property="og:image" content={ogImage} />
+    {
+      !image && (
+        <>
+          <meta property="og:image:type" content="image/jpeg" />
+          <meta property="og:image:width" content={String(DEFAULT_IMAGE.width)} />
+          <meta property="og:image:height" content={String(DEFAULT_IMAGE.height)} />
+          <meta property="og:image:alt" content={site.name} />
+        </>
+      )
+    }
+    <meta name="twitter:card" content="summary_large_image" />
     <slot name="head" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />

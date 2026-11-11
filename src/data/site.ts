@@ -11,7 +11,7 @@ export const site = {
   legalName: "Sonante SAS",
   nit: "901821689",
   city: "Bogotá D.C.",
-  url: "https://sonante.co",
+  url: "https://sonanteagencia.com",
   email: "sonanteagencia@gmail.com",
   poweredBy: { label: "Khaos Core", href: "https://khaoscore.com" },
   copyrightYear: 2026,

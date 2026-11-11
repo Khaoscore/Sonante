@@ -1,8 +1,9 @@
 /* Tarjeta del formulario: verde oscuro, radio 16, padding 24, gap 32 */
 .form {
+  --form-gap: 32px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: var(--form-gap);
   width: 100%;
   max-width: 638px;
   padding: 24px;
@@ -159,6 +160,27 @@
   color: var(--c-amarillo);
 }
 
+/* Campo trampa para robots: fuera de la vista y del orden de tabulación */
+.trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Turnstile: no ocupa espacio (ni el hueco del gap) salvo que pida un clic */
+.captcha {
+  height: 0;
+  margin-top: calc(-1 * var(--form-gap));
+  overflow: hidden;
+}
+.captchaVisible {
+  height: auto;
+  margin-top: -8px;
+  overflow: visible;
+}
+
 .actions {
   display: flex;
   align-items: center;
@@ -177,8 +199,8 @@
     flex-direction: column;
   }
   .form {
+    --form-gap: 28px;
     padding: 20px;
-    gap: 28px;
   }
 }
 

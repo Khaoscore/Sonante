@@ -7,7 +7,7 @@ import { blogGraphics } from "./src/lib/graficas.mjs";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://sonante.co",
+  site: "https://sonanteagencia.com",
   integrations: [react()],
   markdown: {
     // Artículos del blog: gráficas, sin notas internas en el HTML y enlaces externos en otra pestaña
