@@ -325,10 +325,17 @@ Apps Script que lo guarda en Google Sheets, avisa al equipo de Sonante y le mand
 la persona una confirmación con sus datos en su idioma. El código y la guía de
 instalación están en [`apps-script/formulario-contacto/`](apps-script/formulario-contacto/LEEME.md).
 
-- `PUBLIC_FORM_ENDPOINT`: URL `/exec` de la aplicación web. El formulario envía
-  `application/x-www-form-urlencoded` y espera `{ "ok": true }`. Sin esta variable,
-  el botón abre el cliente de correo con el mensaje prellenado hacia
-  `sonanteagencia@gmail.com`.
+- `FORM_ENDPOINT`: URL `/exec` de la aplicación web. El formulario envía
+  `application/x-www-form-urlencoded` y espera `{ "ok": true }`. Es obligatoria: el
+  formulario nunca abre el cliente de correo, así que sin ella solo muestra el error
+  con `sonanteagencia@gmail.com`. Va en `.env` y en Vercel → Settings → Environment
+  Variables (Production, y Preview si se quiere probar el formulario en las vistas
+  previas); el build de producción en Vercel falla si falta. Al cambiarla en Vercel
+  hay que volver a desplegar, porque queda fija en el build.
+  En Vercel puede marcarse como sensible (por eso no lleva `PUBLIC_`; `astro.config.mjs`
+  se la pasa al formulario), pero la URL no es secreta: el navegador envía el mensaje
+  directo al Apps Script, así que aparece en el JavaScript del sitio. La protección
+  contra abuso está en el script (campo trampa, tiempo mínimo y límites de envío).
 - `PUBLIC_TURNSTILE_SITE_KEY` (opcional): activa Cloudflare Turnstile contra robots.
   También hay un campo trampa oculto y un tiempo mínimo de llenado.
 
