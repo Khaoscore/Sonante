@@ -63,15 +63,15 @@ const pabonCard = { bg: "#FFD148", textColor: "#000000", nameColor: "#E94B24" };
 const visual = {
   fajardo: {
     id: "fajardo",
-    tagBg: "var(--c-verde)",
-    tagColor: "var(--c-casi-negro)",
+    tagBg: "var(--c-naranja)",
+    tagColor: "var(--c-blanco)",
     name: "Sergio Fajardo",
     image: "/assets/img/caso-fajardo.jpg",
     imagePosition: "center 30%",
   },
   gomez: {
     id: "gomez",
-    tagBg: "var(--c-naranja)",
+    tagBg: "var(--c-amarillo)",
     tagColor: "var(--c-casi-negro)",
     name: "Luis Ernesto Gómez",
     image: "/assets/img/caso-gomez.jpg",
@@ -80,7 +80,7 @@ const visual = {
   },
   pabon: {
     id: "pabon",
-    tagBg: "var(--c-magenta)",
+    tagBg: "var(--c-naranja)",
     tagColor: "var(--c-blanco)",
     name: "Paola Pabón",
     image: "/assets/img/caso-pabon.jpg",
