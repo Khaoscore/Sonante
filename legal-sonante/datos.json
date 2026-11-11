@@ -47,7 +47,7 @@
     },
     "correo_datos": {
       "etiqueta": "Correo para datos personales",
-      "ayuda": "Correo donde las personas envían consultas y reclamos sobre sus datos. Por ahora pusimos el correo general; recomendamos uno propio del dominio, por ejemplo datos@sonante.co.",
+      "ayuda": "Correo donde las personas envían consultas y reclamos sobre sus datos. Por ahora pusimos el correo general; recomendamos uno propio del dominio, por ejemplo datos@sonanteagencia.com.",
       "valor": "sonanteagencia@gmail.com",
       "confirmado": true,
       "responde": "Sonante",
@@ -56,7 +56,7 @@
     "sitio_web": {
       "etiqueta": "Sitio web",
       "ayuda": "Dominio del sitio web.",
-      "valor": "sonante.co",
+      "valor": "sonanteagencia.com",
       "confirmado": true,
       "responde": "Sonante",
       "tipo": "web"

@@ -1,5 +1,5 @@
 /**
- * Formulario de contacto de sonante.co → Google Sheets + correos.
+ * Formulario de contacto de sonanteagencia.com → Google Sheets + correos.
  *
  * Cada mensaje que llega desde el sitio:
  *   1. se guarda como una fila en la pestaña "Registros" de esta hoja;
@@ -24,8 +24,8 @@ const CONFIG = {
   REMITENTE: 'Sonante',
   /** Nombre del remitente del aviso interno */
   REMITENTE_AVISO: 'Sitio web Sonante',
-  SITIO: 'https://sonante.co',
-  LOGO: 'https://sonante.co/assets/email/logo-sonante.png',
+  SITIO: 'https://sonanteagencia.com',
+  LOGO: 'https://sonanteagencia.com/assets/email/logo-sonante.png',
   INSTAGRAM: 'https://www.instagram.com/sonanteagencia',
 
   // Protección contra abuso: alguien podría usar el formulario para que esta cuenta
@@ -302,7 +302,7 @@ const TEXTOS = {
     casos: '/casos-de-exito/',
     firma: 'Saludos,',
     equipo: 'Equipo Sonante',
-    pie: 'Recibiste este correo porque escribiste en el formulario de sonante.co. Si no fuiste tú, puedes ignorarlo.',
+    pie: 'Recibiste este correo porque escribiste en el formulario de sonanteagencia.com. Si no fuiste tú, puedes ignorarlo.',
     politica: 'Política de tratamiento de datos personales',
   },
   en: {
@@ -317,7 +317,7 @@ const TEXTOS = {
     casos: '/en/success-stories/',
     firma: 'Best regards,',
     equipo: 'The Sonante team',
-    pie: 'You received this email because you wrote to us through the form on sonante.co. If it was not you, you can ignore it.',
+    pie: 'You received this email because you wrote to us through the form on sonanteagencia.com. If it was not you, you can ignore it.',
     politica: 'Personal data policy (in Spanish)',
   },
 };
@@ -344,7 +344,7 @@ function enviarConfirmacion(d) {
     esc(t.pie) + '<br>' +
     enlace(CONFIG.SITIO + '/tratamiento-de-datos/', t.politica) + ' &nbsp;·&nbsp; ' +
     enlace(CONFIG.INSTAGRAM, 'Instagram') + ' &nbsp;·&nbsp; ' +
-    enlace(CONFIG.SITIO, 'sonante.co') +
+    enlace(CONFIG.SITIO, 'sonanteagencia.com') +
     '<br>Sonante SAS · Bogotá D.C., Colombia';
 
   const textoPlano = [
@@ -396,7 +396,7 @@ function enviarAviso(d, para) {
     cajaMensaje('Sobre su proyecto', d.mensaje) +
     '<div style="margin:8px 0 12px;">' + botones + '</div>' +
     parrafo(esc(d.autorizacion) + '.', 'margin:12px 0 0;font-size:12px;color:' + COLORES.gris + ';');
-  const pie = 'Aviso automático del formulario de sonante.co.<br>Si respondes este correo, le escribes directamente a ' + esc(d.nombre) + '.';
+  const pie = 'Aviso automático del formulario de sonanteagencia.com.<br>Si respondes este correo, le escribes directamente a ' + esc(d.nombre) + '.';
 
   const textoPlano = [
     d.nombre + ' escribió desde ' + paginaLegible(d.pagina) + '.', '',
@@ -411,7 +411,7 @@ function enviarAviso(d, para) {
   try {
     MailApp.sendEmail({
       to: para,
-      subject: d.nombre + ' escribió desde sonante.co',
+      subject: d.nombre + ' escribió desde sonanteagencia.com',
       body: textoPlano,
       htmlBody: plantilla({ idioma: 'es', previa: d.ciudad + ', ' + d.pais + ' · ' + d.mensaje.slice(0, 90), titulo: 'Nuevo mensaje desde la web', cuerpo: cuerpo, pie: pie }),
       name: CONFIG.REMITENTE_AVISO,

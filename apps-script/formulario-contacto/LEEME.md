@@ -1,6 +1,6 @@
 # Formulario de contacto → Google Sheets + correos
 
-Cada mensaje del formulario de sonante.co (home, `/contacto/` y sus versiones en inglés):
+Cada mensaje del formulario de sonanteagencia.com (home, `/contacto/` y sus versiones en inglés):
 
 1. se guarda como una fila en la pestaña **Registros** de una hoja de Google;
 2. llega como **aviso al equipo** de Sonante. Al responder ese correo se le escribe directo a la persona,
@@ -16,13 +16,13 @@ Cada mensaje del formulario de sonante.co (home, `/contacto/` y sus versiones en
 ## 1. Montarlo en el Drive de Khaos Core
 
 1. Crear una hoja nueva, por ejemplo **"Sonante · Contactos del sitio web"**.
-2. **Extensiones → Apps Script**. Nombrar el proyecto "Formulario sonante.co".
+2. **Extensiones → Apps Script**. Nombrar el proyecto "Formulario sonanteagencia.com".
 3. Reemplazar todo el contenido de `Código.gs` por el de `Codigo.gs`.
 4. **Configuración del proyecto** (engranaje) → marcar *Mostrar el archivo de manifiesto
    "appsscript.json" en el editor*. Volver al editor y reemplazar ese archivo por `appsscript.json`.
 5. Revisar `CONFIG` al inicio del código (`AVISO_PARA`, `RESPONDER_A`).
 6. Elegir la función **`configurar`** y ejecutarla. Google pide permisos. En cuentas Gmail aparece
-   "Google no ha verificado esta app": *Configuración avanzada → Ir a Formulario sonante.co*. Esto deja
+   "Google no ha verificado esta app": *Configuración avanzada → Ir a Formulario sonanteagencia.com*. Esto deja
    lista la pestaña Registros (encabezados, anchos, lista de estados, hora de Bogotá).
 7. Ejecutar **`probar`**: agrega una fila de prueba y envía la confirmación y el aviso **a la cuenta que
    ejecuta**, no a Sonante. Revisar los dos correos y **borrar la fila de prueba**.
@@ -97,7 +97,7 @@ abajo). Se dejan de enviar confirmaciones, pero los mensajes se siguen guardando
 pide un clic si duda. El sitio y el script ya lo soportan, no hay que tocar código:
 
 1. En [dash.cloudflare.com](https://dash.cloudflare.com) → **Turnstile → Add widget**. Dominios:
-   `sonante.co` y `www.sonante.co`. Modo: *Managed*.
+   `sonanteagencia.com` y `www.sonanteagencia.com`. Modo: *Managed*.
 2. **Site key** → variable `PUBLIC_TURNSTILE_SITE_KEY` en Vercel, y volver a desplegar.
 3. **Secret key** → en Apps Script, **Configuración del proyecto → Propiedades del script →**
    propiedad `TURNSTILE_SECRET`. Desde ese momento el script exige la verificación.

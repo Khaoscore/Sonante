@@ -47,7 +47,7 @@ const dir = join(root, "legal-sonante");
 // --out <carpeta> genera en otra carpeta (por ejemplo, para revisar sin tocar la del cliente)
 const outArg = process.argv.indexOf("--out");
 const outDir = outArg > 0 ? process.argv[outArg + 1] : join(dir, "para-el-cliente");
-const SITE = "https://sonante.co";
+const SITE = "https://sonanteagencia.com";
 const AGENCIA = "Khaos Core";
 
 const COLOR = {
