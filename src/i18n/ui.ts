@@ -56,8 +56,6 @@ export type UiStrings = {
     error: string;
     /** Turnstile no pudo confirmar que es una persona */
     verify: string;
-    mailSubject: string;
-    mailFields: { name: string; phone: string; country: string; city: string; email: string };
     countries: CountryOption[];
     /** Casilla de autorización de datos personales (Ley 1581 de 2012) */
     consent: {
@@ -187,8 +185,6 @@ export const ui: Record<Locale, UiStrings> = {
       success: "¡Gracias! Te escribiremos muy pronto.",
       error: "No pudimos enviar el mensaje. Inténtalo de nuevo o escríbenos a",
       verify: "No pudimos confirmar que no eres un robot. Completa la verificación y vuelve a enviar.",
-      mailSubject: "Contacto desde la web",
-      mailFields: { name: "Nombre", phone: "Teléfono", country: "País", city: "Ciudad", email: "Correo" },
       countries: countriesEs,
       consent: {
         before: "Autorizo a Sonante a usar mis datos para responder mi mensaje, según su ",
@@ -267,8 +263,6 @@ export const ui: Record<Locale, UiStrings> = {
       success: "Thank you! We'll get back to you very soon.",
       error: "We couldn't send your message. Please try again or write to us at",
       verify: "We couldn't confirm you're not a robot. Complete the check and send it again.",
-      mailSubject: "Website contact",
-      mailFields: { name: "Name", phone: "Phone", country: "Country", city: "City", email: "Email" },
       countries: countriesEn,
       consent: {
         before: "I authorize Sonante to use my data to answer my message, under its ",

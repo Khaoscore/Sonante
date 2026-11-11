@@ -44,10 +44,10 @@ contactos será la hoja de Google Sheets del formulario.
 
 ## Pendientes técnicos
 
-- **Formulario → Google Sheets:** el formulario ya envía la casilla de autorización
-  (`autorizacion_datos`); falta el endpoint (`PUBLIC_FORM_ENDPOINT`) que guarde en la
-  hoja y avise por correo. Los contactos de la hoja se deben borrar al cumplir el
-  plazo de `plazo_contactos` (hoy, dos años).
+- **Formulario → Google Sheets:** hecho con Apps Script (`apps-script/formulario-contacto/`,
+  variable `FORM_ENDPOINT`); guarda la casilla de autorización (`autorizacion_datos`)
+  en la hoja. Los contactos de la hoja se deben borrar al cumplir el plazo de
+  `plazo_contactos` (hoy, dos años).
 - **Analítica o píxeles:** el sitio no usa cookies. Si se instala Google Analytics,
   Meta Pixel u otro, hay que actualizar el numeral 5 de la Política de privacidad y
   agregar un aviso de cookies.

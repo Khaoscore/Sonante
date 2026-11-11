@@ -40,11 +40,12 @@ Cada mensaje del formulario de sonanteagencia.com (home, `/contacto/` y sus vers
 En **Vercel → Settings → Environment Variables** (y en `.env` para probar en local):
 
 ```
-PUBLIC_FORM_ENDPOINT=https://script.google.com/macros/s/…/exec
+FORM_ENDPOINT=https://script.google.com/macros/s/…/exec
 ```
 
-Las variables `PUBLIC_` se incrustan al compilar: hay que **volver a desplegar** después de cambiarlas.
-Luego enviar un mensaje de prueba desde el sitio publicado y revisar la hoja y los correos.
+Es obligatoria: sin ella el formulario no envía y el build de producción en Vercel falla. Queda fija al
+compilar, así que hay que **volver a desplegar** después de cambiarla. Luego enviar un mensaje de
+prueba desde el sitio publicado y revisar la hoja y los correos.
 
 ## 4. Entregar la hoja a Sonante
 
@@ -56,7 +57,7 @@ Luego enviar un mensaje de prueba desde el sitio publicado y revisar la hoja y l
 3. Si muestra la cuenta de Khaos Core: con la sesión de `sonanteagencia@gmail.com` abrir la hoja →
    **Extensiones → Apps Script → Implementar → Gestionar implementaciones →** lápiz → *Versión*:
    **Nueva versión → Implementar**, y autorizar. Abrir `/exec` otra vez y confirmar. Si la URL cambió,
-   actualizar `PUBLIC_FORM_ENDPOINT` en Vercel y volver a desplegar.
+   actualizar `FORM_ENDPOINT` en Vercel y volver a desplegar.
 
 Mientras tanto nada se pierde: aunque salgan de otra cuenta, los correos muestran "Sonante" como nombre
 y las respuestas de las personas llegan a `sonanteagencia@gmail.com`.

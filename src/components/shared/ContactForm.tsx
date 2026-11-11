@@ -15,11 +15,13 @@ const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined;
 const captchaKey = endpoint ? (import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined) : undefined;
 
 /**
- * Formulario de contacto (frame 43:977 del diseño). Si existe la variable
- * PUBLIC_FORM_ENDPOINT se envía por POST (application/x-www-form-urlencoded) al
- * Apps Script de apps-script/formulario-contacto/, que guarda el mensaje en Google
- * Sheets y envía los correos; el endpoint debe responder { "ok": true }. Sin
- * endpoint, abre el cliente de correo con el mensaje prellenado.
+ * Formulario de contacto (frame 43:977 del diseño). Se envía por POST
+ * (application/x-www-form-urlencoded) a la URL de FORM_ENDPOINT (astro.config.mjs la
+ * entrega como PUBLIC_FORM_ENDPOINT): el Apps Script
+ * de apps-script/formulario-contacto/, que guarda el mensaje en Google Sheets y envía
+ * los correos; debe responder { "ok": true }. Nunca abre el cliente de correo: si
+ * falta la variable, muestra el error con el correo de Sonante (y el build de
+ * producción en Vercel falla antes de publicarse así; ver astro.config.mjs).
  *
  * Contra robots: campo trampa oculto, tiempo mínimo de llenado y, si existe
  * PUBLIC_TURNSTILE_SITE_KEY, Cloudflare Turnstile.
@@ -81,62 +83,48 @@ export default function ContactForm({ lang = "es" }: Props) {
 
   async function onSubmit(e: { preventDefault(): void; currentTarget: HTMLFormElement }) {
     e.preventDefault();
+    if (!endpoint) {
+      console.error("Formulario de contacto: falta FORM_ENDPOINT (ver .env.example).");
+      setStatus("error");
+      return;
+    }
     const form = e.currentTarget;
     const data = new FormData(form);
     data.set("idioma", lang);
     data.set("autorizacion_datos", f.consent.record);
+    data.set("pagina", window.location.pathname);
+    data.set("t", String(Date.now() - startedAt.current));
     setStatus("sending");
 
-    if (endpoint) {
-      data.set("pagina", window.location.pathname);
-      data.set("t", String(Date.now() - startedAt.current));
-      if (captchaKey) {
-        const t = await waitForToken(() => token.current || window.turnstile?.getResponse(widgetId.current) || "");
-        if (!t) {
-          setStatus("verify");
-          return;
-        }
-        data.set("cf-turnstile-response", t);
+    if (captchaKey) {
+      const t = await waitForToken(() => token.current || window.turnstile?.getResponse(widgetId.current) || "");
+      if (!t) {
+        setStatus("verify");
+        return;
       }
-
-      const body = new URLSearchParams();
-      data.forEach((value, key) => {
-        if (typeof value === "string") body.append(key, value);
-      });
-
-      try {
-        const res = await fetch(endpoint, { method: "POST", body, headers: { Accept: "application/json" } });
-        const json = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
-        if (!res.ok || !json?.ok) {
-          setStatus(json?.error === "verificacion" ? "verify" : "error");
-          return;
-        }
-        setStatus("ok");
-        form.reset();
-        setCountry("");
-      } catch {
-        setStatus("error");
-      } finally {
-        resetCaptcha();
-      }
-      return;
+      data.set("cf-turnstile-response", t);
     }
 
-    const lines = [
-      `${f.mailFields.name}: ${data.get("nombre")}`,
-      `${f.mailFields.phone}: ${data.get("telefono")}`,
-      `${f.mailFields.country}: ${data.get("pais")}`,
-      `${f.mailFields.city}: ${data.get("ciudad")}`,
-      `${f.mailFields.email}: ${data.get("correo")}`,
-      "",
-      String(data.get("mensaje") ?? ""),
-      "",
-      f.consent.record,
-    ];
-    const subject = encodeURIComponent(`${f.mailSubject} — ${data.get("nombre")}`);
-    const body = encodeURIComponent(lines.join("\n"));
-    window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
-    setStatus("ok");
+    const body = new URLSearchParams();
+    data.forEach((value, key) => {
+      if (typeof value === "string") body.append(key, value);
+    });
+
+    try {
+      const res = await fetch(endpoint, { method: "POST", body, headers: { Accept: "application/json" } });
+      const json = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+      if (!res.ok || !json?.ok) {
+        setStatus(json?.error === "verificacion" ? "verify" : "error");
+        return;
+      }
+      setStatus("ok");
+      form.reset();
+      setCountry("");
+    } catch {
+      setStatus("error");
+    } finally {
+      resetCaptcha();
+    }
   }
 
   return (
